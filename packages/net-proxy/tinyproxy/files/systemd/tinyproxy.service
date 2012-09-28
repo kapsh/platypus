@@ -5,3 +5,6 @@ After=network.target
 [Service]
 PIDFile=/var/run/tinyproxy/tinyproxy.pid
 ExecStart=/usr/sbin/tinyproxy -c /etc/tinyproxy.conf -d
+
+[Install]
+WantedBy=multi-user.target
