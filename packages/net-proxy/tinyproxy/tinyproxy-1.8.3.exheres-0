@@ -1,0 +1,53 @@
+# Copyright (c) 2010 Jan Meier
+# Distributed under the terms of the GNU General Public License v2
+
+require systemd-service
+
+SUMMARY="Tinyproxy is a light-weight HTTP proxy daemon for POSIX operating systems."
+HOMEPAGE="https://www.banu.com/tinyproxy/"
+DOWNLOADS="https://www.banu.com/pub/${PN}/$(ever range 1-2)/${PNV}.tar.bz2"
+SLOT="0"
+LICENCES="GPL-2"
+PLATFORMS="~x86"
+DEPENDENCIES="
+	group/tinyproxy
+	user/tinyproxy
+	app-doc/asciidoc
+"
+# PID-file will be created in /var/run, but /var/run is a link to /run.
+# in future, tinyproxy needs an other config, that it uses /run.
+# localstatedir can't be changed to / because /var/log.
+DEFAULT_SRC_CONFIGURE_PARAMS="--localstatedir=/var"
+MYOPTIONS="systemd"
+
+src_prepare() {
+	c="etc/tinyproxy.conf.in"
+	b="${c}.bk"
+	if option systemd
+	then
+		sed -e 's,^#PidFile.*,&\
+#\
+# systemd wants all pidfiles in /run.\
+# Do not change the following line:\
+PidFile "/run/tinyproxy/tinyproxy.pid",'
+	else
+		cat
+	fi < "${c}" > "${b}"
+	sed \
+		-e 's/^User nobody/User tinyproxy/' \
+		-e 's/^Group nobody/Group tinyproxy/' \
+		< "${b}" > "${c}"
+}
+
+src_install() {
+	default
+	keepdir /var/log/tinyproxy
+	if option systemd
+	then
+		install_systemd_files
+		insinto /usr/${LIBDIR}/tmpfiles.d
+		hereins tinyproxy.conf <<EOF
+d /run/tinyproxy 0770 tinyproxy tinyproxy
+EOF
+	fi
+}
