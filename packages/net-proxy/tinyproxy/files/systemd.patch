@@ -1,0 +1,13 @@
+--- a/etc/tinyproxy.conf.in	2010-03-03 10:37:24.000000000 +0100
++++ b/etc/tinyproxy.conf.in	2013-03-09 15:34:41.072135782 +0100
+@@ -123,7 +123,11 @@
+ # can be used for signalling purposes.
+ #
+ #PidFile "@localstatedir@/run/tinyproxy/tinyproxy.pid"
++#
++# systemd wants all pidfiles in /run.
++# Do not change the following line:
++PidFile "/run/tinyproxy/tinyproxy.pid"
+ 
+ #
+ # XTinyproxy: Tell Tinyproxy to include the X-Tinyproxy header, which

@@ -23,20 +23,8 @@ MYOPTIONS="systemd"
 src_prepare() {
     c="etc/tinyproxy.conf.in"
     b="${c}.bk"
-    if option systemd
-    then
-        sed -e 's,^#PidFile.*,&\
-#\
-# systemd wants all pidfiles in /run.\
-# Do not change the following line:\
-PidFile "/run/tinyproxy/tinyproxy.pid",'
-    else
-        cat
-    fi < "${c}" > "${b}"
-    sed \
-        -e 's/^User nobody/User tinyproxy/' \
-        -e 's/^Group nobody/Group tinyproxy/' \
-        < "${b}" > "${c}"
+    option systemd && expatch "${FILES}/systemd.patch"
+    expatch "${FILES}/user.patch
 }
 
 src_install() {
