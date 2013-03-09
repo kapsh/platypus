@@ -39,3 +39,4 @@ d /run/tinyproxy 0770 tinyproxy tinyproxy
 EOF
     fi
 }
+
