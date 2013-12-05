@@ -1,0 +1,16 @@
+# Copyright 2013 Jorge Aparicio
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="NCurses Disk Usage"
+HOMEPAGE="http://dev.yorhel.nl/${PN}"
+DOWNLOADS="http://dev.yorhel.nl/download/${PNV}.tar.gz"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build+run:
+        sys-libs/ncurses
+"
+
