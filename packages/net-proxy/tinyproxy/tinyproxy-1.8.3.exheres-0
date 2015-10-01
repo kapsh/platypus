@@ -33,7 +33,7 @@ src_install() {
     if option systemd
     then
         install_systemd_files
-        insinto /usr/${LIBDIR}/tmpfiles.d
+        insinto /usr/$(exhost --target)/lib/tmpfiles.d
         hereins tinyproxy.conf <<EOF
 d /run/tinyproxy 0770 tinyproxy tinyproxy
 EOF
