@@ -1,0 +1,31 @@
+# Copyright 2013-2016 Ray Griffin <rorgoroth-dev@outlook.com>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Software version control visualization"
+HOMEPAGE="http://code.google.com/p/${PN}/"
+DOWNLOADS="https://github.com/acaudwell/Gource/releases/download/${PNV}/${PNV}.tar.gz"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+BUGS_TO="rorgoroth-dev@outlook.com"
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+    build+run:
+        dev-libs/boost
+        dev-libs/glm
+        dev-libs/pcre
+        media-libs/freetype:2
+        media-libs/glew
+        media-libs/libpng:=[>=1.2]
+        media-libs/SDL:0[X]
+        media-libs/SDL_image:1
+        x11-dri/mesa
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( --with-x )
+
