@@ -1,0 +1,111 @@
+# Copyright 2008, 2009 Fernando J. Pereda
+# Copyright 2013 Jakob Nixdorf <flocke@shadowice.org>
+# Distributed under the terms of the GPLv2
+
+require github [ user=awesomeWM release=v${PV} suffix=tar.xz ]
+require cmake [ api=2 cmake_minimum_version=3.0.0 ]
+require lua [ whitelist='5.1 5.2 5.3' multibuild=false ]
+
+export_exlib_phases src_prepare src_install pkg_preinst
+
+MY_PNV="${PNV/_rc/-rc}"
+CMAKE_SOURCE="${WORKBASE}/${MY_PNV}"
+
+SUMMARY="Floating and tiling window manager"
+DESCRIPTION="
+awesome is a highly configurable, next generation framework window manager for
+X. It is very fast, extensible and licensed under the GNU GPLv2 license.
+
+It is primarly targeted at power users, developers and any people dealing with
+every day computing tasks and want to have fine-grained control on its
+graphical environment.
+"
+HOMEPAGE="https://awesomewm.org/"
+
+LICENCES="GPL-2"
+
+MYOPTIONS+=" doc [[ description = [ Generate manpages and Lua API pages ] ]]"
+
+DEPENDENCIES="
+    build:
+        media-gfx/ImageMagick[png(+)]
+        virtual/pkg-config
+        x11-proto/xorgproto
+        doc? (
+            app-doc/asciidoc
+            app-doc/doxygen
+            app-doc/ldoc[lua_abis:*(-)?]
+            app-text/docbook-xsl-stylesheets
+            app-text/xmlto
+        )
+    build+run:
+        dev-libs/glib:2[>=2.40]
+        sys-apps/dbus
+        x11-libs/cairo[X]
+        x11-libs/gdk-pixbuf:2.0[X]
+        x11-libs/gtk+:2
+        x11-libs/libX11
+        x11-libs/libxcb[>=1.6]
+        x11-libs/libxdg-basedir[>=1.0.0]
+        x11-libs/pango[gobject-introspection]
+        x11-libs/startup-notification[>=0.10]
+        x11-utils/xcb-util[>=0.3.8]
+        x11-utils/xcb-util-cursor
+        x11-utils/xcb-util-keysyms[>=0.3.4]
+        x11-utils/xcb-util-wm[>=0.3.8]
+        x11-utils/xcb-util-xrm[>=1.0]
+    suggestion:
+        media-gfx/feh [[ description = [ Used by awsetbg ] ]]
+        x11-apps/xmessage [[ description = [ Used to tell you when stuff is wrong ] ]]
+        x11-apps/xterm [[ description = [ Default config includes a menu entry to xterm ] ]]
+    test:
+        x11-apps/xrdb
+        x11-server/xorg-server[xephyr]
+    run:
+        dev-lua/lgi[>=0.8.0][lua_abis:*(-)?]
+"
+
+CMAKE_SRC_CONFIGURE_OPTIONS+=(
+    'doc GENERATE_DOC'
+    'doc GENERATE_MANPAGES'
+)
+CMAKE_SRC_CONFIGURE_PARAMS+=(
+    -DSYSCONFDIR=/etc
+    -DAWESOME_DATA_PATH=/usr/share/${PN}
+    -DAWESOME_DOC_PATH=/usr/share/doc/${PNVR}
+    -DAWESOME_XSESSION_PATH=/usr/share/xsessions
+    -DLUA_INCLUDE_DIR:PATH=/usr/$(exhost --target)/include/lua${LUA_ABIS}
+    -DLUA_LIBRARY:PATH=/usr/$(exhost --target)/lib/liblua${LUA_ABIS}.so
+    -DWITH_DBUS:BOOL=true
+)
+
+# Require access to X
+RESTRICT="test"
+
+awesome_src_prepare()
+{
+    edo cd "${CMAKE_SOURCE}"
+    edo sed -i -e '/set(CMAKE_BUILD_TYPE RELEASE)/d' -e 's/ -ggdb3//' awesomeConfig.cmake
+    if [[ $(lua_get_abi) == 5.1 ]] ; then
+        edo sed -e "s/\(COMMAND\) \(\${LDOC_EXECUTABLE}\)/\1 lua$(lua_get_abi) \2/" \
+                -i CMakeLists.txt
+    fi
+
+    # Use the right lua version for the configure check
+    edo sed -e "s:^lua:lua$(lua_get_abi):" -i build-utils/lgi-check.sh
+
+    default
+}
+
+awesome_src_install()
+{
+    cmake_src_install
+    edo rm -f "${IMAGE}"/usr/share/doc/${PNVR}/LICENSE
+}
+
+awesome_pkg_preinst()
+{
+    [[ -f "${ROOT}"/usr/share/awesome/themes/default ]] && \
+        rm "${ROOT}"/usr/share/awesome/themes/default
+}
+
