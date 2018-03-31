@@ -1,0 +1,84 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require gtk-icon-cache freedesktop-desktop
+
+SUMMARY="Python IDE for Professional Developers"
+DESCRIPTION="Lightweight IDE for Python & Scientific development "
+HOMEPAGE="https://www.jetbrains.com/pycharm/"
+DOWNLOADS="https://download-cf.jetbrains.com/python/${PNV}.tar.gz"
+
+LICENCES="Apache-2.0"
+MYOPTIONS="
+    parts:
+        jre [[
+            description = [ Install bundled JetBrains Runtime ]
+            url = [ https://confluence.jetbrains.com/display/JRE/JetBrains+Runtime ]
+        ]]
+"
+SLOT="0"
+
+BUGS_TO="https://youtrack.jetbrains.com/issues"
+
+DEPENDENCIES="
+    build:
+    build+run:
+        !parts:jre? ( virtual/jre )
+"
+
+# Upstream made these executable for reason.
+_EXECUTABLES=(
+    format.sh
+    fsnotifier
+    fsnotifier-arm
+    fsnotifier64
+    inspect.sh
+    printenv.py
+    pycharm.sh
+    restart.py
+)
+
+
+pkg_setup() {
+    exdirectory --allow /opt
+}
+
+
+src_install() {
+    local dest="/opt/${PN}"
+    dodir "${dest}"
+
+    insinto "${dest}"
+    doins -r *
+
+    for exe in "${_EXECUTABLES[@]}"; do
+        edo chmod a+x "${IMAGE}/${dest}/bin/$exe"
+    done
+
+    dodir "/usr/$(exhost --target)/bin"
+    dosym "${dest}/bin/pycharm.sh" "/usr/$(exhost --target)/bin/${PN}"
+
+    insinto "/usr/share/icons/hicolor/128x128/apps"
+    newins "${dest}/bin/pycharm.png" "${PN}.png"
+
+    insinto "/usr/share/applications"
+    doins "${FILES}/${PN}.desktop"
+
+    expart jre "${dest}/jre64"
+    for exe in "${IMAGE}/${dest}"/jre64/bin/*; do
+        edo chmod a+x "$exe"
+    done
+}
+
+
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    gtk-icon-cache_pkg_postrm
+}
+
