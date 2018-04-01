@@ -7,9 +7,6 @@ require bash-completion zsh-completion
 export_exlib_phases src_install
 
 SUMMARY="Yet Another Dotfiles Manager"
-DESCRIPTION="
-If DESCRIPTION is set it must not be an empty string.
-"
 HOMEPAGE="https://thelocehiliosan.github.io/yadm/"
 
 LICENCES="GPL-3"
