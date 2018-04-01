@@ -1,0 +1,53 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=lupoDharkael tag=v${PV} ]
+require qmake [ slot=5 ]
+require gtk-icon-cache
+
+SUMMARY="Powerful yet simple to use screenshot software"
+DESCRIPTION="Flameshot allows:
+customize appearance and functions, edit screenshots in-app,
+open created images in other applications and upload them to imgur.
+"
+HOMEPAGE="https://github.com/lupoDharkael/flameshot"
+
+LICENCES="GPL-3"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        x11-libs/qtbase:5[>=5.3][gui]
+        x11-libs/qttools:5[>=5.3]
+    build+run:
+"
+
+
+EQMAKE_PARAMS=(
+    CONFIG+=packaging
+)
+
+
+src_install() {
+    default
+    # TODO make bash-completion optional maybe
+
+    # Can't understand how to tell qmake put executable into correct dir.
+    local bad_bin="${IMAGE}/usr/bin"
+    local good_bin="/usr/$(exhost --target)/bin"
+    dodir "${good_bin}"
+    edo mv "${bad_bin}/${PN}" "${IMAGE}/${good_bin}"
+    edo rm -r "${bad_bin}"
+}
+
+
+pkg_postinst() {
+    gtk-icon-cache_pkg_postinst
+}
+
+
+pkg_postrm() {
+    gtk-icon-cache_pkg_postrm
+}
+
