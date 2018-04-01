@@ -1,0 +1,66 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=kovidgoyal tag="v${PV}" ]
+require python [ blacklist="2 3.4" multibuild=false ]
+require gtk-icon-cache
+
+SUMMARY="Terminal emulator with OpenGL rendering"
+DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
+displaying images, URL hints and it is fully controllable with keyboard. "
+HOMEPAGE="https://github.com/kovidgoyal/kitty/"
+
+LICENCES="GPL-3"
+SLOT="0"
+MYOPTIONS="
+    images [[
+        description = [ Support for displaying images in terminal ]
+    ]]
+"
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+
+    build+run:
+        media-libs/fontconfig
+        media-libs/freetype
+        media-libs/libpng
+        sys-libs/zlib
+        x11-libs/harfbuzz
+        x11-libs/libXcursor
+        x11-libs/libXinerama
+        x11-libs/libXrandr
+        x11-libs/libxkbcommon
+        images? ( media-gfx/ImageMagick )
+"
+
+
+src_compile() {
+    export PKGCONFIG_EXE="${PKG_CONFIG}"  # used by setup.py.
+    "${PYTHON}" setup.py linux-package
+}
+
+
+src_install() {
+    edo cd linux-package
+
+    insinto /usr
+    doins -r share
+
+    insinto "/usr/$(exhost --target)"
+    doins -r lib
+
+    exeinto "/usr/$(exhost --target)/bin"
+    doexe bin/kitty
+}
+
+
+pkg_postinst() {
+    gtk-icon-cache_pkg_postinst
+}
+
+
+pkg_postrm() {
+    gtk-icon-cache_pkg_postrm
+}
