@@ -3,6 +3,8 @@
 
 require gtk-icon-cache freedesktop-desktop
 
+export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
+
 SUMMARY="Python IDE for Professional Developers"
 DESCRIPTION="Lightweight IDE for Python & Scientific development "
 HOMEPAGE="https://www.jetbrains.com/pycharm/"
@@ -26,7 +28,7 @@ DEPENDENCIES="
         !parts:jre? ( virtual/jre )
 "
 
-# Upstream made these executable for reason.
+# Upstream must have made these executable for reason.
 _EXECUTABLES=(
     format.sh
     fsnotifier
@@ -39,12 +41,12 @@ _EXECUTABLES=(
 )
 
 
-pkg_setup() {
+pycharm-community_pkg_setup() {
     exdirectory --allow /opt
 }
 
 
-src_install() {
+pycharm-community_src_install() {
     local dest="/opt/${PN}"
     dodir "${dest}"
 
@@ -71,13 +73,13 @@ src_install() {
 }
 
 
-pkg_postinst() {
+pycharm-community_pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     gtk-icon-cache_pkg_postinst
 }
 
 
-pkg_postrm() {
+pycharm-community_pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     gtk-icon-cache_pkg_postrm
 }
