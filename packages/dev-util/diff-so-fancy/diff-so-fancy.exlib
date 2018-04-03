@@ -1,0 +1,34 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user="so-fancy" tag="v${PV}" ]
+
+export_exlib_phases src_install
+
+SUMMARY="Good lookin' diffs"
+DESCRIPTION="diff-so-fancy strives to make your diff's human readable
+instead of machine readable. This helps improve code quality
+and help you spot defects faster.
+"
+HOMEPAGE="https://github.com/so-fancy/diff-so-fancy"
+
+LICENCES="MIT"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-lang/perl
+"
+
+
+diff-so-fancy_src_install() {
+    # Ah, just drop fatpacked version for now.
+    exeinto "/usr/$(exhost --target)/bin"
+    doexe "third_party/build_fatpack/diff-so-fancy"
+
+    docinto "/usr/share/doc/${PNV}"
+    dodoc README.md
+}
+
