@@ -12,7 +12,6 @@ DESCRIPTION="Flameshot allows:
 customize appearance and functions, edit screenshots in-app,
 open created images in other applications and upload them to imgur.
 "
-HOMEPAGE="https://github.com/lupoDharkael/flameshot"
 
 LICENCES="GPL-3"
 SLOT="0"
