@@ -1,0 +1,26 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require setup-py [ import=setuptools ]
+
+SUMMARY="Configuration management and orchestration software"
+DESCRIPTION="Ansible is software that automates software provisioning,
+configuration management, and application deployment. "
+
+HOMEPAGE="https://www.ansible.com/"
+DOWNLOADS="https://releases.ansible.com/ansible/${PNV}.tar.gz"
+
+LICENCES="GPL-3"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-python/Jinja2
+        dev-python/PyYAML
+        dev-python/cryptography
+        dev-python/paramiko
+        dev-python/setuptools
+"
+
