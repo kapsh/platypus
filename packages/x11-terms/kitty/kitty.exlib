@@ -33,7 +33,10 @@ DEPENDENCIES="
         x11-libs/libXinerama
         x11-libs/libXrandr
         x11-libs/libxkbcommon
-        images? ( media-gfx/ImageMagick )
+        images? (
+            media-gfx/GraphicsMagick[imagemagick]
+            media-gfx/ImageMagick
+        )
 "
 
 
