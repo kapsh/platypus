@@ -18,7 +18,7 @@ MYOPTIONS=""
 DEPENDENCIES="
     build:
     build+run:
-        dev-python/PyYAML
-        dev-python/pathspec[>=0.5.5]
+        dev-python/PyYAML[python_abis:*(-)?]
+        dev-python/pathspec[>=0.5.5][python_abis:*(-)?]
 "
 
