@@ -1,0 +1,59 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require gtk-icon-cache
+
+export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
+
+# Just simply installs prebuilt version for now
+
+SUMMARY="Free Universal SQL Client"
+DESCRIPTION="Free multi-platform database tool
+for developers, SQL programmers, database administrators and analysts.
+Supports all popular databases: MySQL, PostgreSQL, MariaDB, SQLite, Oracle,
+DB2, SQL Server, Sybase, MS Access, Teradata, Firebird, Derby, etc.
+"
+HOMEPAGE="https://dbeaver.jkiss.org/"
+DOWNLOADS="${HOMEPAGE}/files/${PV}/${PNV}-linux.gtk.x86_64.tar.gz"
+
+LICENCES="Apache-2.0"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        virtual/jre
+"
+
+WORK="${WORKBASE}/dbeaver"  # omg hardcode
+
+
+dbeaver-ce_pkg_setup() {
+    exdirectory --allow /opt
+}
+
+
+dbeaver-ce_src_install() {
+    local dest="/opt/${PN}"
+
+    insinto "${dest}"
+    doins -r "${WORK}"/*
+
+    edo chmod +x "${IMAGE}/${dest}/dbeaver"
+    dodir "/usr/$(exhost --target)/bin"
+    dosym "${dest}/dbeaver" "/usr/$(exhost --target)/bin/dbeaver"
+
+    insinto "/usr/share/icons/hicolor/128x128/apps"
+    doins "dbeaver.png"
+}
+
+
+dbeaver-ce_pkg_postinst() {
+    gtk-icon-cache_pkg_postinst
+}
+
+
+dbeaver-ce_pkg_postrm() {
+    gtk-icon-cache_pkg_postinst
+}
