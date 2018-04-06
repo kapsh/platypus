@@ -1,0 +1,27 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ blacklist=2 import=setuptools ]
+
+SUMMARY="Python Dev Workflow for Humans"
+HOMEPAGE="https://docs.pipenv.org/"
+
+LICENCES="MIT"
+SLOT="0"
+MYOPTIONS=""
+
+# TODO pipenv brings plenty of bundled dependencies with itself.
+# Add them after https://github.com/pypa/pipenv/issues/1887 will be resolved.
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-python/certifi[python_abis:*(-)?]
+        dev-python/pip[>=9.0.1][python_abis:*(-)?]
+        dev-python/setuptools[>=36.2.1][python_abis:*(-)?]
+        dev-python/virtualenv[python_abis:*(-)?]
+        dev-python/virtualenv-clone[>=0.2.5][python_abis:*(-)?]
+"
+
+# TODO understand their tests
+RESTRICT="test"
+
