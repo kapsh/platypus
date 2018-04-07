@@ -3,7 +3,7 @@
 
 require github [ user=garabik tag="v${PV}" ]
 
-export_exlib_phases src_install
+export_exlib_phases src_install pkg_postinst
 
 SUMMARY="Generic Colouriser"
 
@@ -32,5 +32,11 @@ grc_src_install() {
     doins "${PN}.zsh" "${PN}.bashrc"
 
     doman grc.1 grcat.1
+    dodoc README.markdown
+}
+
+
+grc_pkg_postinst() {
+    einfo "Consult installed README to integrate 'grc' into your shell"
 }
 
