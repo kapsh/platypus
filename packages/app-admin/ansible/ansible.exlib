@@ -5,7 +5,7 @@ require setup-py [ import=setuptools ]
 
 SUMMARY="Configuration management and orchestration software"
 DESCRIPTION="Ansible is software that automates software provisioning,
-configuration management, and application deployment. "
+configuration management, and application deployment."
 
 HOMEPAGE="https://www.ansible.com/"
 DOWNLOADS="https://releases.ansible.com/ansible/${PNV}.tar.gz"

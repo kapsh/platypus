@@ -8,9 +8,9 @@ require gtk-icon-cache
 export_exlib_phases src_install pkg_postinst pkg_postrm
 
 SUMMARY="Powerful yet simple to use screenshot software"
-DESCRIPTION="Flameshot allows:
-customize appearance and functions, edit screenshots in-app,
-open created images in other applications and upload them to imgur.
+DESCRIPTION="
+Flameshot features: customized appearance and functions, editing screenshots in-app,
+opening created images in other applications and uploading them to imgur.
 "
 
 LICENCES="GPL-3"

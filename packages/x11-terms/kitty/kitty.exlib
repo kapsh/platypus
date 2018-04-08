@@ -9,7 +9,7 @@ export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
 
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
-displaying images, URL hints and it is fully controllable with keyboard. "
+displaying images, URL hints and it is fully controllable with keyboard."
 
 LICENCES="GPL-3"
 SLOT="0"

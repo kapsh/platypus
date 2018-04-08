@@ -6,7 +6,6 @@ require gtk-icon-cache freedesktop-desktop
 export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
 
 SUMMARY="Python IDE for Professional Developers"
-DESCRIPTION="Lightweight IDE for Python & Scientific development "
 HOMEPAGE="https://www.jetbrains.com/pycharm/"
 DOWNLOADS="https://download-cf.jetbrains.com/python/${PNV}.tar.gz"
 
