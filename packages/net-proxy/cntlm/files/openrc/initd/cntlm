@@ -1,0 +1,10 @@
+#!/sbin/openrc-run
+
+command="/usr/bin/cntlm"
+command_args="-U cntlm -f"
+command_background=true
+pidfile="/run/cntlm.pid"
+
+depend() {
+    need net
+}

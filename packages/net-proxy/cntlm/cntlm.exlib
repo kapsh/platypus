@@ -1,0 +1,44 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+# TODO add service script (run from reduced user)
+
+require sourceforge openrc-service
+
+export_exlib_phases src_prepare src_install
+
+SUMMARY="Cntlm Authentication Proxy"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        user/cntlm
+"
+
+BUGS_TO=""
+
+# TODO Is it awful? Sure it is.
+DEFAULT_SRC_COMPILE_PARAMS=(
+    CC="/usr/$(exhost --target)/bin/gcc"
+    SYSCONFDIR="/etc"  # config location is hardcoded into binary
+)
+
+DEFAULT_SRC_INSTALL_PARAMS=(
+    BINDIR="${IMAGE}/usr/$(exhost --target)/bin"
+)
+
+
+cntlm_src_prepare() {
+    # could you not strip please
+    edo sed -i Makefile -e 's|install -D -m 755 -s|install -D -m 755|'
+}
+
+
+cntlm_src_install() {
+    default
+    install_openrc_files
+}
