@@ -1,0 +1,34 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ blacklist=2 import=setuptools ]
+
+SUMMARY="virtualenv-based automation of test activities"
+DESCRIPTION="tox is a generic virtualenv management and test command line tool you can use for:
+- checking your package installs correctly with different Python versions and interpreters
+- running your tests in each of the environments, configuring your test tool of choice
+- acting as a frontend to Continuous Integration servers,
+greatly reducing boilerplate and merging CI and shell-based testing.
+"
+HOMEPAGE="https://tox.readthedocs.org/"
+
+LICENCES="MIT"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        dev-python/py[>=1.4.17][python_abis:*(-)?]
+        dev-python/pluggy[>=0.3.0&<1.0][python_abis:*(-)?]
+        dev-python/six[python_abis:*(-)?]
+        dev-python/virtualenv[>=1.11.2][python_abis:*(-)?]
+"
+
+BUGS_TO=""
+
+
+# tox requires tox for running tests.
+# One test fails on py2 because of virtualenv bug https://github.com/pypa/virtualenv/issues/395
+RESTRICT="test"
+
