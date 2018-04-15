@@ -1,0 +1,32 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=mptre tag="v${PV}" ]
+
+export_exlib_phases src_install
+
+SUMMARY="Yank terminal output to clipboard"
+
+LICENCES="MIT"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        x11-utils/xclip
+"
+
+BUGS_TO=""
+
+REMOTE_IDS=""
+
+DEFAULT_SRC_COMPILE_PARAMS=(
+    YANKCMD=xclip
+)
+
+yank_src_install() {
+    dobin "${PN}"
+    doman "${PN}.1"
+}
+
