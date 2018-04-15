@@ -39,11 +39,9 @@ _EXECUTABLES=(
     restart.py
 )
 
-
 pycharm-community_pkg_setup() {
     exdirectory --allow /opt
 }
-
 
 pycharm-community_src_install() {
     local dest="/opt/${PN}"
@@ -71,12 +69,10 @@ pycharm-community_src_install() {
     done
 }
 
-
 pycharm-community_pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     gtk-icon-cache_pkg_postinst
 }
-
 
 pycharm-community_pkg_postrm() {
     freedesktop-desktop_pkg_postrm

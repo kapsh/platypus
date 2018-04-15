@@ -24,11 +24,9 @@ DEPENDENCIES="
     build+run:
 "
 
-
 EQMAKE_PARAMS=(
     CONFIG+=packaging
 )
-
 
 flameshot_src_install() {
     default
@@ -42,11 +40,9 @@ flameshot_src_install() {
     edo rm -r "${bad_bin}"
 }
 
-
 flameshot_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
 }
-
 
 flameshot_pkg_postrm() {
     gtk-icon-cache_pkg_postrm

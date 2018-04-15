@@ -27,7 +27,6 @@ DEPENDENCIES="
 
 BUGS_TO=""
 
-
 # tox requires tox for running tests.
 # One test fails on py2 because of virtualenv bug https://github.com/pypa/virtualenv/issues/395
 RESTRICT="test"

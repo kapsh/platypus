@@ -27,11 +27,9 @@ DEPENDENCIES="
 
 WORK="${WORKBASE}/dbeaver"  # omg hardcode
 
-
 dbeaver-ce_pkg_setup() {
     exdirectory --allow /opt
 }
-
 
 dbeaver-ce_src_install() {
     local dest="/opt/${PN}"
@@ -47,11 +45,9 @@ dbeaver-ce_src_install() {
     doins "dbeaver.png"
 }
 
-
 dbeaver-ce_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
 }
-
 
 dbeaver-ce_pkg_postrm() {
     gtk-icon-cache_pkg_postinst

@@ -39,12 +39,10 @@ DEPENDENCIES="
         ) )
 "
 
-
 kitty_src_compile() {
     export PKGCONFIG_EXE="${PKG_CONFIG}"  # used by setup.py.
     "${PYTHON}" setup.py linux-package
 }
-
 
 kitty_src_install() {
     edo cd linux-package
@@ -59,11 +57,9 @@ kitty_src_install() {
     doexe bin/kitty
 }
 
-
 kitty_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
 }
-
 
 kitty_pkg_postrm() {
     gtk-icon-cache_pkg_postrm

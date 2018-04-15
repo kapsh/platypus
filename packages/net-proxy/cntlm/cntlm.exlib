@@ -31,12 +31,10 @@ DEFAULT_SRC_INSTALL_PARAMS=(
     BINDIR="${IMAGE}/usr/$(exhost --target)/bin"
 )
 
-
 cntlm_src_prepare() {
     # could you not strip please
     edo sed -i Makefile -e 's|install -D -m 755 -s|install -D -m 755|'
 }
-
 
 cntlm_src_install() {
     default

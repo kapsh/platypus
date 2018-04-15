@@ -20,7 +20,6 @@ DEPENDENCIES="
         dev-lang/perl
 "
 
-
 diff-so-fancy_src_install() {
     # Ah, just drop fatpacked version for now.
     exeinto "/usr/$(exhost --target)/bin"

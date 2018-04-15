@@ -17,7 +17,6 @@ DEPENDENCIES="
         dev-lang/python
 "
 
-
 grc_src_install() {
     dodir "/usr/$(exhost --target)/bin"
     dobin grc grcat
@@ -34,7 +33,6 @@ grc_src_install() {
     doman grc.1 grcat.1
     dodoc README.markdown
 }
-
 
 grc_pkg_postinst() {
     einfo "Consult installed README to integrate 'grc' into your shell"
