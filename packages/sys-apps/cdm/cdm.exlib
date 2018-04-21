@@ -1,0 +1,30 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=evertiro tag="${PV}" ]
+
+export_exlib_phases src_install
+
+SUMMARY="Console Display Manager"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        app-shells/bash
+"
+
+cdm_src_install() {
+    dobin src/cdm src/cdm-xlaunch
+    insinto /etc/
+    doins src/cdmrc
+    dodoc README.md src/profile.sh
+
+    themes=/usr/share/${PN}/themes
+    dodir ${themes}
+    insinto ${themes}
+    doins -r themes
+}
