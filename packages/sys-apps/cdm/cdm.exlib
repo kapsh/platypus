@@ -15,6 +15,7 @@ DEPENDENCIES="
     build:
     build+run:
         app-shells/bash
+        sys-apps/dialog
 "
 
 cdm_src_install() {
