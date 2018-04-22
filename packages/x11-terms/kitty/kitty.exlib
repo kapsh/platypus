@@ -41,7 +41,7 @@ DEPENDENCIES="
 
 kitty_src_compile() {
     export PKGCONFIG_EXE="${PKG_CONFIG}"  # used by setup.py.
-    "${PYTHON}" setup.py linux-package
+    edo "${PYTHON}" -B setup.py linux-package
 }
 
 kitty_src_install() {
