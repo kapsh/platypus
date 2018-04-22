@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ blacklist=2 import=setuptools ]
+require pypi setup-py [ blacklist=2 import=setuptools test=pytest ]
 
 SUMMARY="virtualenv-based automation of test activities"
 DESCRIPTION="tox is a generic virtualenv management and test command line tool you can use for:
@@ -19,15 +19,17 @@ MYOPTIONS=""
 DEPENDENCIES="
     build:
     build+run:
-        dev-python/py[>=1.4.17][python_abis:*(-)?]
         dev-python/pluggy[>=0.3.0&<1.0][python_abis:*(-)?]
+        dev-python/py[>=1.4.17][python_abis:*(-)?]
         dev-python/six[python_abis:*(-)?]
         dev-python/virtualenv[>=1.11.2][python_abis:*(-)?]
 "
 
 BUGS_TO=""
 
-# tox requires tox for running tests.
+# You shall not pass
 # One test fails on py2 because of virtualenv bug https://github.com/pypa/virtualenv/issues/395
+# Some tests require pytest-mock (unwritten)
+# Some tests want internet access to download packages
 RESTRICT="test"
 
