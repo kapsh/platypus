@@ -41,3 +41,4 @@ yadm_src_install() {
     bash-completion_src_install
     zsh-completion_src_install
 }
+
