@@ -50,5 +50,5 @@ dbeaver-ce_pkg_postinst() {
 }
 
 dbeaver-ce_pkg_postrm() {
-    gtk-icon-cache_pkg_postinst
+    gtk-icon-cache_pkg_postrm
 }
