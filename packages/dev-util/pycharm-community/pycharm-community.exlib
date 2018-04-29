@@ -11,11 +11,6 @@ DOWNLOADS="https://download-cf.jetbrains.com/python/${PNV}.tar.gz"
 
 LICENCES="Apache-2.0"
 MYOPTIONS="
-    parts:
-        jre [[
-            description = [ Install bundled JetBrains Runtime ]
-            url = [ https://confluence.jetbrains.com/display/JRE/JetBrains+Runtime ]
-        ]]
 "
 SLOT="0"
 
@@ -24,7 +19,8 @@ BUGS_TO="https://youtrack.jetbrains.com/issues"
 DEPENDENCIES="
     build:
     build+run:
-        !parts:jre? ( virtual/jre )
+    suggestion:
+        dev-java/intellij-jdk
 "
 
 # Upstream must have made these executable for reason.
@@ -47,6 +43,7 @@ pycharm-community_src_install() {
     local dest="/opt/${PN}"
     dodir "${dest}"
 
+    edo rm -r jre64  # provided by intellij-jdk package
     insinto "${dest}"
     doins -r *
 
@@ -62,11 +59,6 @@ pycharm-community_src_install() {
 
     insinto "/usr/share/applications"
     doins "${FILES}/${PN}.desktop"
-
-    expart jre "${dest}/jre64"
-    for exe in "${IMAGE}/${dest}"/jre64/bin/*; do
-        edo chmod a+x "$exe"
-    done
 }
 
 pycharm-community_pkg_postinst() {
