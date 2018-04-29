@@ -58,7 +58,7 @@ pycharm-community_src_install() {
     newins "${dest}/bin/pycharm.png" "${PN}.png"
 
     insinto "/usr/share/applications"
-    doins "${FILES}/${PN}.desktop"
+    doins "${FILES}/jetbrains-pycharm-ce.desktop"
 }
 
 pycharm-community_pkg_postinst() {

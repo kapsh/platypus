@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Version=1.0
-Name=Pycharm Community Edition
-Comment=Python IDE for Professional Developers
-Exec=pycharm-community
-Icon=pycharm-community
-Terminal=false
-Categories=Development;IDE;
