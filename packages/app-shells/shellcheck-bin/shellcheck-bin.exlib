@@ -1,0 +1,40 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+export_exlib_phases src_install
+
+MY_PN="shellcheck"
+MY_PNV="${MY_PN}-v${PV}"
+
+SUMMARY="Tool that gives warnings and suggestions for bash/sh shell scripts"
+DESCRIPTION="
+The goals of ShellCheck are
+
+- To point out and clarify typical beginner's syntax issues that cause a shell to give cryptic error
+messages.
+- To point out and clarify typical intermediate level semantic problems that cause a shell to behave
+strangely and counter-intuitively.
+- To point out subtle caveats, corner cases and pitfalls that may cause an advanced user's otherwise
+working script to fail under future circumstances.
+"
+HOMEPAGE="https://www.shellcheck.net/"
+DOWNLOADS="https://storage.googleapis.com/shellcheck/${MY_PNV}.linux.x86_64.tar.xz"
+
+LICENCES="GPL-3"
+SLOT="0"
+MYOPTIONS=""
+
+UPSTREAM_DOCUMENTATION="https://github.com/koalaman/shellcheck/wiki"
+
+DEPENDENCIES="
+    build:
+    build+run:
+"
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+shellcheck-bin_src_install() {
+    dobin "${MY_PN}"
+    dodoc README.txt LICENSE.txt
+}
+
