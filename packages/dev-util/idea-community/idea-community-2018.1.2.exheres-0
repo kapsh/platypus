@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna
 # Distributed under the terms of the GNU General Public License v2
 
-require idea-community
+require idea-community [ build="181.4668.68" ]
 
 PLATFORMS="~amd64"
 

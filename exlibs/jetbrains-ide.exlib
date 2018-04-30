@@ -1,0 +1,77 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+# Common installation procedure for JetBrains IDE's.
+
+require gtk-icon-cache freedesktop-desktop
+
+export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
+
+myexparam launcher
+myexparam desktop_file
+
+BUGS_TO="https://youtrack.jetbrains.com/issues"
+
+DEPENDENCIES="
+    build:
+    build+run:
+    suggestion:
+        dev-java/intellij-jdk [[
+            description = [ Better font rendering ]
+            *group-name = [ jre ]
+        ]]
+"
+
+JETBRAINS_EXECUTABLES=(
+    bin/format.sh
+    bin/fsnotifier
+    bin/fsnotifier64
+    bin/inspect.sh
+    bin/printenv.py
+    bin/restart.py
+)
+
+jetbrains-ide_pkg_setup() {
+    exdirectory --allow /opt
+}
+
+jetbrains-ide_src_install() {
+    exparam -v my_launcher launcher
+    exparam -v my_desktop_file desktop_file
+
+    local dest="/opt/${PN}"
+    dodir "${dest}"
+
+    if [[ -d jre64 ]]; then
+        edo rm -r jre64  # provided by intellij-jdk package
+    fi
+
+    insinto "${dest}"
+    doins -r *
+
+    for exe in ${my_launcher} ${JETBRAINS_EXECUTABLES[@]}; do
+        edo chmod a+x "${IMAGE}/${dest}/${exe}"
+    done
+
+    dodir "/usr/$(exhost --target)/bin"
+    dosym "${dest}/${my_launcher}" "/usr/$(exhost --target)/bin/${PN}"
+
+    insinto "/usr/share/applications"
+    doins "${my_desktop_file}"
+}
+
+jetbrains-ide_pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+
+    if has_version dev-java/intellij-jdk; then
+        einfo 'Use "Switch boot JDK" action and select install location
+            of intellij-jdk to activate it'
+    fi
+}
+
+jetbrains-ide_pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    gtk-icon-cache_pkg_postrm
+}
+

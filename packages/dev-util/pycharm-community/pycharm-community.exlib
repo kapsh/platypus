@@ -1,73 +1,13 @@
 # Copyright 2018 Alexander Kapshuna
 # Distributed under the terms of the GNU General Public License v2
 
-require gtk-icon-cache freedesktop-desktop
-
-export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
+require jetbrains-ide [ launcher="bin/pycharm.sh" desktop_file="${FILES}/jetbrains-pycharm-ce.desktop" ]
 
 SUMMARY="Python IDE for Professional Developers"
 HOMEPAGE="https://www.jetbrains.com/pycharm/"
 DOWNLOADS="https://download-cf.jetbrains.com/python/${PNV}.tar.gz"
 
 LICENCES="Apache-2.0"
-MYOPTIONS="
-"
+MYOPTIONS=""
 SLOT="0"
-
-BUGS_TO="https://youtrack.jetbrains.com/issues"
-
-DEPENDENCIES="
-    build:
-    build+run:
-    suggestion:
-        dev-java/intellij-jdk
-"
-
-# Upstream must have made these executable for reason.
-_EXECUTABLES=(
-    format.sh
-    fsnotifier
-    fsnotifier-arm
-    fsnotifier64
-    inspect.sh
-    printenv.py
-    pycharm.sh
-    restart.py
-)
-
-pycharm-community_pkg_setup() {
-    exdirectory --allow /opt
-}
-
-pycharm-community_src_install() {
-    local dest="/opt/${PN}"
-    dodir "${dest}"
-
-    edo rm -r jre64  # provided by intellij-jdk package
-    insinto "${dest}"
-    doins -r *
-
-    for exe in "${_EXECUTABLES[@]}"; do
-        edo chmod a+x "${IMAGE}/${dest}/bin/$exe"
-    done
-
-    dodir "/usr/$(exhost --target)/bin"
-    dosym "${dest}/bin/pycharm.sh" "/usr/$(exhost --target)/bin/${PN}"
-
-    insinto "/usr/share/icons/hicolor/128x128/apps"
-    newins "${dest}/bin/pycharm.png" "${PN}.png"
-
-    insinto "/usr/share/applications"
-    doins "${FILES}/jetbrains-pycharm-ce.desktop"
-}
-
-pycharm-community_pkg_postinst() {
-    freedesktop-desktop_pkg_postinst
-    gtk-icon-cache_pkg_postinst
-}
-
-pycharm-community_pkg_postrm() {
-    freedesktop-desktop_pkg_postrm
-    gtk-icon-cache_pkg_postrm
-}
 

@@ -1,7 +1,10 @@
 # Copyright 2018 Alexander Kapshuna
 # Distributed under the terms of the GNU General Public License v2
 
-export_exlib_phases pkg_setup src_install
+require jetbrains-ide [ launcher="bin/idea.sh" desktop_file="${FILES}/jetbrains-idea-ce.desktop" ]
+
+myexparam build
+exparam -v my_build build
 
 SUMMARY="Java IDE for Professional Developers"
 HOMEPAGE="https://www.jetbrains.com/idea/"
@@ -11,50 +14,5 @@ LICENCES="Apache-2.0"
 SLOT="0"
 MYOPTIONS=""
 
-DEPENDENCIES="
-    build:
-    build+run:
-        suggestion:
-            dev-java/intellij-jdk
-"
-
-_EXECUTABLES=(
-    format.sh
-    fsnotifier
-    fsnotifier-arm
-    fsnotifier64
-    inspect.sh
-    printenv.py
-    idea.sh
-    restart.py
-)
-
-_BUILD="181.4668.68"
-PRODUCT="idea-IC"
-WORK="${WORKBASE}/${PRODUCT}-${_BUILD}"
-
-idea-community_pkg_setup() {
-    exdirectory --allow /opt
-}
-
-idea-community_src_install() {
-    local dest="/opt/${PN}"
-    dodir "${dest}"
-
-    insinto "${dest}"
-    doins -r *
-
-    for exe in "${_EXECUTABLES[@]}"; do
-        edo chmod a+x "${IMAGE}/${dest}/bin/$exe"
-    done
-
-    dodir "/usr/$(exhost --target)/bin"
-    dosym "${dest}/bin/idea.sh" "/usr/$(exhost --target)/bin/${PN}"
-
-    insinto "/usr/share/icons/hicolor/128x128/apps"
-    newins "${dest}/bin/idea.png" "${PN}.png"
-
-    insinto "/usr/share/applications"
-    doins "${FILES}/jetbrains-idea-ce.desktop"
-}
+WORK="${WORKBASE}/idea-IC-${my_build}"
 
