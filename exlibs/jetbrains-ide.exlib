@@ -47,9 +47,9 @@ jetbrains-ide_src_install() {
     fi
 
     insinto "${dest}"
-    doins -r *
+    doins -r ./*
 
-    for exe in ${my_launcher} ${JETBRAINS_EXECUTABLES[@]}; do
+    for exe in "${my_launcher}" "${JETBRAINS_EXECUTABLES[@]}"; do
         edo chmod a+x "${IMAGE}/${dest}/${exe}"
     done
 

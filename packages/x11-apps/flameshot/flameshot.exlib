@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=lupoDharkael tag=v${PV} ]
+require github [ user=lupoDharkael tag="v${PV}" ]
 require qmake [ slot=5 ]
 require gtk-icon-cache
 

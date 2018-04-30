@@ -30,7 +30,7 @@ intellij-jdk_src_install() {
     dodir "${dest}"
 
     insinto "${dest}"
-    doins -r *
+    doins -r ./*
 
     for exe in "${IMAGE}/${dest}"/bin/*; do
         edo chmod a+x "$exe"

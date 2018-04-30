@@ -3,7 +3,7 @@
 # Saved from Gerrit, was not submitted
 # Distributed under the terms of the GPLv2
 
-require github [ user=awesomeWM release=v${PV} suffix=tar.xz ]
+require github [ user=awesomeWM release="v${PV}" suffix="tar.xz" ]
 require cmake [ api=2 cmake_minimum_version=3.0.0 ]
 require lua [ whitelist='5.1 5.2 5.3' multibuild=false ]
 
@@ -101,7 +101,7 @@ awesome_src_prepare()
 awesome_src_install()
 {
     cmake_src_install
-    edo rm -f "${IMAGE}"/usr/share/doc/${PNVR}/LICENSE
+    edo rm -f "${IMAGE}/usr/share/doc/${PNVR}/LICENSE"
 }
 
 awesome_pkg_preinst()
