@@ -1,0 +1,25 @@
+# Copyright 2018 Alexander Kapshuna
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user="mgorny" project="${PN}2" release="v${PV}" suffix="tar.bz2" ]
+MY_PNV
+
+SUMMARY="Tool to remove old kernels and stale auxiliary kernel files"
+
+LICENCES="BSD-2"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+"
+
+BUGS_TO=""
+
+REMOTE_IDS=""
+
+UPSTREAM_CHANGELOG=""
+UPSTREAM_DOCUMENTATION=""
+UPSTREAM_RELEASE_NOTES=""
+
