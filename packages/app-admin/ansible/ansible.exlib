@@ -19,10 +19,10 @@ MYOPTIONS=""
 DEPENDENCIES="
     build:
     build+run:
-        dev-python/Jinja2[python_abis:*(-)?]
-        dev-python/PyYAML[python_abis:*(-)?]
         dev-python/cryptography[python_abis:*(-)?]
+        dev-python/Jinja2[python_abis:*(-)?]
         dev-python/paramiko[python_abis:*(-)?]
+        dev-python/PyYAML[python_abis:*(-)?]
         dev-python/setuptools[python_abis:*(-)?]
 "
 
