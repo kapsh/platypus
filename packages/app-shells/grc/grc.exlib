@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=garabik tag="v${PV}" ]
+require python [ blacklist=none ]
 
 export_exlib_phases src_install pkg_postinst
 
@@ -14,21 +15,19 @@ MYOPTIONS=""
 DEPENDENCIES="
     build:
     build+run:
-        dev-lang/python
 "
 
 grc_src_install() {
-    dodir "/usr/$(exhost --target)/bin"
     dobin grc grcat
 
     insinto "/etc"
     doins "${PN}.conf"
-    insinto "/usr/share/${PN}"
-    doins colourfiles/conf.*
 
-    # TODO where shells will find this automatically?
     insinto "/etc/${PN}"
     doins "${PN}.zsh" "${PN}.bashrc"
+
+    insinto "/usr/share/${PN}"
+    doins colourfiles/conf.*
 
     doman grc.1 grcat.1
     dodoc README.markdown

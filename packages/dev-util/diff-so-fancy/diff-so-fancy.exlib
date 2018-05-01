@@ -22,10 +22,8 @@ DEPENDENCIES="
 
 diff-so-fancy_src_install() {
     # Ah, just drop fatpacked version for now.
-    exeinto "/usr/$(exhost --target)/bin"
-    doexe "third_party/build_fatpack/diff-so-fancy"
-
-    docinto "/usr/share/doc/${PNV}"
+    # TODO install DiffHighlight.pm separately.
+    dobin "third_party/build_fatpack/diff-so-fancy"
     dodoc README.md
 }
 

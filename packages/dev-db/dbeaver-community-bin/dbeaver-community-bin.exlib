@@ -33,17 +33,16 @@ dbeaver-community-bin_pkg_setup() {
 }
 
 dbeaver-community-bin_src_install() {
+    # TODO bundled .desktop assumes that all is installed in /usr/share/dbeaver.
+
     local dest="/opt/${PN}"
 
     insinto "${dest}"
-    doins -r "${WORK}"/*
+    doins -r ./*
 
     edo chmod +x "${IMAGE}/${dest}/dbeaver"
     dodir "/usr/$(exhost --target)/bin"
     dosym "${dest}/dbeaver" "/usr/$(exhost --target)/bin/dbeaver"
-
-    insinto "/usr/share/icons/hicolor/128x128/apps"
-    doins "dbeaver.png"
 }
 
 dbeaver-community-bin_pkg_postinst() {

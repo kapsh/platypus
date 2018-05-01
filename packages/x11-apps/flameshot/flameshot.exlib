@@ -3,7 +3,7 @@
 
 require github [ user=lupoDharkael tag="v${PV}" ]
 require qmake [ slot=5 ]
-require gtk-icon-cache
+require gtk-icon-cache freedesktop-desktop
 
 export_exlib_phases src_install pkg_postinst pkg_postrm
 
@@ -19,9 +19,9 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build:
+    build+run:
         x11-libs/qtbase:5[>=5.3][gui]
         x11-libs/qttools:5[>=5.3]
-    build+run:
 "
 
 EQMAKE_PARAMS=(
@@ -32,7 +32,7 @@ flameshot_src_install() {
     default
     # TODO make bash-completion optional maybe
 
-    # Can't understand how to tell qmake put executable into correct dir.
+    # TODO understand how to tell qmake put executable into correct dir.
     local bad_bin="${IMAGE}/usr/bin"
     local good_bin="/usr/$(exhost --target)/bin"
     dodir "${good_bin}"
@@ -42,9 +42,11 @@ flameshot_src_install() {
 
 flameshot_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
+    freedesktop-desktop_pkg_postinst
 }
 
 flameshot_pkg_postrm() {
     gtk-icon-cache_pkg_postrm
+    freedesktop-desktop_pkg_postrm
 }
 

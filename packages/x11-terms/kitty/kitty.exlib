@@ -3,7 +3,7 @@
 
 require github [ user=kovidgoyal tag="v${PV}" ]
 require python [ blacklist="2 3.4" multibuild=false ]
-require gtk-icon-cache
+require gtk-icon-cache freedesktop-desktop
 
 export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
 
@@ -25,8 +25,8 @@ DEPENDENCIES="
 
     build+run:
         media-libs/fontconfig
-        media-libs/freetype
-        media-libs/libpng
+        media-libs/freetype:=
+        media-libs/libpng:=
         sys-libs/zlib
         x11-libs/harfbuzz
         x11-libs/libXcursor
@@ -40,28 +40,28 @@ DEPENDENCIES="
 "
 
 kitty_src_compile() {
-    export PKGCONFIG_EXE="${PKG_CONFIG}"  # used by setup.py.
-    edo "${PYTHON}" -B setup.py linux-package
+    PKGCONFIG_EXE="${PKG_CONFIG}" edo "${PYTHON}" -B setup.py linux-package
 }
 
 kitty_src_install() {
     edo cd linux-package
+
+    dobin bin/kitty
 
     insinto /usr
     doins -r share
 
     insinto "/usr/$(exhost --target)"
     doins -r lib
-
-    exeinto "/usr/$(exhost --target)/bin"
-    doexe bin/kitty
 }
 
 kitty_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
+    freedesktop-desktop_pkg_postinst
 }
 
 kitty_pkg_postrm() {
     gtk-icon-cache_pkg_postrm
+    freedesktop-desktop_pkg_postrm
 }
 

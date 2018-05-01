@@ -20,12 +20,14 @@ DEPENDENCIES="
 
 cdm_src_install() {
     dobin src/cdm src/cdm-xlaunch
+
     insinto /etc/
     doins src/cdmrc
-    dodoc README.md src/profile.sh
 
     themes="/usr/share/${PN}/themes"
     dodir "${themes}"
     insinto "${themes}"
     doins -r themes
+
+    dodoc README.md src/profile.sh
 }

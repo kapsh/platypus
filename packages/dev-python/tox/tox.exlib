@@ -30,6 +30,6 @@ BUGS_TO=""
 # You shall not pass
 # One test fails on py2 because of virtualenv bug https://github.com/pypa/virtualenv/issues/395
 # Some tests require pytest-mock (unwritten)
-# Some tests want internet access to download packages
+# Some tests want internet access to download packages (???)
 RESTRICT="test"
 

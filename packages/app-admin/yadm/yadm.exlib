@@ -34,8 +34,7 @@ ZSH_COMPLETIONS=(
 )
 
 yadm_src_install() {
-    exeinto "/usr/$(exhost --target)/bin"
-    doexe "${PN}"
+    dobin "${PN}"
     doman "${PN}.1"
 
     bash-completion_src_install

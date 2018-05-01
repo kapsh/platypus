@@ -6,7 +6,7 @@ export_exlib_phases src_install
 MY_PN="shellcheck"
 MY_PNV="${MY_PN}-v${PV}"
 
-SUMMARY="Tool that gives warnings and suggestions for bash/sh shell scripts"
+SUMMARY="A shell script static analysis tool (statically linked version)"
 DESCRIPTION="
 The goals of ShellCheck are
 
@@ -18,7 +18,7 @@ strangely and counter-intuitively.
 working script to fail under future circumstances.
 "
 HOMEPAGE="https://www.shellcheck.net/"
-DOWNLOADS="https://storage.googleapis.com/shellcheck/${MY_PNV}.linux.x86_64.tar.xz"
+DOWNLOADS="https://storage.googleapis.com/${MY_PN}/${MY_PNV}.linux.x86_64.tar.xz"
 
 LICENCES="GPL-3"
 SLOT="0"
