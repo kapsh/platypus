@@ -12,14 +12,20 @@ myexparam desktop_file
 
 BUGS_TO="https://youtrack.jetbrains.com/issues"
 
+MYOPTIONS="
+    ( providers:
+        intellij-jdk
+        system-jdk
+    ) [[
+        *description = [ Boot JDK provider ]
+        number-selected = at-least-one
+    ]]
+"
+
 DEPENDENCIES="
-    build:
     build+run:
-    suggestion:
-        dev-java/intellij-jdk [[
-            description = [ Better font rendering ]
-            *group-name = [ jre ]
-        ]]
+        providers:intellij-jdk? ( dev-java/intellij-jdk )
+        providers:system-jdk? ( virtual/jdk )
 "
 
 JETBRAINS_EXECUTABLES=(
