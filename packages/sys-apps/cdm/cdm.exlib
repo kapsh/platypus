@@ -24,9 +24,7 @@ cdm_src_install() {
     insinto /etc/
     doins src/cdmrc
 
-    themes="/usr/share/${PN}/themes"
-    dodir "${themes}"
-    insinto "${themes}"
+    insinto "/usr/share/${PN}/themes"
     doins -r themes
 
     dodoc README.md src/profile.sh
