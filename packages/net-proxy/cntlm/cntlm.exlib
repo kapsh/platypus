@@ -21,7 +21,7 @@ BUGS_TO=""
 
 # TODO Is it awful? Sure it is.
 DEFAULT_SRC_COMPILE_PARAMS=(
-    CC="/usr/$(exhost --target)/bin/gcc"
+    CC="$(exhost --target)-gcc"
     SYSCONFDIR="/etc"  # config location is hardcoded into binary
 )
 
