@@ -42,9 +42,7 @@ jetbrains-ide_src_install() {
     local dest="/opt/${PN}"
     dodir "${dest}"
 
-    if [[ -d jre64 ]]; then
-        edo rm -r jre64  # provided by intellij-jdk package
-    fi
+    nonfatal edo rm -r jre64  # provided by intellij-jdk package
 
     insinto "${dest}"
     doins -r ./*
