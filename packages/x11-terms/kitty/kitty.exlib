@@ -1,11 +1,13 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Based in parts upon kitty.exlib which is
+#   Copyright 2018 Danilo Spinella <danyspin97@protonmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=kovidgoyal tag="v${PV}" ]
-require python [ blacklist="2 3.4" multibuild=false ]
+require python [ blacklist="2 3.4" multibuild=false has_bin=true has_lib=false ]
 require gtk-icon-cache freedesktop-desktop
 
-export_exlib_phases src_compile src_install
+export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
 
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
@@ -14,15 +16,18 @@ displaying images, URL hints and it is fully controllable with keyboard."
 LICENCES="GPL-3"
 SLOT="0"
 MYOPTIONS="
-    images [[
-        description = [ Support for displaying images in terminal ]
+    ( providers:
+        graphicsmagick
+        imagemagick
+    ) [[
+        *description = [ Support for displaying images in terminal ]
+        number-selected = at-most-one
     ]]
 "
 
 DEPENDENCIES="
     build:
         virtual/pkg-config
-
     build+run:
         media-libs/fontconfig
         media-libs/freetype:=
@@ -31,27 +36,28 @@ DEPENDENCIES="
         x11-libs/harfbuzz
         x11-libs/libXcursor
         x11-libs/libXinerama
-        x11-libs/libXrandr
         x11-libs/libxkbcommon
-        images? ( || (
-            media-gfx/GraphicsMagick[imagemagick]
-            media-gfx/ImageMagick
-        ) )
+        x11-libs/libXrandr
+        providers:graphicsmagick? ( media-gfx/GraphicsMagick[imagemagick] )
+        providers:imagemagick? ( media-gfx/ImageMagick )
 "
 
 kitty_src_compile() {
-    PKGCONFIG_EXE="${PKG_CONFIG}" edo "${PYTHON}" -B setup.py linux-package
+    PKGCONFIG_EXE="${PKG_CONFIG}" edo "${PYTHON}" -B setup.py linux-package \
+        --prefix "${IMAGE}/usr/$(exhost --target)"
 }
 
 kitty_src_install() {
-    edo cd linux-package
+    edo mv "${IMAGE}/usr/$(exhost --target)/share/" "${IMAGE}/usr/"
+}
 
-    dobin bin/kitty
+kitty_pkg_postinst() {
+    gtk-icon-cache_pkg_postinst
+    freedesktop-desktop_pkg_postinst
+}
 
-    insinto /usr
-    doins -r share
-
-    insinto "/usr/$(exhost --target)"
-    doins -r lib
+kitty_pkg_postrm() {
+    gtk-icon-cache_pkg_postrm
+    freedesktop-desktop_pkg_postrm
 }
 
