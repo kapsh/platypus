@@ -1,9 +1,9 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require gtk-icon-cache
+require gtk-icon-cache freedesktop-desktop
 
-export_exlib_phases pkg_setup src_install
+export_exlib_phases pkg_setup pkg_postinst pkg_postrm src_install
 
 # Just simply installs prebuilt version for now
 
@@ -33,8 +33,6 @@ dbeaver-community-bin_pkg_setup() {
 }
 
 dbeaver-community-bin_src_install() {
-    # TODO bundled .desktop assumes that all is installed in /usr/share/dbeaver.
-
     local dest="/opt/${PN}"
 
     insinto "${dest}"
@@ -43,5 +41,18 @@ dbeaver-community-bin_src_install() {
     edo chmod +x "${IMAGE}/${dest}/dbeaver"
     dodir "/usr/$(exhost --target)/bin"
     dosym "${dest}/dbeaver" "/usr/$(exhost --target)/bin/dbeaver"
+
+    insinto "/usr/share/applications"
+    doins "${FILES}/dbeaver-community.desktop"
+}
+
+dbeaver-community-bin_pkg_postinst() {
+    gtk-icon-cache_pkg_postinst
+    freedesktop-desktop_pkg_postinst
+}
+
+dbeaver-community-bin_pkg_postrm() {
+    gtk-icon-cache_pkg_postrm
+    freedesktop-desktop_pkg_postrm
 }
 
