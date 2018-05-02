@@ -5,7 +5,7 @@ require github [ user=lupoDharkael tag="v${PV}" ]
 require qmake [ slot=5 ]
 require gtk-icon-cache freedesktop-desktop
 
-export_exlib_phases src_install pkg_postinst pkg_postrm
+export_exlib_phases src_install
 
 SUMMARY="Powerful yet simple to use screenshot software"
 DESCRIPTION="
@@ -38,15 +38,5 @@ flameshot_src_install() {
     dodir "${good_bin}"
     edo mv "${bad_bin}/${PN}" "${IMAGE}/${good_bin}"
     edo rm -r "${bad_bin}"
-}
-
-flameshot_pkg_postinst() {
-    gtk-icon-cache_pkg_postinst
-    freedesktop-desktop_pkg_postinst
-}
-
-flameshot_pkg_postrm() {
-    gtk-icon-cache_pkg_postrm
-    freedesktop-desktop_pkg_postrm
 }
 
