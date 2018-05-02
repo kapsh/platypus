@@ -3,7 +3,7 @@
 
 require gtk-icon-cache
 
-export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
+export_exlib_phases pkg_setup src_install
 
 # Just simply installs prebuilt version for now
 
@@ -45,10 +45,3 @@ dbeaver-community-bin_src_install() {
     dosym "${dest}/dbeaver" "/usr/$(exhost --target)/bin/dbeaver"
 }
 
-dbeaver-community-bin_pkg_postinst() {
-    gtk-icon-cache_pkg_postinst
-}
-
-dbeaver-community-bin_pkg_postrm() {
-    gtk-icon-cache_pkg_postrm
-}
