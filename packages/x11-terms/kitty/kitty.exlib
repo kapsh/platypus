@@ -5,7 +5,7 @@ require github [ user=kovidgoyal tag="v${PV}" ]
 require python [ blacklist="2 3.4" multibuild=false ]
 require gtk-icon-cache freedesktop-desktop
 
-export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
+export_exlib_phases src_compile src_install
 
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
@@ -53,15 +53,5 @@ kitty_src_install() {
 
     insinto "/usr/$(exhost --target)"
     doins -r lib
-}
-
-kitty_pkg_postinst() {
-    gtk-icon-cache_pkg_postinst
-    freedesktop-desktop_pkg_postinst
-}
-
-kitty_pkg_postrm() {
-    gtk-icon-cache_pkg_postrm
-    freedesktop-desktop_pkg_postrm
 }
 
