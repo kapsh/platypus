@@ -13,8 +13,6 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
-    build+run:
 "
 
 UPSTREAM_DOCUMENTATION="https://confluence.jetbrains.com/display/JRE/JetBrains+Runtime"

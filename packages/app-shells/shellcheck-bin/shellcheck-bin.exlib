@@ -27,8 +27,6 @@ MYOPTIONS=""
 UPSTREAM_DOCUMENTATION="https://github.com/koalaman/shellcheck/wiki"
 
 DEPENDENCIES="
-    build:
-    build+run:
 "
 
 WORK="${WORKBASE}/${MY_PNV}"

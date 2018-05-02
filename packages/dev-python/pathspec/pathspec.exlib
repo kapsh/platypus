@@ -11,7 +11,5 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
-    build+run:
 "
 

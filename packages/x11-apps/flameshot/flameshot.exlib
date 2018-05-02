@@ -18,7 +18,6 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
     build+run:
         x11-libs/qtbase:5[>=5.3][gui]
         x11-libs/qttools:5[>=5.3]

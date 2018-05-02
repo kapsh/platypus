@@ -17,7 +17,6 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
     build+run:
         dev-python/pluggy[>=0.3.0&<1.0][python_abis:*(-)?]
         dev-python/py[>=1.4.17][python_abis:*(-)?]

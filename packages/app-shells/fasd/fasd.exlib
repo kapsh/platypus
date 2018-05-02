@@ -10,12 +10,6 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
-    build+run:
-    run: ( || (
-        app-shells/bash
-        app-shells/bash
-    ) )
 "
 
 DEFAULT_SRC_INSTALL_PARAMS=(
