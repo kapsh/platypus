@@ -3,6 +3,7 @@
 
 require github [ user=garabik tag="v${PV}" ]
 require python [ blacklist=none ]
+require zsh-completion
 
 export_exlib_phases src_install pkg_postinst
 
@@ -14,6 +15,8 @@ MYOPTIONS=""
 
 DEPENDENCIES="
 "
+
+ZSH_COMPLETIONS=( _grc )
 
 grc_src_install() {
     dobin grc grcat
@@ -29,6 +32,8 @@ grc_src_install() {
 
     doman grc.1 grcat.1
     dodoc README.markdown
+
+    zsh-completion_src_install
 }
 
 grc_pkg_postinst() {
