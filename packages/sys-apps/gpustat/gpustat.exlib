@@ -1,0 +1,22 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=wookayin tag="v${PV}" ]
+require setup-py [ import=setuptools test=pytest ]
+
+SUMMARY="An utility to monitor NVIDIA GPU status and usage"
+
+LICENCES="MIT"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+		dev-python/blessings[>=1.6][python_abis:*(-)?]
+		dev-python/nvidia-ml-py3[python_abis:*(-)?]
+		dev-python/psutil[python_abis:*(-)?]
+		dev-python/six[>=1.7][python_abis:*(-)?]
+"
+
+
