@@ -1,0 +1,24 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require cargo
+
+SUMMARY="Tool to analyze file system usage"
+DESCRIPTION="
+Features:
+- coloured output, according to the LS_COLORS environment variable.
+- display the file system tree
+- ability to aggregate small files
+- ability to exclude files or directories
+- ability to compare different directories
+- fast, written in Rust
+"
+HOMEPAGE+=" https://ownyourbits.com/2018/03/25/analize-disk-usage-with-dutree/"
+
+LICENCES="GPL-3"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
