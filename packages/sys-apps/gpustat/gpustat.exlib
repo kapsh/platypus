@@ -11,12 +11,10 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
     build+run:
-		dev-python/blessings[>=1.6][python_abis:*(-)?]
-		dev-python/nvidia-ml-py3[python_abis:*(-)?]
-		dev-python/psutil[python_abis:*(-)?]
-		dev-python/six[>=1.7][python_abis:*(-)?]
+        dev-python/blessings[>=1.6][python_abis:*(-)?]
+        dev-python/nvidia-ml-py3[python_abis:*(-)?]
+        dev-python/psutil[python_abis:*(-)?]
+        dev-python/six[>=1.7][python_abis:*(-)?]
 "
-
 
