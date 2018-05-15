@@ -1,0 +1,74 @@
+Source: adapted from https://bugs.gentoo.org/334647
+Upstream: no
+
+diff --git a/Makefile b/Makefile
+index b817ed4..f0afdfe 100644
+--- a/Makefile
++++ b/Makefile
+@@ -67,7 +67,7 @@ install: $(NAME)
+ 		[ -f $(SYSCONFDIR)/$(NAME).conf -o -z "$(SYSCONFDIR)" ] \
+ 			|| install -d -m 600 doc/$(NAME).conf $(SYSCONFDIR)/$(NAME).conf; \
+ 	else \
+-		install -D -m 755 -s $(NAME) $(BINDIR)/$(NAME); \
++		install -D -m 755 $(NAME) $(BINDIR)/$(NAME); \
+ 		install -D -m 644 doc/$(NAME).1 $(MANDIR)/man1/$(NAME).1; \
+ 		[ -f $(SYSCONFDIR)/$(NAME).conf -o -z "$(SYSCONFDIR)" ] \
+ 			|| install -D -m 600 doc/$(NAME).conf $(SYSCONFDIR)/$(NAME).conf; \
+diff --git a/configure b/configure
+index 107f2d4..73bba5d 100755
+--- a/configure
++++ b/configure
+@@ -10,7 +10,7 @@
+ # This can be disabled if neccessary.
+ #
+
+-CCS="xlc_r gcc"
++CCS="${CC}"
+
+ #
+ # Look for supported compilers
+@@ -31,15 +31,21 @@ if [ -z "$CC" ]; then
+ else
+ 	echo "Using $CCPATH to compile Cntlm"
+ 	[ -h Makefile ] && rm -f Makefile 2>/dev/null
+-	case "$CC" in
+-		gcc)
++	if $CC -v >/dev/null 2>&1; then
+ 			# default Makefile is for GCC; just revert back to
+ 			# GCC if Makefile is linked to other compiler version
+ 			if [ ! -f Makefile ]; then
+ 				mv Makefile.gcc Makefile
+ 			fi
+-			;;
+-		*)
++			: ${CFLAGS=-O3}
++			: ${LDFLAGS=}
++			CFLAGS="$CFLAGS -std=c99 -Wall -Wno-unused-but-set-variable -pedantic -pthread"
++			LDFLAGS="$LDFLAGS -pthread"
++			sed -e "s~^CFLAGS[ 	:]*=~CFLAGS=$CFLAGS ~" \
++				-e "s~^LDFLAGS[ 	:]*=.*~LDFLAGS=$LDFLAGS~" \
++				-e "s~^CC[ 	:]*=.*~CC=$CC~" \
++				-i Makefile
++	else
+ 			# backup default GCC Makefile and create a link to other
+ 			if [ -f Makefile ]; then
+ 				mv Makefile Makefile.gcc
+@@ -47,8 +53,7 @@ else
+
+ 			EXT=`echo "$CC" | sed 's/_.*//'`
+ 			ln -s Makefile.$EXT Makefile
+-			;;
+-	esac
++	fi
+ fi
+
+ STAMP=configure-stamp
+@@ -62,7 +67,7 @@ rm -f $CONFIG
+ for i in $TESTS; do
+ 	printf "Checking $i... "
+ 	printf "#define config_$i " >> $CONFIG
+-	OUT=`$CC -D_POSIX_C_SOURCE=199506L -D_ISOC99_SOURCE -D_REENTRANT -o config/$i config/$i.c 2>&1`
++	OUT=`$CC $CFLAGS $LDFLAGS -D_POSIX_C_SOURCE=199506L -D_ISOC99_SOURCE -D_REENTRANT -o config/$i config/$i.c 2>&1`
+ 	rc=$?
+
+ 	if [ $rc -ne 0 ]; then # -o -n "$OUT" ]; then
