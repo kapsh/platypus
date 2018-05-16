@@ -16,7 +16,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        dev-lang/perl
+        dev-lang/perl:*
 "
 
 diff-so-fancy_src_install() {
