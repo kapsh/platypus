@@ -33,6 +33,6 @@ WORK="${WORKBASE}/${MY_PNV}"
 
 shellcheck-bin_src_install() {
     dobin "${MY_PN}"
-    dodoc README.txt LICENSE.txt
+    emagicdocs
 }
 
