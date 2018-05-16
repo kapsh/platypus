@@ -3,9 +3,7 @@
 
 # Common installation procedure for JetBrains IDE's.
 
-require gtk-icon-cache freedesktop-desktop
-
-export_exlib_phases pkg_setup src_install pkg_postinst pkg_postrm
+export_exlib_phases pkg_setup src_install pkg_postinst
 
 myexparam launcher
 myexparam desktop_file
@@ -25,7 +23,7 @@ MYOPTIONS="
 DEPENDENCIES="
     build+run:
         providers:intellij-jdk? ( dev-java/intellij-jdk )
-        providers:system-jdk? ( virtual/jdk )
+        providers:system-jdk? ( virtual/jdk:* )
 "
 
 JETBRAINS_EXECUTABLES=(
@@ -65,17 +63,9 @@ jetbrains-ide_src_install() {
 }
 
 jetbrains-ide_pkg_postinst() {
-    freedesktop-desktop_pkg_postinst
-    gtk-icon-cache_pkg_postinst
-
     if has_version dev-java/intellij-jdk; then
         einfo 'Use "Switch boot JDK" action and select install location
             of intellij-jdk to activate it'
     fi
-}
-
-jetbrains-ide_pkg_postrm() {
-    freedesktop-desktop_pkg_postrm
-    gtk-icon-cache_pkg_postrm
 }
 
