@@ -17,6 +17,10 @@ DEPENDENCIES="
         sys-apps/dialog
 "
 
+DEFAULT_SRC_INSTALL_EXTRA_DOCS=(
+    src/profile.sh
+)
+
 cdm_src_install() {
     dobin src/cdm src/cdm-xlaunch
 
@@ -26,5 +30,5 @@ cdm_src_install() {
     insinto "/usr/share/${PN}/themes"
     doins -r themes
 
-    dodoc README.md src/profile.sh
+    emagicdocs
 }
