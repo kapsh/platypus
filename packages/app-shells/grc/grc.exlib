@@ -31,7 +31,7 @@ grc_src_install() {
     doins colourfiles/conf.*
 
     doman grc.1 grcat.1
-    dodoc README.markdown
+    emagicdocs
 
     zsh-completion_src_install
 }
