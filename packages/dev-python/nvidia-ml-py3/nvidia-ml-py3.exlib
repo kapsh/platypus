@@ -6,7 +6,7 @@ require pypi setup-py [ import=distutils ]
 SUMMARY="Python Bindings for the NVIDIA Management Library"
 HOMEPAGE+=" https://nvidia.com"
 
-LICENCES="BSD"
+LICENCES="BSD-3"
 SLOT="0"
 MYOPTIONS=""
 
