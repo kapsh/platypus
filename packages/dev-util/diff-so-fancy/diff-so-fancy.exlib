@@ -23,6 +23,6 @@ diff-so-fancy_src_install() {
     # Ah, just drop fatpacked version for now.
     # TODO install DiffHighlight.pm separately.
     dobin "third_party/build_fatpack/diff-so-fancy"
-    dodoc README.md
+    emagicdocs
 }
 
