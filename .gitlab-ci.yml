@@ -1,0 +1,10 @@
+image: exherbo/exherbo_ci
+
+variables:
+  REPO: platypus
+  REPO_NAMESPACE: kapsh
+
+build:
+  script:
+    - buildtest
+
