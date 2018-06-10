@@ -1,0 +1,21 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require setup-py [ import=setuptools test=pytest ]
+require github [ user=mitsuhiko tag=${PV} ]
+
+SUMMARY="pipsi makes installing python packages with global entry points painless"
+
+LICENCES="BSD-3"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/click[python_abis:*(-)?]
+        dev-python/virtualenv[python_abis:*(-)?]
+"
+
+# Wants to download things from Internet
+RESTRICT="test"
+
