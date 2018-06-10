@@ -1,0 +1,12 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require cargo
+
+SUMMARY="A cat(1) clone with wings"
+
+LICENCES="Apache-2.0 MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
