@@ -12,6 +12,7 @@ export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
 displaying images, URL hints and it is fully controllable with keyboard."
+HOMEPAGE="https://sw.kovidgoyal.net/kitty/"
 
 LICENCES="GPL-3"
 SLOT="0"
@@ -27,6 +28,7 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
+        dev-python/Sphinx[python_abis:*(-)?]
         virtual/pkg-config
     build+run:
         media-libs/fontconfig
@@ -34,6 +36,7 @@ DEPENDENCIES="
         media-libs/libpng:=
         sys-libs/zlib
         x11-libs/harfbuzz
+        x11-libs/libX11
         x11-libs/libXcursor
         x11-libs/libXinerama
         x11-libs/libxkbcommon
