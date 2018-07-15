@@ -23,5 +23,8 @@ DEPENDENCIES="
         dev-python/paramiko[python_abis:*(-)?]
         dev-python/PyYAML[python_abis:*(-)?]
         dev-python/setuptools[python_abis:*(-)?]
+    suggestion:
+        dev-python/pywinrm[python_abis:*(-)?] [[ description = [ Manage Windows hosts ] ]]
+        net-misc/sshpass [[ description = [ To use ssh connections with passwords ] ]]
 "
 
