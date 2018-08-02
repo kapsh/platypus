@@ -1,0 +1,26 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools test=pytest ]
+
+SUMMARY="Pythonic task execution"
+DESCRIPTION="
+Python library for managing shell-oriented subprocesses and organizing executable Python code
+into CLI-invokable tasks. It draws inspiration from various sources (make/rake, Fabric 1.x, etc)
+to arrive at a powerful & clean feature set.
+"
+HOMEPAGE="http://www.pyinvoke.org/"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
+# Testing requires plenty of unwritten packages:
+# https://github.com/pyinvoke/invoke/blob/master/dev-requirements.txt
+# https://github.com/pyinvoke/invoke/blob/master/tasks-requirements.txt
+RESTRICT="test"
+
