@@ -1,0 +1,22 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools test=pytest ]
+
+SUMMARY="Parse and manipulate PEP-440 version numbers"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/Arpeggio[~>1.7][python_abis:*(-)?]
+        dev-python/attrs[python_abis:*(-)?]
+        dev-python/six[~>1.9][python_abis:*(-)?]
+    test:
+        dev-python/hypothesis[~>3.56][python_abis:*(-)?]
+        dev-python/pretend[~>1.0][python_abis:*(-)?]
+"
+
