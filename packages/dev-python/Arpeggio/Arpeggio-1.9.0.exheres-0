@@ -1,0 +1,19 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools test=pytest ]
+
+SUMMARY="Parser interpreter based on PEG grammars written in Python"
+HOMEPAGE+=" https://github.com/igordejanovic/Arpeggio"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
+# pypi tarball doesn't include tests
+RESTRICT="test"
+
