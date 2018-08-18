@@ -2,10 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=lupoDharkael tag="v${PV}" ]
-require qmake [ slot=5 ]
-require gtk-icon-cache freedesktop-desktop
+require qmake [ slot=5 ] gtk-icon-cache
 
-export_exlib_phases src_install pkg_postinst pkg_postrm
+export_exlib_phases src_prepare pkg_postinst pkg_postrm
 
 SUMMARY="Powerful yet simple to use screenshot software"
 DESCRIPTION="
@@ -20,6 +19,7 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         x11-libs/qtbase:5[>=5.3][gui]
+        x11-libs/qtsvg:5[>=5.3]
         x11-libs/qttools:5[>=5.3]
 "
 
@@ -27,25 +27,17 @@ EQMAKE_PARAMS=(
     CONFIG+=packaging
 )
 
-flameshot_src_install() {
-    default
-    # TODO make bash-completion optional maybe
+# TODO make bash-completion optional
 
-    # TODO understand how to tell qmake put executable into correct dir.
-    local bad_bin="${IMAGE}/usr/bin"
-    local good_bin="/usr/$(exhost --target)/bin"
-    dodir "${good_bin}"
-    edo mv "${bad_bin}/${PN}" "${IMAGE}/${good_bin}"
-    edo rm -r "${bad_bin}"
+flameshot_src_prepare() {
+    edo sed -Ei 's#(target.path = \$\$\{PREFIX\})/bin#\1/'$(exhost --target)'/bin#' "${PN}.pro"
 }
 
 flameshot_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
-    freedesktop-desktop_pkg_postinst
 }
 
 flameshot_pkg_postrm() {
     gtk-icon-cache_pkg_postrm
-    freedesktop-desktop_pkg_postrm
 }
 
