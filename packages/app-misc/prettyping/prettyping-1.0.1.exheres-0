@@ -1,0 +1,28 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=denilsonsa tag=v${PV} ]
+
+SUMMARY="Nice and shiny wrapper around ping"
+DESCRIPTION="
+prettyping is a wrapper around the standard ping tool with the objective
+of making the output prettier, more colorful, more compact, and easier to read.
+"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    run:
+        app-shells/bash
+        net-misc/iputils
+        virtual/awk
+"
+
+src_install() {
+    dobin ${PN}
+    emagicdocs
+}
+
