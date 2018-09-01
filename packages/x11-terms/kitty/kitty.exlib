@@ -5,7 +5,7 @@
 
 require github [ user=kovidgoyal tag="v${PV}" ]
 require python [ blacklist="2 3.4" multibuild=false has_bin=true has_lib=false ]
-require gtk-icon-cache freedesktop-desktop
+require gtk-icon-cache
 
 export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
 
@@ -34,6 +34,7 @@ DEPENDENCIES="
         media-libs/fontconfig
         media-libs/freetype:=
         media-libs/libpng:=
+        sys-apps/dbus
         sys-libs/zlib
         x11-libs/harfbuzz
         x11-libs/libX11
@@ -56,11 +57,9 @@ kitty_src_install() {
 
 kitty_pkg_postinst() {
     gtk-icon-cache_pkg_postinst
-    freedesktop-desktop_pkg_postinst
 }
 
 kitty_pkg_postrm() {
     gtk-icon-cache_pkg_postrm
-    freedesktop-desktop_pkg_postrm
 }
 
