@@ -30,8 +30,10 @@ intellij-jdk_src_install() {
     insinto "${dest}"
     doins -r ./*
 
-    for exe in "${IMAGE}/${dest}"/bin/*; do
+    edo pushd "${IMAGE}/${dest}"
+    for exe in bin/* jre/bin/*; do
         edo chmod a+x "$exe"
     done
+    edo popd
 }
 
