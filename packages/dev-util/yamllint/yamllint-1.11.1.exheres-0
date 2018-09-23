@@ -12,6 +12,7 @@ HOMEPAGE="https://yamllint.readthedocs.io/en/stable/"
 
 LICENCES="GPL-3"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
