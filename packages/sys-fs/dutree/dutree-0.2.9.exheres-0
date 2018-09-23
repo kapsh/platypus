@@ -17,6 +17,7 @@ HOMEPAGE+=" https://ownyourbits.com/2018/03/25/analize-disk-usage-with-dutree/"
 
 LICENCES="GPL-3"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
