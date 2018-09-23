@@ -3,8 +3,6 @@
 
 require gtk-icon-cache
 
-export_exlib_phases pkg_setup src_install
-
 # Just simply installs prebuilt version for now
 
 MY_PN="dbeaver-ce"
@@ -18,6 +16,7 @@ DOWNLOADS="${HOMEPAGE}/files/${PV}/${MY_PN}-${PV}-linux.gtk.x86_64.tar.gz"
 
 LICENCES="Apache-2.0"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
@@ -27,11 +26,11 @@ DEPENDENCIES="
 
 WORK="${WORKBASE}/dbeaver"  # omg hardcode
 
-dbeaver-community-bin_pkg_setup() {
+pkg_setup() {
     exdirectory --allow /opt
 }
 
-dbeaver-community-bin_src_install() {
+src_install() {
     local dest="/opt/${PN}"
 
     insinto "${dest}"
