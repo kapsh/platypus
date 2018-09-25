@@ -3,15 +3,14 @@
 
 require github [ user=hluk tag="v${PV}" ]
 require cmake [ api=2 ]
-require freedesktop-desktop gtk-icon-cache
-
-export_exlib_phases pkg_postinst pkg_postrm
+require gtk-icon-cache
 
 SUMMARY="Clipboard manager with editing and scripting features"
 HOMEPAGE="https://hluk.github.io/${PN}"
 
 LICENCES="GPL-3"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
@@ -30,12 +29,3 @@ CMAKE_SRC_CONFIGURE_PARAMS=(
     -DWITH_WEBKIT=OFF
 )
 
-CopyQ_pkg_postinst() {
-    freedesktop-desktop_pkg_postinst
-    gtk-icon-cache_pkg_postinst
-}
-
-CopyQ_pkg_postrm() {
-    freedesktop-desktop_pkg_postrm
-    gtk-icon-cache_pkg_postrm
-}
