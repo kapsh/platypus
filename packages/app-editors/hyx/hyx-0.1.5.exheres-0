@@ -1,0 +1,19 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Minimalistic console hex editor with vim-like controls"
+HOMEPAGE="https://yx7.cc/code/"
+DOWNLOADS="${HOMEPAGE}/${PN}/${PNV}.tar.xz"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
+src_install() {
+    dobin ${PN}
+}
+
