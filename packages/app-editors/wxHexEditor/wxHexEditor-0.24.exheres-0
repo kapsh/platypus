@@ -1,0 +1,30 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=EUA tag="v${PV}" ]
+
+SUMMARY="wxHexEditor is another Free Hex Editor"
+HOMEPAGE+=" https://www.wxhexeditor.org/"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+    build+run:
+        app-crypt/mhash
+        dev-libs/udis86
+        sys-libs/libgomp:8
+        x11-libs/wxGTK:=
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/wxhexeditor-${PV}-syslibs.patch"
+)
+
+DEFAULT_SRC_INSTALL_PARAMS=(
+    BINDIR=/usr/$(exhost --target)/bin
+)
+
