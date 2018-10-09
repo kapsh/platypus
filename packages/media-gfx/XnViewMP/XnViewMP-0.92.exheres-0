@@ -1,0 +1,78 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+# TODO Add support for using system Qt and stuff instead of bundled.
+
+require freedesktop-desktop
+
+SUMMARY="XnView MP is the enhanced version of XnView Classic"
+DESCRIPTION="
+XnView MP is the enhanced version of XnView Classic. It is a powerful picture viewer, browser
+and converter for Windows, Mac and Linux. This software can read more than 500 formats,
+change picture size, reduce picture file size and much more!
+XnView MP is provided as FREEWARE (NO Adware, NO Spyware) for private or educational use
+(including non-profit organizations).
+"
+HOMEPAGE="https://www.xnview.com/en/xnviewmp/"
+# Versionated archives are only in old_versions/
+DOWNLOADS="
+    platform:amd64? ( https://download.xnview.com/old_versions/${PN}-${PV/./}-linux-x64.tgz )
+"
+
+LICENCES="XnView"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    platform:
+        amd64
+"
+
+# Dependencies from bundled Qt (maybe crappy)
+DEPENDENCIES="
+    run:
+        app-arch/bzip2
+        dev-db/sqlite
+        dev-libs/glib:2
+        dev-libs/pcre
+        media-sound/pulseaudio
+        sys-libs/zlib
+        x11-libs/libX11
+        x11-libs/libXcomposite
+        x11-libs/libXfixes
+        x11-libs/libXrender
+        x11-libs/libXv
+"
+
+MY_PN="XnView"
+WORK="${WORKBASE}/${MY_PN}"
+
+pkg_setup() {
+    exdirectory --allow /opt
+}
+
+src_install() {
+    local dest="/opt/${MY_PN}"
+    local launcher="xnview.sh"
+
+    insinto "${dest}"
+    doins -r ./*
+
+    for exe in "${launcher}" "${MY_PN}"; do
+        edo chmod +x "${IMAGE}/${dest}/${exe}"
+    done
+
+    dodir /usr/$(exhost --target)/bin
+    dosym "${dest}/${launcher}" /usr/$(exhost --target)/bin/xnview
+
+    insinto /usr/share/applications
+    doins "${MY_PN}.desktop"
+}
+
+pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+}
+
+pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+}
+
