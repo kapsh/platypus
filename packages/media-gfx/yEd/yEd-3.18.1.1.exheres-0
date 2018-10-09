@@ -1,0 +1,41 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="yEd Graph Editor"
+HOMEPAGE="https://www.yworks.com/products/yed"
+DOWNLOADS="
+    manual:
+        ${PNV}.zip
+"
+
+LICENCES="yEd"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    run:
+        virtual/jre:*
+"
+
+MY_PN="${PN,,}"
+WORK="${WORKBASE}/${MY_PN}-${PV}"
+
+pkg_nofetch() {
+    einfo "Download Zipped yEd Jar file from ${HOMEPAGE}/download"
+    einfo "and place it into ${FETCHEDDIR}"
+}
+
+pkg_setup() {
+    exdirectory --allow /opt
+}
+
+src_install() {
+    insinto "/opt/${PN}"
+    doins -r ./*
+    herebin yed <<EOF
+#/bin/sh
+java -jar /opt/${PN}/${MY_PN}.jar
+EOF
+}
+
