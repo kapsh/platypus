@@ -1,0 +1,27 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools test=pytest ]
+
+SUMMARY="Provides an uniform layer to support PyQt5, PySide2 and PySide with a single codebase"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+# Also can use PySide2 but it's unwritten. And PyQt4 but who on Earth wants to use it now?
+MYOPTIONS="
+    providers:
+        pyqt5
+        pyside
+"
+
+DEPENDENCIES="
+    build+run:
+        providers:pyqt5? ( dev-python/PyQt5[python_abis:*(-)?] )
+        providers:pyside? ( dev-python/PySide[python_abis:*(-)?] )
+"
+
+# Tests are mostly testing availability of PyQt5 parts.
+# Restrict them as this heavily depends on enabled PyQt options.
+RESTRICT="test"
+
