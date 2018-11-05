@@ -1,0 +1,44 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=martchus tag=v${PV} ]
+require cmake [ api=2 ]
+
+SUMMARY="A tag editor with Qt GUI and command-line interface"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        x11-libs/qttools:5
+    build+run:
+        dev-libs/cpp-utilities[>=4.12]
+        dev-libs/qtutilities[>=5.7.0]
+        media-libs/tagparser[>=8.0.0]
+        x11-libs/qtbase:5[gui]
+        x11-libs/qtscript:5
+        x11-libs/qtwebkit:5
+"
+
+CMAKE_SRC_CONFIGURE_PARAMS=(
+    # webview is optionally used only in file info box
+    -DWEBVIEW_PROVIDER=none
+)
+
+CMAKE_SRC_CONFIGURE_TESTS=(
+    -DEXCLUDE_TESTS_FROM_ALL:BOOL=OFF
+)
+
+# Wants multiple media files for tests
+RESTRICT="test"
+
+src_install() {
+    default
+
+    # Hack: project uses cmake modules from cpp-utilities and they install shared things into /usr/host/share.
+    edo mv ${IMAGE}/usr/$(exhost --target)/share ${IMAGE}/usr/
+}
+
