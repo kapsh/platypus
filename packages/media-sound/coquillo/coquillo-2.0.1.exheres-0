@@ -1,0 +1,33 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require qmake [ slot=5 ] github [ user=sjuvonen tag=v${PV} ]
+
+SUMMARY="Metadata editor for various audio formats"
+DESCRIPTION="
+Features in short:
+- Integrated MusicBrainz support.
+- Rename files based on tags en masse.
+- Parse tags from filenames based on patterns.
+- Generate track/album/disc numbers automatically.
+- Bookmarks to switch between locations quickly.
+"
+HOMEPAGE="https://www.linux-apps.com/content/show.php/Coquillo?content=141896"
+
+LICENCES="LGPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        media-libs/libmusicbrainz:5
+        media-libs/taglib
+        x11-libs/qtbase:5[gui]
+        x11-libs/qtmultimedia:5
+"
+
+src_prepare() {
+    edo sed "/^\s\+target.path/ s|PREFIX/bin|PREFIX/$(exhost --target)/bin|" -i ${PN}.pro
+}
+
