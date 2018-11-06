@@ -1,0 +1,47 @@
+Upstream: https://github.com/hluk/CopyQ/pull/1037
+
+From ce7e71d2fff389994b834c2e8ac04c2c739441a9 Mon Sep 17 00:00:00 2001
+From: Alexander Kapshuna <kapsh@kap.sh>
+Date: Wed, 7 Nov 2018 01:10:56 +0300
+Subject: [PATCH] Use GNUInstallDirs to install arch-independent data
+
+This allows better control on installation directories which helps on
+distributions with multiarch layout. Executables and libraries go into
+/usr/arch/{bin,lib} and architecture independent files will be installed in /usr/share.
+---
+ CMakeLists.txt | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8e62b0b2..8d094997 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -18,16 +18,18 @@ OPTION(PEDANTIC "Enable all compiler warnings" OFF)
+ # Options (cmake -LH)
+ OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
+ OPTION(WITH_PLUGINS "Compile plugins" ON)
++
+ # Unix-specific options
+ if (UNIX AND NOT APPLE)
++    include(GNUInstallDirs)
+     set(PLUGIN_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_SHARED_MODULE_PREFIX}/copyq/plugins" CACHE PATH "Install path for plugins")
+-    set(ICON_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps" CACHE PATH "Install path for icons")
+-    set(ICON_INSTALL_PREFIX_TEMPLATE "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/%SIZE%/apps" CACHE PATH "Install path for icons (%SIZE% is icon size)")
+-    set(THEME_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/themes" CACHE PATH "Install path for themes")
+-    set(DESKTOP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/applications" CACHE PATH "Install path for desktop file")
+-    set(APPDATA_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/metainfo" CACHE PATH "Install path for AppData file")
+-    set(MANPAGE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/man/man1" CACHE PATH "Install path for manual pages")
+-    set(TRANSLATION_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/translations" CACHE PATH "Install path for translations")
++    set(ICON_INSTALL_PREFIX "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps" CACHE PATH "Install path for icons")
++    set(ICON_INSTALL_PREFIX_TEMPLATE "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/%SIZE%/apps" CACHE PATH "Install path for icons (%SIZE% is icon size)")
++    set(THEME_INSTALL_PREFIX "${CMAKE_INSTALL_DATAROOTDIR}/copyq/themes" CACHE PATH "Install path for themes")
++    set(DESKTOP_INSTALL_PREFIX "${CMAKE_INSTALL_DATAROOTDIR}/applications" CACHE PATH "Install path for desktop file")
++    set(APPDATA_INSTALL_PREFIX "${CMAKE_INSTALL_DATAROOTDIR}/metainfo" CACHE PATH "Install path for AppData file")
++    set(MANPAGE_INSTALL_PREFIX "${CMAKE_INSTALL_MANDIR}/man1" CACHE PATH "Install path for manual pages")
++    set(TRANSLATION_INSTALL_PREFIX "${CMAKE_INSTALL_DATAROOTDIR}/copyq/translations" CACHE PATH "Install path for translations")
+     set(ICON_NAME "copyq" CACHE STRING "Name for icon files")
+ endif()
+
+--
+2.19.1
+
