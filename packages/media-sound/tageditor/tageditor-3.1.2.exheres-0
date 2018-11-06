@@ -20,7 +20,6 @@ DEPENDENCIES="
         media-libs/tagparser[>=8.0.0]
         x11-libs/qtbase:5[gui]
         x11-libs/qtscript:5
-        x11-libs/qtwebkit:5
 "
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
