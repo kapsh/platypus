@@ -13,6 +13,7 @@ greatly reducing boilerplate and merging CI and shell-based testing.
 HOMEPAGE="https://tox.readthedocs.org/"
 
 LICENCES="MIT"
+PLATFORMS="~amd64"
 SLOT="0"
 MYOPTIONS=""
 
@@ -33,9 +34,6 @@ DEPENDENCIES="
         dev-python/pytest-xdist[python_abis:*(-)?]
 "
 
-# You shall not pass
-# One test fails on py2 because of virtualenv bug https://github.com/pypa/virtualenv/issues/395
-# Some tests require pytest-randomly (unwritten)
-# Some tests want internet access to download packages (TODO maybe because missing deps?)
+# Requires unpackaged pytest-randomly which requires another load of unpackaged.
 RESTRICT="test"
 
