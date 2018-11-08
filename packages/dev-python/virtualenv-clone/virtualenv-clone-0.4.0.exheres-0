@@ -1,0 +1,23 @@
+# Copyright 2012 NAKAMURA Yoshitaka
+# Distributed under the terms of the GNU General Public License v2
+
+GITHUB_REVISION=168f8b70af723d084eac38656674e81dcec6c286
+
+# Use github (untagged) as pypi have only .whl
+require github [ user=edwardgeorge ]
+require setup-py [ import=setuptools test=pytest work="${PN}-${GITHUB_REVISION}" ]
+
+SUMMARY="script to clone virtualenvs"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    test:
+        dev-python/virtualenv[python_abis:*(-)?]
+"
+
+# Tries to create virtualenvs, needs internet access for this.
+RESTRICT="test"
+
