@@ -6,11 +6,5 @@ Exherbo playground
 ```
 format = e
 location = /var/db/paludis/repositories/platypus
-sync = git+https://github.com/kapsh/platypus.git
-```
-or
-```
-format = e
-location = /var/db/paludis/repositories/platypus
 sync = git+https://gitlab.exherbo.org/kapsh/platypus.git
 ```
