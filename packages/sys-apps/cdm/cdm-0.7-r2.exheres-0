@@ -3,31 +3,31 @@
 
 require github [ user=evertiro tag="${PV}" ]
 
-export_exlib_phases src_install
-
 SUMMARY="Console Display Manager"
 
 LICENCES="GPL-2"
+PLATFORMS="~x86 ~amd64"
 SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build+run:
+    run:
         app-shells/bash
         sys-apps/dialog
+        x11-apps/xdpyinfo
 "
 
 DEFAULT_SRC_INSTALL_EXTRA_DOCS=(
     src/profile.sh
 )
 
-cdm_src_install() {
+src_install() {
     dobin src/cdm src/cdm-xlaunch
 
     insinto /etc/
     doins src/cdmrc
 
-    insinto "/usr/share/${PN}/themes"
+    insinto "/usr/share/${PN}/"
     doins -r themes
 
     emagicdocs
