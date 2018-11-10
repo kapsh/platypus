@@ -1,0 +1,63 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=varietywalls tag=${PV} ]
+require setup-py [ import=distutils test=nose blacklist="2 3.4" multibuild=false ]
+
+SUMMARY="Wallpaper downloader and manager for Linux systems"
+DESCRIPTION="
+Variety is a wallpaper manager for Linux systems. It supports numerous desktops
+and wallpaper sources, including local files and online services: Flickr,
+Wallhaven, Unsplash, and more.
+
+Where supported, Variety sits as a tray icon to allow easy pausing and resuming.
+Otherwise, its desktop entry menu provides a similar set of options.
+
+Variety also includes a range of image effects, such as oil painting and blur,
+as well as options to layer quotes and a clock onto the background.
+"
+HOMEPAGE="https://peterlevi.com/variety"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        dev-python/distutils-extra[>=2.18][python_abis:*(-)?]
+    build+run:
+        dev-libs/gexiv2[gobject-introspection]
+        dev-python/beautifulsoup4[python_abis:*(-)?]
+        dev-python/configobj[python_abis:*(-)?]
+        dev-python/lxml[python_abis:*(-)?]
+        dev-python/Pillow[python_abis:*(-)?]
+        dev-python/pycairo[python_abis:*(-)?]
+        dev-python/requests[python_abis:*(-)?]
+        dev-python/setuptools[python_abis:*(-)?] [[ note = [ needs pkg_resources ] ]]
+        gnome-bindings/pygobject[python_abis:*(-)?]
+        gnome-desktop/gobject-introspection:1
+        x11-libs/gdk-pixbuf[gobject-introspection]
+        x11-libs/gtk+:3[gobject-introspection]
+        x11-libs/libnotify[gobject-introspection]
+        x11-libs/pango[gobject-introspection]
+    suggestion:
+        dev-python/httplib2[python_abis:*(-)?] [[ description = [ for more quotes sources ] ]]
+        media-gfx/ImageMagick [[ description = [ image filters ] ]]
+"
+
+# Wants X and Internet access for tests.
+RESTRICT="test"
+
+pkg_setup() {
+    # Tries to access X on config.
+    unset DISPLAY
+}
+
+src_prepare() {
+    # Searching data paths fucked up as usual.
+    edo sed "s|self.prefix|'/usr'|" -i setup.py
+    # Awesome WM support disabled by default, uncomment it.
+    edo sed "/awesome-client/ s|^#||" -i data/scripts/set_wallpaper
+}
+
