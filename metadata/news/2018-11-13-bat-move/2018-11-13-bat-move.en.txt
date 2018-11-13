@@ -1,0 +1,10 @@
+Title: app-shells/bat::platypus moved to sys-apps/bat::rust
+Author: Alexander Kapshuna <kapsh@kap.sh>
+Content-Type: text/plain
+Posted: 2018-11-13
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: app-shells/bat
+
+app-shells/bat has been moved to sys-apps/bat::rust.
+Please uninstall old package and afterwards install new version.
