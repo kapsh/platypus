@@ -1,0 +1,44 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=zevv release=${PV} suffix=tar.gz ]
+
+SUMMARY="Suite of tools for inspecting disk usage"
+DESCRIPTION="
+Duc is a collection of tools for indexing, inspecting and visualizing disk usage.
+Duc maintains a database of accumulated sizes of directories of the file system, and allows you
+to query this database with some tools, or create fancy graphs showing you where your bytes are.
+"
+HOMEPAGE="https://duc.zevv.nl"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    cairo  [[ description = [ Build cairo based GUI ] ]]
+"
+
+DEPENDENCIES="
+    build+run:
+        dev-db/sqlite:3
+        cairo? (
+            dev-libs/glib:2
+            x11-libs/cairo
+            x11-libs/libX11
+            x11-libs/pango
+        )
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --with-db-backend=sqlite3
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    "cairo"
+    "cairo x11"
+)
+
+src_prepare() {
+    edo sed "/ldconfig/d" -i Makefile.am
+}
+
