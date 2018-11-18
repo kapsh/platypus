@@ -21,3 +21,10 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --with-python=/usr/$(exhost --target)/bin/python2.7
 )
 
+src_prepare() {
+    # Hardcoded path /usr/share/docs/udis86/x86
+    edo sed "s|^docdir =.\+$|docdir = @docdir@/x86|" \
+        -i docs/x86/Makefile.am
+    autotools_src_prepare
+}
+
