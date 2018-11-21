@@ -24,10 +24,6 @@ DEPENDENCIES="
         x11-libs/qtx11extras:5
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/Use-GNUInstallDirs-to-install-arch-independent-data.patch"
-)
-
 CMAKE_SRC_CONFIGURE_PARAMS=(
     -DCMAKE_BUILD_TYPE=RelWithDebInfo
     -DWITH_WEBKIT=OFF
