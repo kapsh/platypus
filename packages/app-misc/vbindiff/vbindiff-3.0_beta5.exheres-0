@@ -1,0 +1,21 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Visual Binary Diff"
+DESCRIPTION="
+VBinDiff displays files in hexadecimal and ASCII (or EBCDIC). It can also display two files at once,
+and highlight the differences between them. Unlike diff, it works well with large files (up to 4 GB)
+"
+HOMEPAGE="https://www.cjmweb.net/vbindiff/"
+DOWNLOADS="${HOMEPAGE}/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        sys-libs/ncurses
+"
+
