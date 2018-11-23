@@ -3,8 +3,8 @@ Description=Tinyproxy is a light-weight HTTP proxy daemon for POSIX operating sy
 After=network.target
 
 [Service]
-PIDFile=/var/run/tinyproxy/tinyproxy.pid
-ExecStart=/usr/sbin/tinyproxy -c /etc/tinyproxy.conf -d
+PIDFile=/run/tinyproxy/tinyproxy.pid
+ExecStart=/usr/sbin/tinyproxy -c /etc/tinyproxy/tinyproxy.conf -d
 
 [Install]
 WantedBy=multi-user.target

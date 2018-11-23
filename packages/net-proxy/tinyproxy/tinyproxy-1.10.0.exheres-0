@@ -2,23 +2,27 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require systemd-service
+require github [ release=${PV} suffix=tar.xz ]
 
 SUMMARY="Tinyproxy is a light-weight HTTP proxy daemon for POSIX operating systems."
-HOMEPAGE="https://www.banu.com/tinyproxy/"
-DOWNLOADS="https://www.banu.com/pub/${PN}/$(ever range 1-2)/${PNV}.tar.bz2"
+HOMEPAGE="https://tinyproxy.github.io"
+
 SLOT="0"
 LICENCES="GPL-2"
 PLATFORMS="~amd64 ~x86"
 DEPENDENCIES="
-    app-doc/asciidoc
-    group/tinyproxy
-    user/tinyproxy
+    build:
+        app-doc/asciidoc
+    build+run:
+        group/tinyproxy
+        user/tinyproxy
 "
+MYOPTIONS="systemd"
+
 # PID-file will be created in /var/run, but /var/run is a link to /run.
 # in future, tinyproxy needs an other config, that it uses /run.
 # localstatedir can't be changed to / because /var/log.
 DEFAULT_SRC_CONFIGURE_PARAMS="--localstatedir=/var"
-MYOPTIONS="systemd"
 
 src_prepare() {
     c="etc/tinyproxy.conf.in"
