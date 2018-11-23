@@ -1,0 +1,10 @@
+#!/bin/openrc-run
+
+command="/usr/host/bin/tinyproxy"
+command_args=""
+pidfile="/run/${RC_SVCNAME}.pid"
+
+depend() {
+    need net
+}
+
