@@ -24,12 +24,10 @@ MYOPTIONS="systemd"
 # localstatedir can't be changed to / because /var/log.
 DEFAULT_SRC_CONFIGURE_PARAMS="--localstatedir=/var"
 
-src_prepare() {
-    c="etc/tinyproxy.conf.in"
-    b="${c}.bk"
-    option systemd && expatch "${FILES}/systemd.patch"
-    expatch "${FILES}/user.patch"
-}
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/user.patch"
+    "${FILES}/pid.patch"
+)
 
 src_install() {
     default
