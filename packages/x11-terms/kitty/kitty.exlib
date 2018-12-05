@@ -3,11 +3,14 @@
 #   Copyright 2018 Danilo Spinella <danyspin97@protonmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=kovidgoyal tag="v${PV}" ]
-require python [ blacklist="2 3.4" multibuild=false has_bin=true has_lib=false ]
+# TODO also could use wayland.
+# TODO makeshift setup.py is just broken, fix this install
+
+require github [ user=kovidgoyal release="v${PV}" suffix=tar.xz ]
+require python [ blacklist="2 3.4" multibuild=false ]
 require gtk-icon-cache
 
-export_exlib_phases src_compile src_install pkg_postinst pkg_postrm
+export_exlib_phases src_compile src_test src_install
 
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
@@ -28,7 +31,6 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build:
-        dev-python/Sphinx[python_abis:*(-)?]
         virtual/pkg-config
     build+run:
         media-libs/fontconfig
@@ -47,19 +49,16 @@ DEPENDENCIES="
 "
 
 kitty_src_compile() {
-    PKGCONFIG_EXE="${PKG_CONFIG}" edo "${PYTHON}" -B setup.py linux-package \
-        --prefix "${IMAGE}/usr/$(exhost --target)"
+    PKGCONFIG_EXE="${PKG_CONFIG}" \
+        edo "${PYTHON}" -B setup.py linux-package \
+            --prefix "${IMAGE}/usr/$(exhost --target)"
+}
+
+kitty_src_test() {
+    edo ${PYTHON} -B setup.py test
 }
 
 kitty_src_install() {
     edo mv "${IMAGE}/usr/$(exhost --target)/share/" "${IMAGE}/usr/"
-}
-
-kitty_pkg_postinst() {
-    gtk-icon-cache_pkg_postinst
-}
-
-kitty_pkg_postrm() {
-    gtk-icon-cache_pkg_postrm
 }
 
