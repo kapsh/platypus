@@ -14,6 +14,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
+        dev-db/sqlite:3
         x11-libs/qtmultimedia:5
         x11-libs/qtwebkit:5
         x11-libs/qtbase:5[gui][sqlite]
