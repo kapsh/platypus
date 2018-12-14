@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require idea-community [ build="183.4588.161" ]
+require idea-community [ build="183.4588.61" ]
 
 PLATFORMS="~amd64"
 
