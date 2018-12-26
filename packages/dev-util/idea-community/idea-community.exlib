@@ -3,8 +3,7 @@
 
 require jetbrains-ide [ launcher="bin/idea.sh" desktop_file="${FILES}/jetbrains-idea-ce.desktop" ]
 
-myexparam build
-exparam -v my_build build
+export_exlib_phases src_unpack
 
 SUMMARY="Java IDE for Professional Developers"
 HOMEPAGE="https://www.jetbrains.com/idea/"
@@ -14,5 +13,8 @@ LICENCES="Apache-2.0"
 SLOT="0"
 MYOPTIONS=""
 
-WORK="${WORKBASE}/idea-IC-${my_build}"
+idea-community_src_unpack() {
+    default
+    edo mv idea-IC-* ${PNV}
+}
 
