@@ -13,6 +13,21 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    run:
+        dev-libs/glib:2
+        dev-libs/libxml2:2.0
+        dev-libs/libxslt
+        media-libs/freetype:2
+        sys-sound/alsa-lib
+        x11-libs/cairo
+        x11-libs/gdk-pixbuf:2.0
+        x11-libs/gtk+:2
+        x11-libs/libX11
+        x11-libs/libXext
+        x11-libs/libXi
+        x11-libs/libXrender
+        x11-libs/libXtst
+        x11-libs/pango
 "
 
 UPSTREAM_DOCUMENTATION="https://confluence.jetbrains.com/display/JRE/JetBrains+Runtime"
