@@ -1,0 +1,28 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools blacklist=2 ]
+
+SUMMARY="Markdown and reStructuredText editor"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/chardet[>=2.3][python_abis:*(-)?]
+        dev-python/docutils[python_abis:*(-)?]
+        dev-python/Markdown[python_abis:*(-)?]
+        dev-python/Markups[>=2.0][python_abis:*(-)?]
+        dev-python/Pygments[python_abis:*(-)?]
+        dev-python/PyQt5[python_abis:*(-)?]
+    suggestion:
+        dev-python/pyenchant[python_abis:*(-)?]  [[
+            description = [ Spell checking support ] ]]
+"
+
+# Requires access to X server for testing
+RESTRICT="test"
+
