@@ -1,0 +1,19 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools ]
+
+SUMMARY="A wrapper around various text markups"
+
+LICENCES="BSD-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/docutils[python_abis:*(-)?]
+        dev-python/Pygments[python_abis:*(-)?]
+        dev-python/python-markdown-math[python_abis:*(-)?]
+"
+
