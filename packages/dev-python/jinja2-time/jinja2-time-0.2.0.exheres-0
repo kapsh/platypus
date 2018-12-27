@@ -1,0 +1,20 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require pypi setup-py [ import=setuptools test=pytest ]
+
+SUMMARY="Jinja2 extension for dates and times"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/Jinja2[python_abis:*(-)?]
+        dev-python/arrow[python_abis:*(-)?]
+    test:
+        dev-python/freezegun[python_abis:*(-)?]
+"
+
