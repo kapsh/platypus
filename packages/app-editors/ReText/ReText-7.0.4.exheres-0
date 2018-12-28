@@ -29,6 +29,6 @@ RESTRICT="test"
 prepare_one_multibuild() {
     default
     # TODO is this name provided by some exlib?
-    sed 's|lrelease|lrelease-qt5|g' -i setup.py
+    edo sed 's|lrelease|lrelease-qt5|g' -i setup.py
 }
 
