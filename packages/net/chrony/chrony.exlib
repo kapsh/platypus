@@ -7,7 +7,7 @@ require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/chrony" ] ]
 export_exlib_phases src_prepare src_compile src_install pkg_postinst
 
 SUMMARY="Versatile implementation of the Network Time Protocol"
-HOMEPAGE="http://chrony.tuxfamily.org/"
+HOMEPAGE="https://chrony.tuxfamily.org/"
 DESCRIPTION="
 chrony can synchronise the system clock with NTP servers, reference clocks (e.g. GPS receiver),
 and manual input using wristwatch and keyboard. It can also operate as an NTPv4 (RFC 5905)
@@ -29,22 +29,20 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build+run:
-        user/ntp
-        sys-libs/libcap [[ description = [ For dropping root privilegies ] ]]
+        dev-libs/libedit [[ description = [ Line editing support in chronyc ] ]]
+        dev-libs/nss [[ description = [ Support NTP authentification with a symmetric key ] ]]
+        sys-libs/libcap [[ description = [ Support dropping root privilegies ] ]]
         sys-libs/ncurses
-        sys-libs/readline
-        || (
-            dev-libs/nettle
-            dev-libs/nss
-        ) [[ *description = [ Support for hashes other than MD5 ] ]]
+        user/ntp
         seccomp? ( sys-libs/libseccomp )
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --localstatedir=/var  # XXX: to avoid installing /var/lib/lib/chrony
     --sysconfdir=/etc/chrony
-    # XXX: to avoid installing /var/lib/lib/chrony
-    --localstatedir=/var
     --with-user=ntp
+    --without-nettle  # use nss only
+    --without-readline  # force using libedit
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
