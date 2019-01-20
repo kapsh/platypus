@@ -15,7 +15,7 @@ export_exlib_phases src_compile src_test src_install
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
 displaying images, URL hints and it is fully controllable with keyboard."
-HOMEPAGE="https://sw.kovidgoyal.net/kitty/"
+HOMEPAGE="https://sw.kovidgoyal.net/${PN}/"
 
 LICENCES="GPL-3"
 SLOT="0"
@@ -47,6 +47,8 @@ DEPENDENCIES="
         providers:graphicsmagick? ( media-gfx/GraphicsMagick[imagemagick] )
         providers:imagemagick? ( media-gfx/ImageMagick )
 "
+
+UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 
 kitty_src_compile() {
     PKGCONFIG_EXE="${PKG_CONFIG}" \
