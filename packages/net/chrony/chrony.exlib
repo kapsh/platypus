@@ -4,7 +4,7 @@
 require systemd-service [ systemd_files=[ "examples/chronyd.service" ] ]
 require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/chrony" ] ]
 
-export_exlib_phases src_prepare src_compile src_install pkg_postinst
+export_exlib_phases src_prepare src_compile src_install
 
 SUMMARY="Versatile implementation of the Network Time Protocol"
 HOMEPAGE="https://chrony.tuxfamily.org/"
@@ -76,13 +76,5 @@ chrony_src_install() {
     hereins 50-chrony.list <<EOF
 chronyd.service
 EOF
-}
-
-chrony_pkg_postinst() {
-    # XXX: old exheres uses chrony user
-    edo chown ntp /var/lib/chrony
-    if [[ -f /var/lib/chrony/drift ]]; then
-        edo chown ntp:ntp /var/lib/chrony/drift
-    fi
 }
 
