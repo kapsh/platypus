@@ -51,6 +51,7 @@ DEPENDENCIES="
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 
 kitty_src_compile() {
+    # Actually installs after compiling
     PKGCONFIG_EXE="${PKG_CONFIG}" \
         edo "${PYTHON}" -B setup.py linux-package \
             --prefix "${IMAGE}/usr/$(exhost --target)"
@@ -62,5 +63,10 @@ kitty_src_test() {
 
 kitty_src_install() {
     edo mv "${IMAGE}/usr/$(exhost --target)/share/" "${IMAGE}/usr/"
+    edo mv "${IMAGE}/usr/share/doc/${PN}" "${IMAGE}/usr/share/doc/${PNV}"
+    emagicdocs
+    local def_config="$(edo ls ${IMAGE}/usr/share/doc/${PNV}/html/_downloads/*/${PN}.conf)"
+    insinto "/etc/xdg/${PN}"
+    doins "${def_config}"
 }
 
