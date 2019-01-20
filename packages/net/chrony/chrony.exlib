@@ -14,11 +14,10 @@ and manual input using wristwatch and keyboard. It can also operate as an NTPv4 
 server and peer to provide a time service to other computers in the network."
 
 if ever is_scm ; then
-    SCM_REPOSITORY="git://git.tuxfamily.org/gitroot/chrony/chrony.git"
-    DOWNLOADS=""
+    SCM_REPOSITORY="git://git.tuxfamily.org/gitroot/${PN}/${PN}.git"
     require scm-git
 else
-    DOWNLOADS="http://download.tuxfamily.org/chrony/${PNV}.tar.gz"
+    DOWNLOADS="https://download.tuxfamily.org/${PN}/${PNV}.tar.gz"
 fi
 
 LICENCES="GPL-2"
