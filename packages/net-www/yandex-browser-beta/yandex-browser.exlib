@@ -1,0 +1,48 @@
+# Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require freedesktop-desktop
+
+export_exlib_phases pkg_setup src_unpack src_prepare src_install
+
+SUMMARY="Chromium based web browser from Yandex"
+HOMEPAGE="https://browser.yandex.com"
+DOWNLOADS="https://repo.yandex.ru/${PN%-*}/deb/pool/main/y/${PN}/${PN}_${PV}-1_amd64.deb"
+
+LICENCES="yandex-browser-eula"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        app-arch/xz
+"
+
+UPSTREAM_RELEASE_NOTES="https://browser.yandex.ru/blog/"
+
+WORK="${WORKBASE}"
+
+yandex-browser_pkg_setup() {
+    exdirectory --allow /opt
+}
+
+yandex-browser_src_unpack() {
+    default
+    edo tar xf data.tar.xz
+}
+
+yandex-browser_src_prepare() {
+    default
+    edo rm -r usr/share/menu  # Debian specific thing
+    edo sed "/Exec/ s|/usr/bin/||" \
+        -i "usr/share/applications/${PN}.desktop"
+}
+
+yandex-browser_src_install() {
+    edo mv opt "${IMAGE}"
+    dodir /usr/share
+    edo mv usr/share "${IMAGE}/usr/"
+    dodir /usr/$(exhost --target)/bin
+    dosym "/opt/${PN/-//}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
+}
+
