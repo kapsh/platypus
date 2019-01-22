@@ -1,6 +1,10 @@
 # Copyright 2013 Nikolay Orlyuk
 # Distributed under the terms of the GNU General Public License v2
 
+require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/${PN}" ] ]
+
+VPNC_SCRIPTS="vpnc-scripts-20190117"  # maybe put this in separate package?
+
 SUMMARY="A client for Cisco's AnyConnect SSL VPN"
 DESCRIPTION="
 OpenConnect is a client for Cisco's AnyConnect SSL VPN, which is supported by the ASA5500 Series, by
@@ -8,7 +12,10 @@ IOS 12.4(9)T or later on Cisco SR500, 870, 880, 1800, 2800, 3800, 7200 Series an
 Routers, and probably others.
 "
 HOMEPAGE="https://www.infradead.org/openconnect/"
-DOWNLOADS="ftp://ftp.infradead.org/pub/${PN}/${PNV}.tar.gz"
+DOWNLOADS="
+    ftp://ftp.infradead.org/pub/${PN}/${PNV}.tar.gz
+    ftp://ftp.infradead.org/pub/vpnc-scripts/${VPNC_SCRIPTS}.tar.gz
+    "
 
 LICENCES="LGPL-2.1"
 SLOT="0"
@@ -51,4 +58,11 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     "providers:gnutls gnutls"
     "providers:openssl openssl"
 )
+
+src_install() {
+    default
+    exeinto /etc/${PN}
+    doexe "${WORKBASE}/${VPNC_SCRIPTS}/vpnc-script"
+    install_openrc_files
+}
 
