@@ -1,9 +1,9 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require freedesktop-desktop
+require freedesktop-desktop gtk-icon-cache
 
-export_exlib_phases pkg_setup src_unpack src_prepare src_install
+export_exlib_phases pkg_setup src_unpack src_prepare src_install pkg_postinst pkg_postrm
 
 SUMMARY="Chromium based web browser from Yandex"
 HOMEPAGE="https://browser.yandex.com"
@@ -39,10 +39,28 @@ yandex-browser_src_prepare() {
 }
 
 yandex-browser_src_install() {
+    local yab_home="opt/${PN/-//}"  # opt/yandex/PN
+
+    for s in 16 22 24 32 48 64 128 256 512; do
+        insinto /usr/share/icons/hicolor/${s}x${x}/apps
+        newins "${yab_home}/product_logo_${s}.png" "${PN}.png"
+    done
+
+    # TODO easier to do, but breaks $WORK
     edo mv opt "${IMAGE}"
-    dodir /usr/share
-    edo mv usr/share "${IMAGE}/usr/"
+    edo mv usr/share/* "${IMAGE}/usr/share"
+
     dodir /usr/$(exhost --target)/bin
-    dosym "/opt/${PN/-//}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
+    dosym "/${yab_home}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
+}
+
+yandex-browser_pkg_postinst() {
+    freedesktop-desktop_pkg_postinst
+    gtk-icon-cache_pkg_postinst
+}
+
+yandex-browser_pkg_postrm() {
+    freedesktop-desktop_pkg_postrm
+    gtk-icon-cache_pkg_postrm
 }
 
