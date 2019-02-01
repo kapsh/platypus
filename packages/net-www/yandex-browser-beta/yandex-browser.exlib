@@ -7,7 +7,10 @@ export_exlib_phases pkg_setup src_unpack src_prepare src_install pkg_postinst pk
 
 SUMMARY="Chromium based web browser from Yandex"
 HOMEPAGE="https://browser.yandex.com"
-DOWNLOADS="https://repo.yandex.ru/${PN%-*}/deb/pool/main/y/${PN}/${PN}_${PV}-1_amd64.deb"
+DOWNLOADS="
+    listed-only:
+        https://repo.yandex.ru/${PN%-*}/deb/pool/main/y/${PN}/${PN}_${PV}-1_amd64.deb
+"
 
 LICENCES="yandex-browser-eula"
 SLOT="0"
