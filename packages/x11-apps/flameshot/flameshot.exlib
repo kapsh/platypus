@@ -27,10 +27,10 @@ EQMAKE_PARAMS=(
     CONFIG+=packaging
 )
 
-# TODO make bash-completion optional
-
 flameshot_src_prepare() {
     edo sed -Ei 's#(target.path = \$\$\{PREFIX\})/bin#\1/'$(exhost --target)'/bin#' "${PN}.pro"
+    # TODO make bash-completion optional?
+    edo sed -Ei '/\s+completion \\/d' "${PN}.pro"
 }
 
 flameshot_pkg_postinst() {
