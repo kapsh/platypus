@@ -28,6 +28,7 @@ DEPENDENCIES="
         dev-python/toml[>=0.9.4][python_abis:*(-)?]
         dev-python/virtualenv[>=1.11.2][python_abis:*(-)?]
     test:
+        dev-python/freezegun[python_abis:*(-)?]
         dev-python/pytest-cov[python_abis:*(-)?]
         dev-python/pytest-mock[python_abis:*(-)?]
         dev-python/pytest-randomly[python_abis:*(-)?]
