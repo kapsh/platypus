@@ -1,7 +1,16 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require mdless
+require gem
 
+SUMMARY="Formatted and highlighted view of Markdown files in Terminal."
+HOMEPAGE="http://brettterpstra.com/projects/mdless/"
+
+LICENCES="MIT"
+SLOT="0"
 PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
 
