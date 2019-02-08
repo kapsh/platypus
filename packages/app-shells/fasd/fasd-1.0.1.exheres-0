@@ -1,7 +1,20 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require fasd
+require github [ user=clvv tag="${PV}" ]
 
+SUMMARY="Fasd offers quick access to files and directories for POSIX shells."
+
+LICENCES="MIT"
+SLOT="0"
 PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
+DEFAULT_SRC_INSTALL_PARAMS=(
+    PREFIX="/usr/"
+    BINDIR="/usr/$(exhost --target)/bin"
+)
 
