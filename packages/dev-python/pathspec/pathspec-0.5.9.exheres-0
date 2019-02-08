@@ -8,6 +8,7 @@ HOMEPAGE="https://python-path-specification.readthedocs.io/"
 
 LICENCES="MPL-2.0"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
