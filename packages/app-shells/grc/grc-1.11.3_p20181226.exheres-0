@@ -1,16 +1,16 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=garabik tag="v${PV}" ]
-require python [ blacklist=none ]
-require zsh-completion
+GITHUB_REVISION="b11c36fcba94ceb912d30400217af9f8f204111c"
 
-export_exlib_phases src_install pkg_postinst
+require github [ user=garabik ] zsh-completion
+require python [ blacklist=none has_lib=false has_bin=true ]
 
 SUMMARY="Generic Colouriser"
 
 LICENCES="GPL-2"
 SLOT="0"
+PLATFORMS="~x86 ~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
@@ -18,7 +18,7 @@ DEPENDENCIES="
 
 ZSH_COMPLETIONS=( _grc )
 
-grc_src_install() {
+src_install() {
     dobin grc grcat
 
     insinto "/etc"
@@ -36,7 +36,7 @@ grc_src_install() {
     zsh-completion_src_install
 }
 
-grc_pkg_postinst() {
+pkg_postinst() {
     einfo "Consult installed README to integrate 'grc' into your shell"
 }
 
