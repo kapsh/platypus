@@ -3,8 +3,6 @@
 
 require github [ user="so-fancy" tag="v${PV}" ]
 
-export_exlib_phases src_install
-
 SUMMARY="Good lookin' diffs"
 DESCRIPTION="diff-so-fancy strives to make your diff's human readable
 instead of machine readable. This helps improve code quality and help you spot defects faster.
@@ -12,6 +10,7 @@ instead of machine readable. This helps improve code quality and help you spot d
 
 LICENCES="MIT"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
@@ -19,7 +18,7 @@ DEPENDENCIES="
         dev-lang/perl:*
 "
 
-diff-so-fancy_src_install() {
+src_install() {
     # Ah, just drop fatpacked version for now.
     # TODO install DiffHighlight.pm separately.
     dobin "third_party/build_fatpack/diff-so-fancy"
