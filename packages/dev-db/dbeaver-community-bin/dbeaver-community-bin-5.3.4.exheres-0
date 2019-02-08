@@ -20,11 +20,14 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build+run:
+    run:
+        dev-libs/glib:2
         virtual/jre:*
+    recommendation:
+        dev-libs/libsecret:1
 "
 
-WORK="${WORKBASE}/dbeaver"  # omg hardcode
+WORK="${WORKBASE}/${PN%%-*}"
 
 pkg_setup() {
     exdirectory --allow /opt
