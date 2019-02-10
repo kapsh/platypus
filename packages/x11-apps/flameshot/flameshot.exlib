@@ -4,7 +4,7 @@
 require github [ user=lupoDharkael tag="v${PV}" ]
 require qmake [ slot=5 ] gtk-icon-cache
 
-export_exlib_phases src_prepare pkg_postinst pkg_postrm
+export_exlib_phases src_prepare
 
 SUMMARY="Powerful yet simple to use screenshot software"
 DESCRIPTION="
@@ -31,13 +31,5 @@ flameshot_src_prepare() {
     edo sed -Ei 's#(target.path = \$\$\{PREFIX\})/bin#\1/'$(exhost --target)'/bin#' "${PN}.pro"
     # TODO make bash-completion optional?
     edo sed -Ei '/\s+completion \\/d' "${PN}.pro"
-}
-
-flameshot_pkg_postinst() {
-    gtk-icon-cache_pkg_postinst
-}
-
-flameshot_pkg_postrm() {
-    gtk-icon-cache_pkg_postrm
 }
 
