@@ -1,0 +1,29 @@
+# Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=loh-tar tag=v${PV} ]
+
+SUMMARY="A pure bash session or application launcher"
+HOMEPAGE="https://loh-tar.github.io/${PN}"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~x86 ~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+"
+
+DEFAULT_SRC_INSTALL_EXTRA_DOCS=( doc/01_Manual.txt )
+
+src_prepare() {
+    edo sed "/docPath=/ s|${PN}|${PNV}|" -i src/${PN}
+}
+
+src_install() {
+    dobin src/${PN}
+    insinto /etc/xdg/${PN}
+    doins -r src/${PN}.conf themes
+    emagicdocs
+}
+
