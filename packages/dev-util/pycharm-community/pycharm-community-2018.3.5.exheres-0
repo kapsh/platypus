@@ -9,5 +9,6 @@ DOWNLOADS="https://download-cf.jetbrains.com/python/${PNV}.tar.gz"
 
 LICENCES="Apache-2.0"
 MYOPTIONS=""
+PLATFORMS="~amd64"
 SLOT="0"
 
