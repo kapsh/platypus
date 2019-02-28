@@ -3,17 +3,16 @@
 
 require jetbrains-ide [ launcher="bin/idea.sh" desktop_file="${FILES}/jetbrains-idea-ce.desktop" ]
 
-export_exlib_phases src_unpack
-
 SUMMARY="Java IDE for Professional Developers"
 HOMEPAGE="https://www.jetbrains.com/idea/"
 DOWNLOADS="https://download-cf.jetbrains.com/idea/ideaIC-${PV}-no-jdk.tar.gz"
 
 LICENCES="Apache-2.0"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS=""
 
-idea-community_src_unpack() {
+src_unpack() {
     default
     edo mv idea-IC-* ${PNV}
 }
