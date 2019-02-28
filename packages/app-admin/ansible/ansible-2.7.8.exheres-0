@@ -25,6 +25,7 @@ DEPENDENCIES="
         dev-python/PyYAML[python_abis:*(-)?]
         dev-python/setuptools[python_abis:*(-)?]
     suggestion:
+        app-admin/ansible-toolbox [[ description = [ Additional command line tools ] ]]
         dev-python/pywinrm[python_abis:*(-)?] [[ description = [ Manage Windows hosts ] ]]
         net-misc/sshpass [[ description = [ To use ssh connections with passwords ] ]]
 "
