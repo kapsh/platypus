@@ -1,0 +1,35 @@
+# Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require sourceforge [ project=libxosd suffix=tar.gz ]
+
+SUMMARY="XOSD displays text on your screen"
+DESCRIPTION="
+Library for overlaying text in X-Windows X-On-Screen-Display plus binary for sending text from CLI
+"
+HOMEPAGE="https://sourceforge.net/projects/libxosd/"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    xinerama
+"
+
+DEPENDENCIES="
+    build:
+        virtual/pkg-config
+        x11-proto/xorgproto
+    build+run:
+        x11-libs/libX11
+        x11-libs/libXext
+        xinerama? ( x11-libs/libXinerama )
+"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --hates={docdir,datarootdir}
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    xinerama
+)
+
