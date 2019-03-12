@@ -1,14 +1,17 @@
+# Upstream desktop file with changed paths
 [Desktop Entry]
 Version=1.0
 Type=Application
 Terminal=false
 Name=DBeaver Community
-GenericName=SQL Database Client
+GenericName=UniversaL Database Manager
 Comment=Universal Database Manager and SQL Client.
-Path=/opt/dbeaver-community-bin/
-Exec=/opt/dbeaver-community-bin/dbeaver
+Path=/opt/dbeaver-community-bin
+Exec=dbeaver
 Icon=/opt/dbeaver-community-bin/dbeaver.png
 Categories=IDE;Development
 WM_CLASS=DBeaver
 StartupWMClass=DBeaver
 StartupNotify=true
+Keywords=Database;SQL;IDE;JDBC;ODBC;MySQL;PostgreSQL
+MimeType=application/sql
