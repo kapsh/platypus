@@ -19,7 +19,7 @@ DOWNLOADS="
 
 LICENCES="LGPL-2.1"
 SLOT="0"
-PLATFORMS="~amd64 ~armv7"
+PLATFORMS="~amd64 ~armv7 ~armv8"
 MYOPTIONS="
     lz4
     ( providers: gnutls openssl ) [[ number-selected = exactly-one ]]
