@@ -21,8 +21,8 @@ DEPENDENCIES="
     build:
         dev-python/setuptools_scm[python_abis:*(-)?]
     build+run:
-        dev-python/pluggy[>=0.3.0&<1.0][python_abis:*(-)?]
         dev-python/filelock[>=3.0.0&<4][python_abis:*(-)?]
+        dev-python/pluggy[>=0.3.0&<1.0][python_abis:*(-)?]
         dev-python/py[>=1.4.17&<2][python_abis:*(-)?]
         dev-python/six[>=1.0.0&<2][python_abis:*(-)?]
         dev-python/toml[>=0.9.4][python_abis:*(-)?]
