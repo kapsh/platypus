@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-# TODO one does not simply: run ansible's tests
+# TODO one does not simply run ansible's tests
 
 require setup-py [ import=setuptools ]
 
@@ -29,4 +29,6 @@ DEPENDENCIES="
         dev-python/pywinrm[python_abis:*(-)?] [[ description = [ Manage Windows hosts ] ]]
         net-misc/sshpass [[ description = [ To use ssh connections with passwords ] ]]
 "
+
+RESTRICT="test"
 
