@@ -1,6 +1,7 @@
 # Copyright 2011 NAKAMURA Yoshitaka
 # Distributed under the terms of the GNU General Public License v2
 
+require 66-service
 require systemd-service [ systemd_files=[ "examples/chronyd.service" ] ]
 require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/chrony" ] ]
 
@@ -69,6 +70,7 @@ chrony_src_install() {
     keepdir /var/lib/chrony
     edo chown ntp "${IMAGE}"/var/lib/chrony
 
+    install_66_files
     install_openrc_files
     install_systemd_files
 

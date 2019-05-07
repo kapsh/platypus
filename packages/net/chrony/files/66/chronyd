@@ -1,0 +1,15 @@
+[main]
+@type = longrun
+@name = chronyd
+@description = "Run the chrony daemon"
+@user = ( root )
+@options = ( env log )
+
+[start]
+@build = auto
+@execute = (
+    execl-cmdline -s { /usr/host/bin/chronyd -d ${CMD_ARGS} }
+)
+
+[environment]
+!CMD_ARGS=
