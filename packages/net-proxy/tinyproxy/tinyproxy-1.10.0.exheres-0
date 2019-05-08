@@ -31,9 +31,12 @@ DEFAULT_SRC_PREPARE_PATCHES=(
 
 src_install() {
     default
+
     keepdir /var/log/tinyproxy
-    if option systemd
-    then
+    insinto /etc/logrotate.d
+    newins "${FILES}/${PN}.logrotate" "${PN}"
+
+    if option systemd; then
         install_systemd_files
         insinto /usr/$(exhost --target)/lib/tmpfiles.d
         hereins tinyproxy.conf <<EOF
