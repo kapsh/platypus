@@ -57,7 +57,5 @@ pkg_setup() {
 src_prepare() {
     # Searching data paths fucked up as usual.
     edo sed "s|self.prefix|'/usr'|" -i setup.py
-    # Awesome WM support disabled by default, uncomment it.
-    edo sed "/awesome-client/ s|^#||" -i data/scripts/set_wallpaper
 }
 
