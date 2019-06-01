@@ -3,7 +3,7 @@
 
 require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/${PN}" ] ]
 
-VPNC_SCRIPTS="vpnc-scripts-20190117"  # maybe put this in separate package?
+VPNC_SCRIPTS="vpnc-scripts-20190425"  # maybe put this in separate package?
 
 SUMMARY="A client for Cisco's AnyConnect SSL VPN"
 DESCRIPTION="
