@@ -1,6 +1,9 @@
 # Copyright (c) 2009 Jan Meier
 # Distributed under the terms of the GNU General Public License v2
 
+require openrc-service \
+    systemd-service [ systemd_files=[ "examples/systemd" ] ]
+
 SUMMARY="vnStat is a console-based network traffic monitor for Linux."
 HOMEPAGE="https://humdi.net/${PN}/"
 DOWNLOADS="${HOMEPAGE}/${PNV}.tar.gz"
@@ -21,8 +24,19 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --disable-image-output  # TODO gd option for vnstati?
 )
 
+src_prepare() {
+    edo sed -i cfg/vnstat.conf \
+        -e 's/DaemonUser ""/DaemonUser "vnstat"/' \
+        -e 's/DaemonGroup ""/DaemonGroup "vnstat"/'
+}
+
 src_install() {
-    keepdir /var/lib/vnstat
     default
+    install_openrc_files
+    install_systemd_files
+    insinto /etc
+    doins cfg/vnstat.conf
+    keepdir /var/lib/vnstat
+    edo chown vnstat:vnstat "${IMAGE}/var/lib/vnstat"
 }
 

@@ -1,0 +1,11 @@
+#!/usr/host/bin/openrc-run
+
+command="/usr/host/bin/vnstatd"
+description="vnStat network traffic monitor"
+command_args_background="-d"
+pidfile="/run/vnstat/${RC_SVCNAME}.pid"
+
+depend() {
+    need net
+}
+
