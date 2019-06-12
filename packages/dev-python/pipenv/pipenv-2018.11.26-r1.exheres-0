@@ -24,7 +24,6 @@ DEPENDENCIES="
         dev-python/setuptools[>=36.2.1][python_abis:*(-)?]
         dev-python/virtualenv[python_abis:*(-)?]
         dev-python/virtualenv-clone[>=0.2.5][python_abis:*(-)?]
-        python_abis:3.4? ( dev-python/typing[python_abis:3.4] )
     test:
         dev-python/flaky[python_abis:*(-)?]
 "
