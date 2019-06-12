@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=varietywalls tag=${PV} ]
-require setup-py [ import=distutils test=nose blacklist="2 3.4" multibuild=false ]
+require setup-py [ import=distutils test=nose blacklist="2" multibuild=false ]
 
 SUMMARY="Wallpaper downloader and manager for Linux systems"
 DESCRIPTION="
