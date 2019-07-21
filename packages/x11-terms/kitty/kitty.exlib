@@ -8,7 +8,7 @@
 
 require github [ user=kovidgoyal release="v${PV}" suffix=tar.xz ]
 require python [ blacklist="2" multibuild=false ]
-require gtk-icon-cache
+require gtk-icon-cache zsh-completion
 
 export_exlib_phases src_compile src_test src_install
 
@@ -50,6 +50,8 @@ DEPENDENCIES="
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 
+ZSH_COMPLETIONS=( "${FILES}/_${PN}" )
+
 kitty_src_compile() {
     # Actually installs after compiling
     PKGCONFIG_EXE="${PKG_CONFIG}" \
@@ -68,5 +70,6 @@ kitty_src_install() {
     local def_config="$(edo ls ${IMAGE}/usr/share/doc/${PNV}/html/_downloads/*/${PN}.conf)"
     insinto "/etc/xdg/${PN}"
     doins "${def_config}"
+    zsh-completion_src_install
 }
 
