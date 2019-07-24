@@ -11,8 +11,10 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        dev-libs/glm
     build+run:
-        dev-libs/icu
+        dev-libs/icu:=
         media-libs/glew
         x11-dri/mesa
         x11-libs/libX11
