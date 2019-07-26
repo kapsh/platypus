@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require jetbrains-ide [ launcher="bin/pycharm.sh" desktop_file="${FILES}/jetbrains-pycharm-ce.desktop" ]
+require jetbrains-ide
 
 SUMMARY="Python IDE for Professional Developers"
 HOMEPAGE="https://www.jetbrains.com/pycharm/"

@@ -1,31 +1,36 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-# Common installation procedure for JetBrains IDE's.
+# Exlib for JetBrains Intellij Platform based products
 
-export_exlib_phases pkg_setup src_install pkg_postinst
+# Required artifacts
+#
+# Distribution parts (as for for product-edition)
+#   bin/product.sh - installed as /usr/bin/product-edition
+#   bin/product.png - icon for desktop file
+# Files:
+#   $FILES/$PN.desktop - desktop file to run product from /usr/bin
 
-myexparam launcher
-myexparam desktop_file
+require gtk-icon-cache
 
-BUGS_TO="https://youtrack.jetbrains.com/issues"
+export_exlib_phases pkg_setup src_prepare src_install
 
 MYOPTIONS="
-    ( providers:
-        intellij-jdk
-        system-jdk
-    ) [[
+    ( providers: jetbrains-jre system-jre ) [[
         *description = [ Boot JDK provider ]
         number-selected = at-least-one
     ]]
 "
 
 DEPENDENCIES="
-    build+run:
-        providers:intellij-jdk? ( dev-java/intellij-jdk )
-        providers:system-jdk? ( virtual/jdk:* )
+    run:
+        dev-libs/glib:2
+        providers:jetbrains-jre? ( dev-java/jetbrains-runtime )
+        providers:system-jre? ( virtual/jre:* )
 "
 
+# These files should be executable
+MY_LAUNCHER="bin/${PN%-*}.sh"
 JETBRAINS_EXECUTABLES=(
     bin/format.sh
     bin/fsnotifier
@@ -39,33 +44,37 @@ jetbrains-ide_pkg_setup() {
     exdirectory --allow /opt
 }
 
+jetbrains-ide_src_prepare() {
+    nonfatal edo rm -r jbr # provided by jetbrains-runtime
+    # Wrong architecture
+    nonfatal edo rm -r \
+        bin/fsnotifier-arm \
+        lib/pty4j-native/linux/ppc64le
+
+    # Use JBR automatically
+    if optionq "providers:jetbrains-jre"; then
+        edo sed "1a JAVA_HOME=/opt/jetbrains-runtime" \
+            -i "${MY_LAUNCHER}"
+    fi
+}
+
 jetbrains-ide_src_install() {
-    exparam -v my_launcher launcher
-    exparam -v my_desktop_file desktop_file
-
     local dest="/opt/${PN}"
-    dodir "${dest}"
-
-    nonfatal edo rm -r jre64  # provided by intellij-jdk package
 
     insinto "${dest}"
     doins -r ./*
 
-    for exe in "${my_launcher}" "${JETBRAINS_EXECUTABLES[@]}"; do
+    for exe in "${MY_LAUNCHER}" "${JETBRAINS_EXECUTABLES[@]}"; do
         edo chmod a+x "${IMAGE}/${dest}/${exe}"
     done
 
     dodir "/usr/$(exhost --target)/bin"
-    dosym "${dest}/${my_launcher}" "/usr/$(exhost --target)/bin/${PN}"
+    dosym "${dest}/${MY_LAUNCHER}" "/usr/$(exhost --target)/bin/${PN}"
+
+    insinto /usr/share/icons/hicolor/128x128/apps
+    newins "bin/${PN%-*}.png" "${PN}.png"
 
     insinto "/usr/share/applications"
-    doins "${my_desktop_file}"
-}
-
-jetbrains-ide_pkg_postinst() {
-    if has_version dev-java/intellij-jdk; then
-        einfo 'Use "Switch boot JDK" action and select install location
-            of intellij-jdk to activate it'
-    fi
+    doins "${FILES}/${PN}.desktop"
 }
 
