@@ -1,0 +1,53 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Java runtime for IntelliJ Platform based products"
+HOMEPAGE="https://bintray.com/jetbrains/intellij-jbr"
+# 11.0.3.304.25 => 11_0_3-linux-x64-b304.25
+MY_PV="$(ever replace_all _ $(ever range 1-3))-linux-x64-b$(ever range 4-5)"
+DOWNLOADS="https://jetbrains.bintray.com/intellij-jbr/jbr-${MY_PV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    run:
+        dev-libs/glib:2
+        media-libs/freetype:2
+        sys-sound/alsa-lib
+        x11-libs/cairo
+        x11-libs/gdk-pixbuf:2.0
+        x11-libs/gtk+:3
+        x11-libs/libX11
+        x11-libs/libXext
+        x11-libs/libXi
+        x11-libs/libXrender
+        x11-libs/libXtst
+        x11-libs/pango
+"
+
+UPSTREAM_DOCUMENTATION="https://confluence.jetbrains.com/display/JRE/JetBrains+Runtime"
+
+WORK="${WORKBASE}/jbr"
+
+pkg_setup() {
+    exdirectory --allow /opt
+}
+
+src_prepare() {
+    edo rm lib/libglassgtk2.so  # excess dependency
+}
+
+src_install() {
+    local dest="/opt/${PN}"
+
+    insinto "${dest}"
+    doins -r ./*
+
+    for exe in ${IMAGE}/${dest}/bin/*; do
+        edo chmod a+x "$exe"
+    done
+}
+
