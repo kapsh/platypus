@@ -20,10 +20,7 @@ HOMEPAGE="https://sw.kovidgoyal.net/${PN}/"
 LICENCES="GPL-3"
 SLOT="0"
 MYOPTIONS="
-    ( providers:
-        graphicsmagick
-        imagemagick
-    ) [[
+    ( providers: graphicsmagick imagemagick ) [[
         *description = [ Support for displaying images in terminal ]
         number-selected = at-most-one
     ]]
@@ -35,6 +32,7 @@ DEPENDENCIES="
     build+run:
         media-libs/fontconfig
         media-libs/freetype:=
+        media-libs/libcanberra
         media-libs/libpng:=
         sys-apps/dbus
         sys-libs/zlib
@@ -66,10 +64,12 @@ kitty_src_test() {
 kitty_src_install() {
     edo mv "${IMAGE}/usr/$(exhost --target)/share/" "${IMAGE}/usr/"
     edo mv "${IMAGE}/usr/share/doc/${PN}" "${IMAGE}/usr/share/doc/${PNV}"
-    emagicdocs
+
     local def_config="$(edo ls ${IMAGE}/usr/share/doc/${PNV}/html/_downloads/*/${PN}.conf)"
     insinto "/etc/xdg/${PN}"
     doins "${def_config}"
+
     zsh-completion_src_install
+    emagicdocs
 }
 
