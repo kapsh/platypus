@@ -1,0 +1,8 @@
+# Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require crow-translate
+require github [ force_git_clone=true ]
+
+PLATFORMS="~amd64"
+

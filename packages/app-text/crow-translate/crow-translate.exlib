@@ -1,7 +1,7 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_SECONDARY_REPOSITORIES="qonlinetranslator qhotkey qgittag singleapplication"
+SCM_SECONDARY_REPOSITORIES="qgittag qhotkey qonlinetranslator singleapplication"
 SCM_EXTERNAL_REFS="
     src/qgittag:qgittag
     src/qonlinetranslator:qonlinetranslator
@@ -13,7 +13,7 @@ SCM_qhotkey_REPOSITORY="https://github.com/Skycoder42/QHotkey.git"
 SCM_qonlinetranslator_REPOSITORY="https://github.com/crow-translate/QOnlineTranslator.git"
 SCM_singleapplication_REPOSITORY="https://github.com/itay-grudev/SingleApplication.git"
 
-require github [ force_git_clone=true ] qmake [ slot=5 ] gtk-icon-cache
+require qmake [ slot=5 ] gtk-icon-cache
 
 SUMMARY="Crow Translate - online text translator"
 DESCRIPTION="
@@ -23,16 +23,20 @@ HOMEPAGE="https://crow-translate.github.io/"
 
 LICENCES="GPL-3"
 SLOT="0"
-PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="
+    gstreamer [[ description = [ Speak original and translated text ] ]]
+"
 
-# TODO correct gstreamer related deps
 DEPENDENCIES="
     build+run:
         x11-libs/libX11
         x11-libs/qtbase:5[gui]
-        x11-libs/qtmultimedia:5
+        x11-libs/qtmultimedia:5[gstreamer?]
         x11-libs/qtx11extras:5
+    run:
+        gstreamer? (
+            media-plugins/gst-plugins-good:1.0[gstreamer_plugins:mpg123][gstreamer_plugins:soup]
+        )
 "
 
 src_prepare() {
