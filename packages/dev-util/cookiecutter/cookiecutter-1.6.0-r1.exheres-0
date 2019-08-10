@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require utf8-locale pypi setup-py [ import=setuptools test=pytest ]
+require zsh-completion
 
 SUMMARY="Utility to create project from project template"
 
@@ -20,13 +21,24 @@ DEPENDENCIES="
         dev-python/poyo[>=0.1.0][python_abis:*(-)?]
         dev-python/requests[>=2.18.0][python_abis:*(-)?]
         dev-python/whichcraft[>=0.4.0][python_abis:*(-)?]
+    test:
+        dev-python/freezegun[python_abis:*(-)?]
+        dev-python/pytest-cov[python_abis:*(-)?]
+        dev-python/pytest-mock[python_abis:*(-)?]
 "
 
 DEFAULT_SRC_PREPARE_PATCHES=(
     "${FILES}/click-7-tests.patch"
 )
 
+ZSH_COMPLETIONS=( "${FILES}/${PN}.zsh _${PN}" )
+
 pkg_setup() {
     require_utf8_locale  # for testing under python 2
+}
+
+src_install() {
+    setup-py_src_install
+    zsh-completion_src_install
 }
 
