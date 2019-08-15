@@ -45,6 +45,7 @@ jetbrains-ide_pkg_setup() {
 }
 
 jetbrains-ide_src_prepare() {
+    default
     nonfatal edo rm -r jbr # provided by jetbrains-runtime
     # Wrong architecture
     nonfatal edo rm -r \
