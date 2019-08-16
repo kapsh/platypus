@@ -6,3 +6,7 @@ require github [ force_git_clone=true ]
 
 PLATFORMS="~amd64"
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/lrelease.patch"
+)
+

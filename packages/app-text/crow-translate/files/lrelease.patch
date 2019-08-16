@@ -1,0 +1,22 @@
+Upstream: yes
+
+commit 99788c2583636acc7769bac0c903bde032117f2c
+Author: Alexander Kapshuna <kapsh@kap.sh>
+Date:   Tue Aug 13 22:26:07 2019 +0300
+
+    Use qtPrepareTool to find proper lrelease
+
+diff --git a/crow-translate.pro b/crow-translate.pro
+index 8f1e656..c615d9f 100644
+--- a/crow-translate.pro
++++ b/crow-translate.pro
+@@ -97,7 +97,8 @@ TRANSLATIONS += \
+     data/translations/crow_zh_CN.ts
+
+ # Compile translations
+-system(lrelease crow-translate.pro)
++qtPrepareTool(LRELEASE, lrelease)
++system($$LRELEASE crow-translate.pro) | error("Failed to run lrelease")
+
+ # Make install
+ unix {

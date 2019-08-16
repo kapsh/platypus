@@ -40,10 +40,9 @@ DEPENDENCIES="
 "
 
 src_prepare() {
-    # TODO upstream build fixes
+    default
     edo sed \
-        -e "s|lrelease|lrelease-qt5|" \
         -e "s|/usr/bin|/usr/$(exhost --target)/bin|" \
-        -i crow-translate.pro
+        -i ${PN}.pro
 }
 
