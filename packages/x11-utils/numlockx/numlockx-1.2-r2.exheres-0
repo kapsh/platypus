@@ -3,8 +3,9 @@
 # Based in part upon 'numlockx-1.1.ebuild' from Gentoo, which is:
 #     Copyright 1999-2008 Gentoo Foundation.
 
-require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.11 1.10 ] ]
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.16 ] ]
 
+# TODO homepage unavailable
 SUMMARY="Change Numlock status on X"
 HOMEPAGE="http://ktown.kde.org/~seli/numlockx"
 DOWNLOADS="http://ftp.de.debian.org/debian/pool/main/n/numlockx/${PN}_${PV}.orig.tar.gz"
@@ -24,9 +25,9 @@ DEPENDENCIES="
 "
 
 src_prepare() {
-    sed -i -e '/^K_.*$/d' configure.in || die "sed configure.in failed"
-    sed -i -e 's,@X_[_A-Z]\+@,,g' Makefile.am || die "sed Makefile.am failed"
-    eautoreconf
+    edo sed -e '/^K_PATH_X/d' -i configure.in
+    edo sed -e 's|@X_[_A-Z]\+@||g' -i Makefile.am
+    autotools_src_prepare
 }
 
 src_install(){
