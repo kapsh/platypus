@@ -37,7 +37,7 @@ src_install() {
     local dest="/opt/${PN}"
 
     insinto "${dest}"
-    doins -r ./*
+    doins -r .
 
     edo chmod +x "${IMAGE}/${dest}/dbeaver"
     dodir "/usr/$(exhost --target)/bin"
