@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require pypi setup-py [ blacklist="2 3.5" import=setuptools ]
+require bash-completion zsh-completion
 
 SUMMARY="Execute binaries from Python packages in isolated environments"
 HOMEPAGE+=" https://pipxproject.github.io/pipx/"
@@ -13,9 +14,19 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
+        dev-python/argcomplete[>=1.9.4&<2.0][python_abis:*(-)?]
         dev-python/userpath[python_abis:*(-)?]
 "
 
 # no tests in pypi distribution
 RESTRICT="test"
+
+BASH_COMPLETIONS=( "${FILES}/completion.sh" )
+ZSH_COMPLETIONS=( "${FILES}/completion.sh _${PN}" )
+
+src_install() {
+    setup-py_src_install
+    bash-completion_src_install
+    zsh-completion_src_install
+}
 
