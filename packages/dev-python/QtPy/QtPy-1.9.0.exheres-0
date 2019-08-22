@@ -9,7 +9,7 @@ LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
-    providers: ( pyqt5 pyside2 pyside ) [[
+    providers: ( pyqt5 pyside2 ) [[
         *number-selected = at-least-one
     ]]
 "
@@ -18,7 +18,6 @@ DEPENDENCIES="
     build+run:
         providers:pyqt5? ( dev-python/PyQt5[python_abis:*(-)?] )
         providers:pyside2? ( dev-python/PySide2[python_abis:*(-)?] )
-        providers:pyside? ( dev-python/PySide[python_abis:*(-)?] )
 "
 
 # Tests are mostly testing availability of PyQt5 parts.
@@ -26,7 +25,7 @@ DEPENDENCIES="
 RESTRICT="test"
 
 pkg_postinst() {
-    einfo "${PN} will use first found provider in order of preference: pyqt5, pyside2, pyside"
+    einfo "${PN} will use first found provider in order of preference: pyqt5, pyside2"
     einfo "To override this, environment variable QT_API can be set to one of these names"
 }
 
