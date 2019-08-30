@@ -8,5 +8,6 @@ PLATFORMS="~amd64 ~x86"
 DEPENDENCIES="
     build:
         app-text/asciidoctor
+        sys-devel/bison
 "
 
