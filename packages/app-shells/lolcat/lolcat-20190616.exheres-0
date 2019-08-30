@@ -1,23 +1,22 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-GITHUB_REVISION="ceb4d662f75bc7cd00f6823821acb737ef592489"
+# XXX PV should be 1_pDATE
+GITHUB_REVISION="35dca3d0a381496d7195cd78f5b24aa7b62f2154"
 require github [ user=jaseg ]
 
 SUMMARY="High-performance implementation of busyloop/lolcat"
 
-LICENCES="WTFPL"
+LICENCES="WTFPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
-    build+run:
 "
 
 src_install() {
-    dobin lolcat censor
+    dobin lolcat
     emagicdocs
 }
 
