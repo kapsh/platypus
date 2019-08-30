@@ -3,49 +3,76 @@
 
 require freedesktop-desktop gtk-icon-cache
 
-export_exlib_phases pkg_setup src_unpack src_prepare src_install pkg_postinst pkg_postrm
-
 SUMMARY="Chromium based web browser from Yandex"
 HOMEPAGE="https://browser.yandex.com"
 DOWNLOADS="
     listed-only:
-        https://repo.yandex.ru/${PN%-*}/deb/pool/main/y/${PN}/${PN}_${PV}-1_amd64.deb
+        https://repo.yandex.ru/yandex-browser/deb/pool/main/y/${PN}/${PN}_${PV}-1_amd64.deb
 "
 
 LICENCES="yandex-browser-eula"
+PLATFORMS="~amd64"
 SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
     build:
         app-arch/xz
+    run:
+        dev-libs/at-spi2-atk
+        dev-libs/at-spi2-core
+        dev-libs/atk
+        dev-libs/expat
+        dev-libs/glib:2
+        dev-libs/nspr
+        dev-libs/nss
+        net-print/cups
+        sys-apps/dbus
+        sys-sound/alsa-lib
+        x11-libs/cairo
+        x11-libs/gdk-pixbuf:2.0
+        x11-libs/gtk+:3
+        x11-libs/libX11
+        x11-libs/libxcb
+        x11-libs/libXcomposite
+        x11-libs/libXcursor
+        x11-libs/libXdamage
+        x11-libs/libXext
+        x11-libs/libXfixes
+        x11-libs/libXi
+        x11-libs/libXrandr
+        x11-libs/libXrender
+        x11-libs/libXScrnSaver
+        x11-libs/libXtst
+        x11-libs/pango
 "
 
 UPSTREAM_RELEASE_NOTES="https://browser.yandex.ru/blog/"
 
 WORK="${WORKBASE}"
 
-yandex-browser_pkg_setup() {
+pkg_setup() {
     exdirectory --allow /opt
 }
 
-yandex-browser_src_unpack() {
+src_unpack() {
     default
     edo tar xf data.tar.xz
 }
 
-yandex-browser_src_prepare() {
+src_prepare() {
     default
     edo rm -r usr/share/menu  # Debian specific thing
-    edo sed "/Exec/ s|/usr/bin/||" \
+    edo sed \
+        -e "/Exec/ s|/usr/bin/||" \
         -i "usr/share/applications/${PN}.desktop"
 }
 
-yandex-browser_src_install() {
+src_install() {
     local yab_home="opt/${PN/-//}"  # opt/yandex/PN
 
     for s in 16 22 24 32 48 64 128 256 512; do
-        insinto /usr/share/icons/hicolor/${s}x${x}/apps
+        insinto /usr/share/icons/hicolor/${s}x${s}/apps
         newins "${yab_home}/product_logo_${s}.png" "${PN}.png"
     done
 
@@ -57,12 +84,12 @@ yandex-browser_src_install() {
     dosym "/${yab_home}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
 }
 
-yandex-browser_pkg_postinst() {
+pkg_postinst() {
     freedesktop-desktop_pkg_postinst
     gtk-icon-cache_pkg_postinst
 }
 
-yandex-browser_pkg_postrm() {
+pkg_postrm() {
     freedesktop-desktop_pkg_postrm
     gtk-icon-cache_pkg_postrm
 }
