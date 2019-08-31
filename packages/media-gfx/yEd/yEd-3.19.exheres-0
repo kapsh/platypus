@@ -23,7 +23,7 @@ WORK="${WORKBASE}/${MY_PN}-${PV}"
 
 pkg_nofetch() {
     einfo "Download Zipped yEd Jar file from ${HOMEPAGE}/download"
-    einfo "and place it into ${FETCHEDDIR}"
+    einfo "(requires to accept license) and place it into ${FETCHEDDIR}"
 }
 
 pkg_setup() {
@@ -32,10 +32,17 @@ pkg_setup() {
 
 src_install() {
     insinto "/opt/${PN}"
-    doins -r ./*
+    doins -r .
+
     herebin yed <<EOF
 #/bin/sh
 java -jar /opt/${PN}/${MY_PN}.jar
 EOF
+
+    insinto /usr/share/icons/hicolor/32x32/apps
+    newins icons/yicon32.png yed-icon.png
+
+    insinto /usr/share/applications
+    doins "${FILES}/${PN}.desktop"
 }
 
