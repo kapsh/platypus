@@ -1,0 +1,167 @@
+Upstream: no
+Reason: respect Exherbo packaging rules
+
+diff --git a/setup.py b/setup.py
+index 68e47411..8849bc4f 100755
+--- a/setup.py
++++ b/setup.py
+@@ -42,7 +42,7 @@ _plat = sys.platform.lower()
+ is_macos = 'darwin' in _plat
+ env = None
+
+-PKGCONFIG = os.environ.get('PKGCONFIG_EXE', 'pkg-config')
++PKGCONFIG = os.environ.get('PKG_CONFIG', 'pkg-config')
+
+
+ def emphasis(text):
+@@ -202,7 +202,7 @@ def init_env(
+     df = '-g3'
+     if ccver >= (5, 0):
+         df += ' -Og'
+-    optimize = df if debug or sanitize else '-O3'
++    optimize = df if debug or sanitize else ''
+     sanitize_args = get_sanitize_args(cc, ccver) if sanitize else set()
+     cppflags = os.environ.get(
+         'OVERRIDE_CPPFLAGS', '-D{}DEBUG'.format('' if debug else 'N'),
+@@ -227,7 +227,7 @@ def init_env(
+     )
+     ldflags = os.environ.get(
+         'OVERRIDE_LDFLAGS',
+-        '-Wall ' + ' '.join(sanitize_args) + ('' if debug else ' -O3')
++        '-Wall ' + ' '.join(sanitize_args)
+     )
+     ldflags = shlex.split(ldflags)
+     ldflags.append('-shared')
+@@ -367,10 +367,7 @@ def dependecies_for(src, obj, all_headers):
+
+
+ def parallel_run(items):
+-    try:
+-        num_workers = max(2, os.cpu_count())
+-    except Exception:
+-        num_workers = 2
++    num_workers = int(os.environ.get('EXJOBS', 2))
+     items = list(reversed(items))
+     workers = {}
+     failed = None
+@@ -620,8 +617,6 @@ def build_launcher(args, launcher_dir='.', bundle_type='source'):
+             cflags.append('-g')
+         if args.profile:
+             libs.append('-lprofiler')
+-    else:
+-        cflags.append('-O3')
+     if bundle_type.endswith('-freeze'):
+         cppflags.append('-DFOR_BUNDLE')
+         cppflags.append('-DPYVER="{}"'.format(sysconfig.get_python_version()))
+@@ -631,7 +626,7 @@ def build_launcher(args, launcher_dir='.', bundle_type='source'):
+     if bundle_type.startswith('macos-'):
+         klp = '../Frameworks/kitty'
+     elif bundle_type.startswith('linux-'):
+-        klp = '../{}/kitty'.format(args.libdir_name.strip('/'))
++        klp = os.path.join(os.path.relpath(args.libdir_name, args.bindir_name), 'kitty')
+     elif bundle_type == 'source':
+         klp = os.path.relpath('.', launcher_dir)
+     else:
+@@ -672,8 +667,11 @@ make && make docs
+     shutil.copytree(src, os.path.join(mandir, 'man1'))
+
+
+-def copy_html_docs(ddir):
+-    htmldir = os.path.join(ddir, 'share', 'doc', appname, 'html')
++def copy_html_docs(ddir, docdir=None):
++    if docdir:
++        htmldir = os.path.join(ddir, docdir, 'html')
++    else:
++        htmldir = os.path.join(ddir, 'share', 'doc', appname, 'html')
+     safe_makedirs(os.path.dirname(htmldir))
+     with suppress(FileNotFoundError):
+         shutil.rmtree(htmldir)
+@@ -690,10 +688,8 @@ make && make docs
+ def compile_python(base_path):
+     import compileall
+     import py_compile
+-    try:
+-        num_workers = max(1, os.cpu_count())
+-    except Exception:
+-        num_workers = 1
++    num_workers = int(os.environ.get('EXJOBS', 1))
++
+     for root, dirs, files in os.walk(base_path):
+         for f in files:
+             if f.rpartition('.')[-1] in ('pyc', 'pyo'):
+@@ -705,14 +701,14 @@ def compile_python(base_path):
+         compileall.compile_dir(base_path, **kwargs)
+
+
+-def create_linux_bundle_gunk(ddir, libdir_name):
++def create_linux_bundle_gunk(ddir, bindir_name, libdir_name, docdir_name):
+     if not os.path.exists('docs/_build/html'):
+         run_tool(['make', 'docs'])
+     copy_man_pages(ddir)
+-    copy_html_docs(ddir)
+-    icdir = os.path.join(ddir, 'share', 'icons', 'hicolor', '256x256', 'apps')
++    copy_html_docs(ddir, docdir_name)
++    icdir = os.path.join(ddir, 'share', 'icons', 'hicolor', 'scalable', 'apps')
+     safe_makedirs(icdir)
+-    shutil.copy2('logo/kitty.png', icdir)
++    shutil.copy2('logo/kitty.svg', icdir)
+     deskdir = os.path.join(ddir, 'share', 'applications')
+     safe_makedirs(deskdir)
+     with open(os.path.join(deskdir, 'kitty.desktop'), 'w') as f:
+@@ -732,7 +728,7 @@ Categories=System;TerminalEmulator;
+             )
+     ddir = Path(ddir)
+     in_src_launcher = ddir / (libdir_name + '/kitty/kitty/launcher/kitty')
+-    launcher = ddir / 'bin/kitty'
++    launcher = ddir / bindir_name / 'kitty'
+     if os.path.exists(in_src_launcher):
+         os.remove(in_src_launcher)
+     os.makedirs(os.path.dirname(in_src_launcher), exist_ok=True)
+@@ -831,7 +827,7 @@ def package(args, bundle_type):
+     libdir = os.path.join(ddir, args.libdir_name.strip('/'), 'kitty')
+     if os.path.exists(libdir):
+         shutil.rmtree(libdir)
+-    launcher_dir = os.path.join(ddir, 'bin')
++    launcher_dir = os.path.join(ddir, args.bindir_name)
+     safe_makedirs(launcher_dir)
+     build_launcher(args, launcher_dir, bundle_type)
+     os.makedirs(os.path.join(libdir, 'logo'))
+@@ -868,7 +864,7 @@ def package(args, bundle_type):
+             path = os.path.join(root, f)
+             os.chmod(path, 0o755 if f.endswith('.so') else 0o644)
+     if not is_macos:
+-        create_linux_bundle_gunk(ddir, args.libdir_name)
++        create_linux_bundle_gunk(ddir, args.bindir_name, args.libdir_name, args.docdir_name)
+
+     if bundle_type.startswith('macos-'):
+         create_macos_bundle_gunk(ddir)
+@@ -953,11 +949,20 @@ def option_parser():  # {{{
+         action='store_true',
+         help='Internal use'
+     )
++    p.add_argument(
++        '--bindir-name',
++        default='bin',
++        help='The name of the directory inside --prefix in which to store compiled files. Defaults to "bin"'
++    )
+     p.add_argument(
+         '--libdir-name',
+         default='lib',
+         help='The name of the directory inside --prefix in which to store compiled files. Defaults to "lib"'
+     )
++    p.add_argument(
++        '--docdir-name',
++        help='The name of the directory inside --prefix in which to store documentation'
++    )
+     p.add_argument(
+         '--extra-logging',
+         action='append',
+@@ -969,7 +974,7 @@ def option_parser():  # {{{
+     p.add_argument(
+         '--update-check-interval',
+         type=float,
+-        default=24,
++        default=0,
+         help='When building a package, the default value for the update_check_interval setting will'
+         ' be set to this number. Use zero to disable update checking.'
+     )

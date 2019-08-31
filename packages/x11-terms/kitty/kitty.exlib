@@ -6,9 +6,9 @@
 # TODO also could use wayland.
 # TODO makeshift setup.py is just broken, fix this install
 
-require github [ user=kovidgoyal release="v${PV}" suffix=tar.xz ]
-require python [ blacklist="2" multibuild=false ]
-require gtk-icon-cache zsh-completion
+require github [ user=kovidgoyal release=v${PV} suffix=tar.xz ]
+require python [ blacklist=2 multibuild=false ]
+require bash-completion zsh-completion gtk-icon-cache
 
 export_exlib_phases src_compile src_test src_install
 
@@ -20,15 +20,19 @@ HOMEPAGE="https://sw.kovidgoyal.net/${PN}/"
 LICENCES="GPL-3"
 SLOT="0"
 MYOPTIONS="
+    wayland
     ( providers: graphicsmagick imagemagick ) [[
-        *description = [ Support for displaying images in terminal ]
+        *description = [ Display images with 'kitty icat' ]
         number-selected = at-most-one
     ]]
 "
 
+# TODO automagic wayland when option disabled but packages are present
 DEPENDENCIES="
     build:
+        sys-libs/ncurses [[ note = [ Calls tic to compile terminfo ] ]]
         virtual/pkg-config
+        wayland? ( sys-libs/wayland-protocols )
     build+run:
         media-libs/fontconfig
         media-libs/freetype:=
@@ -44,32 +48,42 @@ DEPENDENCIES="
         x11-libs/libXrandr
         providers:graphicsmagick? ( media-gfx/GraphicsMagick[imagemagick] )
         providers:imagemagick? ( media-gfx/ImageMagick )
+        wayland? ( sys-libs/wayland )
 "
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 
-ZSH_COMPLETIONS=( "${FILES}/_${PN}" )
+ZSH_COMPLETIONS=( "${FILES}/${PN}.zsh _${PN}" )
+BASH_COMPLETIONS=( "${FILES}/${PN}.bash" )
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/kitty-linux-package.patch"
+)
 
 kitty_src_compile() {
-    # Actually installs after compiling
-    PKGCONFIG_EXE="${PKG_CONFIG}" \
-        edo "${PYTHON}" -B setup.py linux-package \
-            --prefix "${IMAGE}/usr/$(exhost --target)"
+    edo ${PYTHON} -B setup.py -v \
+        --docdir-name share/doc/${PNVR} \
+        --bindir-name $(exhost --target)/bin \
+        --libdir-name $(exhost --target)/lib \
+        linux-package
 }
 
 kitty_src_test() {
-    edo ${PYTHON} -B setup.py test
+    KITTY_CONFIG_DIRECTORY="${TEMP}" \
+        edo ${PYTHON} -B test.py
 }
 
 kitty_src_install() {
-    edo mv "${IMAGE}/usr/$(exhost --target)/share/" "${IMAGE}/usr/"
-    edo mv "${IMAGE}/usr/share/doc/${PN}" "${IMAGE}/usr/share/doc/${PNV}"
+    local docs="linux-package/share/doc/${PNVR}/html"
+    local def_config="$(edo ls ${docs}/_downloads/*/${PN}.conf | head -n1)"
 
-    local def_config="$(edo ls ${IMAGE}/usr/share/doc/${PNV}/html/_downloads/*/${PN}.conf)"
     insinto "/etc/xdg/${PN}"
     doins "${def_config}"
 
+    edo rm -r "${docs}/_sources" # TODO why is this installed at all?
+    edo mv linux-package "${IMAGE}/usr"
+
+    bash-completion_src_install
     zsh-completion_src_install
-    emagicdocs
 }
 
