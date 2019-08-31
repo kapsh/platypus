@@ -1,19 +1,31 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-SCM_SECONDARY_REPOSITORIES="qgittag qhotkey qonlinetranslator singleapplication"
+SCM_SECONDARY_REPOSITORIES="
+    pvs_studio
+    qgittag
+    qhotkey
+    qonlinetranslator
+    qtaskbarcontrol
+    singleapplication
+"
 SCM_EXTERNAL_REFS="
     src/qgittag:qgittag
     src/qonlinetranslator:qonlinetranslator
+    src/third-party/pvs-studio:pvs_studio
     src/third-party/qhotkey:qhotkey
+    src/third-party/qtaskbarcontrol:qtaskbarcontrol
     src/third-party/singleapplication:singleapplication
 "
+SCM_pvs_studio_REPOSITORY="https://github.com/viva64/pvs-studio-qmake-examples.git"
 SCM_qgittag_REPOSITORY="https://github.com/Shatur95/QGitTag.git"
 SCM_qhotkey_REPOSITORY="https://github.com/Skycoder42/QHotkey.git"
 SCM_qonlinetranslator_REPOSITORY="https://github.com/crow-translate/QOnlineTranslator.git"
+SCM_qtaskbarcontrol_REPOSITORY="https://github.com/Skycoder42/QTaskbarControl.git"
 SCM_singleapplication_REPOSITORY="https://github.com/itay-grudev/SingleApplication.git"
 
 require qmake [ slot=5 ] gtk-icon-cache
+require github [ force_git_clone=true ]
 
 SUMMARY="Crow Translate - online text translator"
 DESCRIPTION="
