@@ -1,7 +1,8 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import=setuptools test=pytest ]
+# Blacklist 2: vendored py2-only yaml2 copy is annoying to deal with.
+require pypi setup-py [ blacklist=2 import=setuptools test=pytest ]
 
 SUMMARY="Pythonic task execution"
 DESCRIPTION="
@@ -9,7 +10,7 @@ Python library for managing shell-oriented subprocesses and organizing executabl
 into CLI-invokable tasks. It draws inspiration from various sources (make/rake, Fabric 1.x, etc)
 to arrive at a powerful & clean feature set.
 "
-HOMEPAGE="http://www.pyinvoke.org/"
+HOMEPAGE+=" http://www.pyinvoke.org/"
 
 LICENCES="BSD-3"
 SLOT="0"
@@ -23,4 +24,8 @@ DEPENDENCIES="
 # https://github.com/pyinvoke/invoke/blob/master/dev-requirements.txt
 # https://github.com/pyinvoke/invoke/blob/master/tasks-requirements.txt
 RESTRICT="test"
+
+prepare_one_multibuild() {
+    edo rm -r invoke/vendor/yaml2
+}
 
