@@ -4,9 +4,8 @@
 require pypi setup-py [ import=setuptools ]
 
 SUMMARY="A linter for YAML files"
-DESCRIPTION="yamllint does not only check for syntax validity,
-but for weirdnesses like key repetition and cosmetic problems
-such as lines length, trailing spaces, indentation, etc.
+DESCRIPTION="yamllint does not only check for syntax validity, but for weirdnesses
+like key repetition and cosmetic problems such as lines length, trailing spaces, indentation, etc.
 "
 HOMEPAGE="https://yamllint.readthedocs.io/en/stable/"
 
