@@ -62,7 +62,7 @@ src_install() {
     exeinto "${dest}"
 
     doexe *.so thunderbird thunderbird-bin plugin-container crashreporter
-    doins -r dictionaries distribution extensions fonts isp *.chk *.ini *.ja *.list *.xml
+    doins -r defaults distribution fonts isp *.chk *.ini *.ja *.list *.xml
 
     dodir "/usr/$(exhost --target)/bin"
     dosym "${dest}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
@@ -70,7 +70,7 @@ src_install() {
     insinto /usr/share/applications
     doins "${FILES}/${PN}.desktop"
 
-    for s in 16 32 48 64 128; do
+    for s in 16 32 48 64 128 256; do
         insinto /usr/share/icons/hicolor/${s}x${s}/apps
         newins chrome/icons/default/default${s}.png ${PN}.png
     done
