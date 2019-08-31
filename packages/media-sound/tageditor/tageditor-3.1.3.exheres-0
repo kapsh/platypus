@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=martchus tag=v${PV} ]
-require cmake [ api=2 ]
+require cmake
 require gtk-icon-cache
 
 SUMMARY="A tag editor with Qt GUI and command-line interface"
