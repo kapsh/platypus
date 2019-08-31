@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=varietywalls tag=${PV} ]
-require setup-py [ import=distutils test=nose blacklist="2" multibuild=false ]
+require setup-py [ import=distutils test=nose blacklist=2 multibuild=false ]
 
 SUMMARY="Wallpaper downloader and manager for Linux systems"
 DESCRIPTION="
@@ -10,13 +10,10 @@ Variety is a wallpaper manager for Linux systems. It supports numerous desktops
 and wallpaper sources, including local files and online services: Flickr,
 Wallhaven, Unsplash, and more.
 
-Where supported, Variety sits as a tray icon to allow easy pausing and resuming.
-Otherwise, its desktop entry menu provides a similar set of options.
-
 Variety also includes a range of image effects, such as oil painting and blur,
 as well as options to layer quotes and a clock onto the background.
 "
-HOMEPAGE="https://peterlevi.com/variety"
+HOMEPAGE+=" https://peterlevi.com/variety"
 
 LICENCES="GPL-3"
 SLOT="0"
@@ -35,9 +32,9 @@ DEPENDENCIES="
         dev-python/pycairo[python_abis:*(-)?]
         dev-python/requests[python_abis:*(-)?]
         dev-python/setuptools[python_abis:*(-)?] [[ note = [ needs pkg_resources ] ]]
-        gnome-bindings/pygobject[python_abis:*(-)?]
-        gnome-desktop/gobject-introspection:1
-        x11-libs/gdk-pixbuf[gobject-introspection]
+        gnome-bindings/pygobject:3[python_abis:*(-)?]
+        gnome-desktop/gobject-introspection:1[python_abis:*(-)?]
+        x11-libs/gdk-pixbuf:2.0[gobject-introspection]
         x11-libs/gtk+:3[gobject-introspection]
         x11-libs/libnotify[gobject-introspection]
         x11-libs/pango[gobject-introspection]
@@ -56,6 +53,8 @@ pkg_setup() {
 
 src_prepare() {
     # Searching data paths fucked up as usual.
-    edo sed "s|self.prefix|'/usr'|" -i setup.py
+    edo sed \
+        -e "s|self.prefix|'/usr'|" \
+        -i setup.py
 }
 
