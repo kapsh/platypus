@@ -3,6 +3,7 @@
 
 SUMMARY="Java runtime for IntelliJ Platform based products"
 HOMEPAGE="https://bintray.com/jetbrains/intellij-jbr"
+
 # 11.0.3.304.25 => 11_0_3-linux-x64-b304.25
 MY_PV="$(ever replace_all _ $(ever range 1-3))-linux-x64-b$(ever range 4-5)"
 DOWNLOADS="https://jetbrains.bintray.com/intellij-jbr/jbr-${MY_PV}.tar.gz"
@@ -41,13 +42,15 @@ src_prepare() {
 }
 
 src_install() {
-    local dest="/opt/${PN}"
+    local dest=/opt/${PN}
 
-    insinto "${dest}"
-    doins -r ./*
+    # include/ ommited, add it if something breaks
+    insinto ${dest}
+    doins -r conf lib
 
-    for exe in ${IMAGE}/${dest}/bin/*; do
-        edo chmod a+x "$exe"
+    exeinto ${dest}/bin
+    for exe in bin/*; do
+        doexe $exe
     done
 }
 
