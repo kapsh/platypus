@@ -46,7 +46,10 @@ jetbrains-ide_pkg_setup() {
 
 jetbrains-ide_src_prepare() {
     default
-    nonfatal edo rm -r jbr # provided by jetbrains-runtime
+
+    # provided by jetbrains-runtime
+    nonfatal edo rm -r jbr
+
     # Wrong architecture
     nonfatal edo rm -r \
         bin/fsnotifier-arm \
@@ -54,7 +57,8 @@ jetbrains-ide_src_prepare() {
 
     # Use JBR automatically
     if optionq "providers:jetbrains-jre"; then
-        edo sed "1a JAVA_HOME=/opt/jetbrains-runtime" \
+        edo sed \
+            -e "1a JAVA_HOME=/opt/jetbrains-runtime" \
             -i "${MY_LAUNCHER}"
     fi
 }
@@ -63,7 +67,7 @@ jetbrains-ide_src_install() {
     local dest="/opt/${PN}"
 
     insinto "${dest}"
-    doins -r ./*
+    doins -r .
 
     for exe in "${MY_LAUNCHER}" "${JETBRAINS_EXECUTABLES[@]}"; do
         edo chmod a+x "${IMAGE}/${dest}/${exe}"
@@ -72,8 +76,8 @@ jetbrains-ide_src_install() {
     dodir "/usr/$(exhost --target)/bin"
     dosym "${dest}/${MY_LAUNCHER}" "/usr/$(exhost --target)/bin/${PN}"
 
-    insinto /usr/share/icons/hicolor/128x128/apps
-    newins "bin/${PN%-*}.png" "${PN}.png"
+    insinto /usr/share/icons/hicolor/scalable/apps
+    newins "bin/${PN%-*}.svg" "${PN}.svg"
 
     insinto "/usr/share/applications"
     doins "${FILES}/${PN}.desktop"
