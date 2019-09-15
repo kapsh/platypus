@@ -1,7 +1,8 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require qmake [ slot=5 ] github [ user=sjuvonen tag=v${PV} ]
+require qmake [ slot=5 ]
+require github [ user=sjuvonen tag=v${PV} ]
 
 SUMMARY="Metadata editor for various audio formats"
 DESCRIPTION="

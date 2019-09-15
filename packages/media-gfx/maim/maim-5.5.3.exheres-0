@@ -1,7 +1,8 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require cmake github [ user=naelstrof tag=v${PV} ]
+require cmake
+require github [ user=naelstrof tag=v${PV} ]
 
 SUMMARY="maim (make image) takes screenshots of your desktop"
 DESCRIPTION="

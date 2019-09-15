@@ -1,7 +1,9 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require utf8-locale pypi setup-py [ import=setuptools test=pytest ]
+require pypi
+require setup-py [ import=setuptools test=pytest ]
+require utf8-locale
 require zsh-completion
 
 SUMMARY="Utility to create project from project template"

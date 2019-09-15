@@ -24,8 +24,9 @@ SCM_qonlinetranslator_REPOSITORY="https://github.com/crow-translate/QOnlineTrans
 SCM_qtaskbarcontrol_REPOSITORY="https://github.com/Skycoder42/QTaskbarControl.git"
 SCM_singleapplication_REPOSITORY="https://github.com/itay-grudev/SingleApplication.git"
 
-require qmake [ slot=5 ] gtk-icon-cache
 require github [ force_git_clone=true ]
+require qmake [ slot=5 ]
+require gtk-icon-cache
 
 SUMMARY="Crow Translate - online text translator"
 DESCRIPTION="

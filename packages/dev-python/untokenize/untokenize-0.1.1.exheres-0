@@ -1,7 +1,8 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import=distutils ]
+require pypi
+require setup-py [ import=distutils ]
 
 SUMMARY="Transforms tokens into original source code (while preserving whitespace)"
 
@@ -14,6 +15,7 @@ DEPENDENCIES="
 "
 
 test_one_multibuild() {
-    PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} -B test_${PN}.py
+    PYTHONPATH="$(ls -d ${PWD}/build/lib*)" \
+        edo ${PYTHON} -B test_${PN}.py
 }
 

@@ -1,8 +1,9 @@
 # Copyright (c) 2010 Jan Meier
 # Distributed under the terms of the GNU General Public License v2
 
-require systemd-service openrc-service
 require github [ release=${PV} suffix=tar.xz ]
+require systemd-service
+require openrc-service
 
 SUMMARY="Tinyproxy is a light-weight HTTP proxy daemon for POSIX operating systems."
 HOMEPAGE="https://tinyproxy.github.io"

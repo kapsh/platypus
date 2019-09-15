@@ -3,8 +3,9 @@
 
 GITHUB_REVISION="30606591b705454e3c64050ac41b5a1622977994"
 
-require github [ user=garabik ] zsh-completion
+require github [ user=garabik ]
 require python [ blacklist=none multibuild=false has_bin=true ]
+require zsh-completion
 
 SUMMARY="Generic Colouriser"
 

@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require  qmake [ slot=5 ]
+require qmake [ slot=5 ]
 
 SUMMARY="Open-source cross-platform RSS/Atom news feeds reader"
 HOMEPAGE="https://quiterss.org/"

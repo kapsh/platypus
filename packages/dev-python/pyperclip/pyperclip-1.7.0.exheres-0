@@ -1,7 +1,8 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require pypi setup-py [ import=setuptools ]
+require pypi
+require setup-py [ import=setuptools ]
 
 SUMMARY="A cross-platform clipboard module for Python"
 

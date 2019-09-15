@@ -8,7 +8,9 @@
 
 require github [ user=kovidgoyal release=v${PV} suffix=tar.xz ]
 require python [ blacklist=2 multibuild=false ]
-require bash-completion zsh-completion gtk-icon-cache
+require bash-completion
+require zsh-completion
+require gtk-icon-cache
 
 export_exlib_phases src_compile src_test src_install
 

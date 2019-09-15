@@ -1,7 +1,8 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=uiri tag=${PV} ] setup-py [ import=setuptools ]
+require github [ user=uiri tag=${PV} ]
+require setup-py [ import=setuptools ]
 
 SUMMARY="A Python library for parsing and creating TOML."
 
