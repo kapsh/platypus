@@ -1,11 +1,13 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=lupoDharkael tag="v${PV}" ]
+require github [ user=lupoDharkael tag=v${PV} ]
 require qmake [ slot=5 ]
+require bash-completion
+require zsh-completion
 require gtk-icon-cache
 
-export_exlib_phases src_prepare
+export_exlib_phases src_prepare src_install
 
 SUMMARY="Powerful yet simple to use screenshot software"
 DESCRIPTION="
@@ -18,19 +20,37 @@ SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build:
+        x11-libs/qttools:5[>=5.3]
     build+run:
         x11-libs/qtbase:5[>=5.3][gui]
         x11-libs/qtsvg:5[>=5.3]
-        x11-libs/qttools:5[>=5.3]
 "
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/shell-completion.patch"
+)
+
+BASH_COMPLETIONS=( "docs/shell-completion/${PN}" )
+ZSH_COMPLETIONS=( "docs/shell-completion/${PN} _${PN}" )
 
 EQMAKE_PARAMS=(
     CONFIG+=packaging
 )
 
 flameshot_src_prepare() {
-    edo sed -Ei 's#(target.path = \$\$\{PREFIX\})/bin#\1/'$(exhost --target)'/bin#' "${PN}.pro"
-    # TODO make bash-completion optional?
-    edo sed -Ei '/\s+completion \\/d' "${PN}.pro"
+    default
+
+    edo sed \
+        -e "/target[.]path/ s|bin|$(exhost --target)/bin|" \
+        -e "/\s+completion/ d" \
+        -i "${PN}.pro"
+}
+
+flameshot_src_install() {
+    default
+
+    bash-completion_src_install
+    zsh-completion_src_install
 }
 
