@@ -3,6 +3,7 @@
 
 require github [ user=axboe tag=${PNV} ]
 require python [ blacklist=none multibuild=false ]
+require option-renames [ renames=[ "gtk gui" ] ]
 
 SUMMARY="Flexible I/O Tester"
 
@@ -10,7 +11,7 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
-    gtk  [[ description = [ Build gfio GUI ] ]]
+    gui  [[ description = [ Build gfio GUI ] ]]
     ( providers: libressl openssl ) [[ number-selected = exactly-one ]]
 "
 
@@ -21,7 +22,7 @@ DEPENDENCIES="
         net-misc/curl
         providers:libressl? ( dev-libs/libressl:= )
         providers:openssl? ( dev-libs/openssl )
-        gtk? (
+        gui? (
             dev-libs/glib:2
             x11-libs/cairo
             x11-libs/gtk+:2[>=2.18]
@@ -34,10 +35,6 @@ DEPENDENCIES="
         ) [[ *description = [ For using fiologparser_hist.py ] ]]
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/fio2gnuplot.patch"
-)
-
 DEFAULT_SRC_INSTALL_PARAMS=(
     mandir=/usr/share/man
     sharedir=/usr/share/fio
@@ -47,12 +44,20 @@ DEFAULT_SRC_INSTALL_EXTRA_DOCS=( HOWTO )
 
 src_prepare() {
     default
-    edo sed "s|pkg-config|${PKG_CONFIG}|g" -i configure
-    edo sed -i "1 s|python2.7|python$(python_get_abi)|" \
-        tools/fio_jsonplus_clat2csv \
-        tools/hist/*.py \
-        tools/plot/fio2gnuplot \
-        tools/*.py
+
+    local -a python_scripts=(
+        tools/fio_jsonplus_clat2csv
+        tools/fiologparser.py
+        tools/hist/fiologparser_hist.py
+        tools/plot/fio2gnuplot
+    )
+
+    edo sed \
+        -e "1 s|python.*|python$(python_get_abi)|" \
+        -i "${python_scripts[@]}"
+    edo sed \
+        -e "s|pkg-config|${PKG_CONFIG}|g" \
+        -i configure
 }
 
 src_configure() {
@@ -64,11 +69,12 @@ src_configure() {
         --disable-rados \
         --disable-rbd \
         --disable-rdma \
-        $(option gtk --enable-gfio)
+        $(option gui --enable-gfio)
 }
 
 src_install() {
     default
+
     dodoc -r examples
 }
 
