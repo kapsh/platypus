@@ -14,10 +14,10 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         dev-python/Arpeggio[~>1.7][python_abis:*(-)?]
-        dev-python/attrs[python_abis:*(-)?]
+        dev-python/attrs[>=17.4.0][python_abis:*(-)?]
         dev-python/six[~>1.9][python_abis:*(-)?]
     test:
-        dev-python/hypothesis[~>3.56][python_abis:*(-)?]
+        dev-python/hypothesis[>=3.56][python_abis:*(-)?]
         dev-python/pretend[~>1.0][python_abis:*(-)?]
 "
 
