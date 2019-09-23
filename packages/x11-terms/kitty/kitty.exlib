@@ -12,7 +12,7 @@ require bash-completion
 require zsh-completion
 require gtk-icon-cache
 
-export_exlib_phases src_compile src_test src_install
+export_exlib_phases src_compile src_test src_install pkg_postinst
 
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
@@ -77,15 +77,19 @@ kitty_src_test() {
 
 kitty_src_install() {
     local docs="linux-package/share/doc/${PNVR}/html"
-    local def_config="$(edo ls ${docs}/_downloads/*/${PN}.conf | head -n1)"
-
-    insinto "/etc/xdg/${PN}"
-    doins "${def_config}"
-
     edo rm -r "${docs}/_sources" # TODO why is this installed at all?
+
     edo mv linux-package "${IMAGE}/usr"
 
     bash-completion_src_install
     zsh-completion_src_install
+}
+
+kitty_pkg_postinst() {
+    # config from docs messes with update_check_interval=0
+    local old_config=/etc/xdg/kitty
+    if [[ -d "${old_config}" ]]; then
+        nonfatal edo rm "${old_config}" || ewarn "Failed to remove old config"
+    fi
 }
 
