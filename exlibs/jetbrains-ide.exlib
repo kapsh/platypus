@@ -15,6 +15,8 @@ require gtk-icon-cache
 
 export_exlib_phases pkg_setup src_prepare src_install
 
+RESTRICT="strip"
+
 MYOPTIONS="
     ( providers: jetbrains-jre system-jre ) [[
         *description = [ Boot JDK provider ]
