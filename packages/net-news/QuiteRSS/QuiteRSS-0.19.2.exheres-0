@@ -5,7 +5,7 @@ require qmake [ slot=5 ]
 
 SUMMARY="Open-source cross-platform RSS/Atom news feeds reader"
 HOMEPAGE="https://quiterss.org/"
-DOWNLOADS="${HOMEPAGE}/files/0.18.12/${PNV}-src.tar.gz"
+DOWNLOADS="${HOMEPAGE}/files/${PV}/${PNV}-src.tar.gz"
 
 LICENCES="GPL-3"
 SLOT="0"
@@ -28,6 +28,8 @@ EQMAKE_PARAMS=(
 )
 
 src_prepare() {
-    edo sed "/^\s\+target.path/ s|PREFIX/bin|PREFIX/$(exhost --target)/bin|" -i ${PN}.pro
+    edo sed \
+        -e "/^\s\+target.path/ s|PREFIX/bin|PREFIX/$(exhost --target)/bin|" \
+        -i ${PN}.pro
 }
 
