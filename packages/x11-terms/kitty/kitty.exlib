@@ -46,7 +46,7 @@ DEPENDENCIES="
         x11-libs/libX11
         x11-libs/libXcursor
         x11-libs/libXinerama
-        x11-libs/libxkbcommon
+        x11-libs/libxkbcommon[X]
         x11-libs/libXrandr
         providers:graphicsmagick? ( media-gfx/GraphicsMagick[imagemagick] )
         providers:imagemagick? ( media-gfx/ImageMagick )
