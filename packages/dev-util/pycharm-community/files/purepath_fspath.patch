@@ -1,8 +1,8 @@
 Reason: https://youtrack.jetbrains.com/issue/PY-30747
 Upstream: no
 
---- a/helpers/typeshed/stdlib/3/pathlib.pyi	2019-07-23 20:01:26.000000000 +0300
-+++ a/helpers/typeshed/stdlib/3/pathlib.pyi	2019-08-15 11:15:54.800039464 +0300
+--- a/plugins/python-ce/helpers/typeshed/stdlib/3/pathlib.pyi	2019-07-23 20:01:26.000000000 +0300
++++ a/plugins/python-ce/helpers/typeshed/stdlib/3/pathlib.pyi	2019-08-15 11:15:54.800039464 +0300
 @@ -30,6 +30,7 @@
      def __le__(self, other: PurePath) -> bool: ...
      def __gt__(self, other: PurePath) -> bool: ...
