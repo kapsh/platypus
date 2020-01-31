@@ -17,6 +17,7 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         dev-python/argcomplete[>=1.9.4&<2.0][python_abis:*(-)?]
+        dev-python/packaging[python_abis:*(-)?]
         dev-python/userpath[python_abis:*(-)?]
 "
 
