@@ -54,7 +54,12 @@ pkg_setup() {
 src_prepare() {
     # Searching data paths fucked up as usual.
     edo sed \
-        -e "s|self.prefix|'/usr'|" \
+        -e "/data_path/ s|self.prefix|'/usr'|" \
         -i setup.py
+}
+
+src_install() {
+    setup-py_src_install
+    edo rm -r "${IMAGE}/usr/share/doc/${PN}"  # hardcoded path from distutils-extra
 }
 
