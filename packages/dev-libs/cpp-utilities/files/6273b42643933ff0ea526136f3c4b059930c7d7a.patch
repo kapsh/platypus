@@ -1,0 +1,31 @@
+From 6273b42643933ff0ea526136f3c4b059930c7d7a Mon Sep 17 00:00:00 2001
+From: Martchus <martchus@gmx.net>
+Date: Mon, 9 Mar 2020 10:45:12 +0100
+Subject: [PATCH] Fix remaining hard-coded install dirs
+
+See https://github.com/Martchus/cpp-utilities/issues/17#issuecomment-596420331
+---
+ cmake/modules/AppTarget.cmake | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/modules/AppTarget.cmake b/cmake/modules/AppTarget.cmake
+index 99239e0..a44c869 100644
+--- a/cmake/modules/AppTarget.cmake
++++ b/cmake/modules/AppTarget.cmake
+@@ -125,14 +125,14 @@ if (NOT META_NO_INSTALL_TARGETS AND ENABLE_INSTALL_TARGETS)
+     foreach (DESKTOP_FILE ${DESKTOP_FILES})
+         install(
+             FILES "${DESKTOP_FILE}"
+-            DESTINATION "share/applications"
++            DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications"
+             COMPONENT desktop)
+     endforeach ()
+ 
+     foreach (ICON_FILE ${ICON_FILES})
+         install(
+             FILES "${ICON_FILE}"
+-            DESTINATION "share/icons/hicolor/scalable/apps"
++            DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps"
+             COMPONENT desktop)
+     endforeach ()
+     if (NOT TARGET install-desktop)
