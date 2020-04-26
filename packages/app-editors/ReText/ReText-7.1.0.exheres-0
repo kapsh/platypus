@@ -15,7 +15,7 @@ DEPENDENCIES="
     build+run:
         dev-python/chardet[>=2.3][python_abis:*(-)?]
         dev-python/docutils[python_abis:*(-)?]
-        dev-python/Markdown[python_abis:*(-)?]
+        dev-python/Markdown[>=2.0][python_abis:*(-)?]
         dev-python/Markups[>=2.0][python_abis:*(-)?]
         dev-python/Pygments[python_abis:*(-)?]
         dev-python/PyQt5[python_abis:*(-)?]
