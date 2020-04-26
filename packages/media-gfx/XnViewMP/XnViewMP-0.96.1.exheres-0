@@ -31,7 +31,7 @@ MYOPTIONS="
 DEPENDENCIES="
     run:
         app-arch/bzip2
-        dev-db/sqlite
+        dev-db/sqlite:3
         dev-libs/glib:2
         dev-libs/pcre
         media-libs/openal
