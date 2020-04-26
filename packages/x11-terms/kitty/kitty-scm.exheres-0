@@ -1,6 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
+# Last checked: ba9d5cf3ff30af31a4df547cfa689ab4a84847f4 (2020-04-25)
 require kitty
 
 PLATFORMS="~amd64"
