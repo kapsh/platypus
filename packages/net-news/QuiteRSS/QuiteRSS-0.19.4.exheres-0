@@ -5,7 +5,7 @@ require qmake [ slot=5 ]
 
 SUMMARY="Open-source cross-platform RSS/Atom news feeds reader"
 HOMEPAGE="https://quiterss.org/"
-DOWNLOADS="${HOMEPAGE}/files/${PV}/${PNV}-src.tar.gz"
+DOWNLOADS="${HOMEPAGE}/files/${PV}_/${PNV}-src.tar.gz"
 
 LICENCES="GPL-3"
 SLOT="0"
