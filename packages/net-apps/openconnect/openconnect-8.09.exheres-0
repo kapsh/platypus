@@ -2,9 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/${PN}" ] ]
+require bash-completion
 
 VPNC_PN="vpnc-scripts"
-VPNC_PV="20190611"
+VPNC_PV="20200226"
 VPNC_PNV="${VPNC_PN}-${VPNC_PV}"
 
 SUMMARY="A client for Cisco's AnyConnect SSL VPN"
@@ -13,7 +14,7 @@ OpenConnect is a client for Cisco's AnyConnect SSL VPN, which is supported by th
 by IOS 12.4(9)T or later on Cisco SR500, 870, 880, 1800, 2800, 3800, 7200 Series and Cisco 7301
 Routers, and probably others.
 "
-HOMEPAGE="https://www.infradead.org/openconnect/"
+HOMEPAGE="https://www.infradead.org/${PN}/"
 DOWNLOADS="
     ftp://ftp.infradead.org/pub/${PN}/${PNV}.tar.gz
     ftp://ftp.infradead.org/pub/${VPNC_PN}/${VPNC_PNV}.tar.gz
@@ -46,7 +47,7 @@ DEPENDENCIES="
         sys-libs/zlib
         libproxy? ( net-libs/libproxy:1 )
         lz4? ( app-arch/lz4 )
-        providers:gnutls? ( dev-libs/gnutls[>=3.2.10] )
+        providers:gnutls? ( dev-libs/gnutls[>=3.6.13] )
         providers:heimdal? ( app-crypt/heimdal )
         providers:krb5? ( app-crypt/krb5 )
         providers:openssl? ( dev-libs/openssl )
@@ -73,12 +74,23 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
     "providers:openssl openssl"
 )
 
+BASH_COMPLETIONS=(
+    "bash/${PN}.bash"
+)
+
+src_prepare() {
+    edo sed \
+        -e "/install-data-am/ s|install-bashcompletionDATA||" \
+        -i Makefile.in
+}
+
 src_install() {
     default
 
     exeinto /etc/${PN}
     doexe "${WORKBASE}/${VPNC_PNV}/vpnc-script"
 
+    bash-completion_src_install
     install_openrc_files
 }
 
