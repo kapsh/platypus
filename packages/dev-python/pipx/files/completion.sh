@@ -1,3 +1,4 @@
+#compdef pipx
 # Adapted from "register-python-argcomplete pipx"
 
 # Run something, muting output or redirecting it to the debug stream
