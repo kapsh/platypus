@@ -15,18 +15,19 @@ MYOPTIONS=""
 # TODO pipenv brings plenty of bundled dependencies with itself.
 # Add them after https://github.com/pypa/pipenv/issues/1887 will be resolved.
 DEPENDENCIES="
-    build:
-        dev-python/invoke[python_abis:*(-)?]
-        dev-python/parver[python_abis:*(-)?]
     build+run:
         dev-python/certifi[python_abis:*(-)?]
-        dev-python/pip[>=9.0.1][python_abis:*(-)?]
+        dev-python/pip[>=18.0.0][python_abis:*(-)?]
         dev-python/setuptools[>=36.2.1][python_abis:*(-)?]
         dev-python/virtualenv[python_abis:*(-)?]
         dev-python/virtualenv-clone[>=0.2.5][python_abis:*(-)?]
     test:
         dev-python/flaky[python_abis:*(-)?]
 "
+
+PYTHON_BYTECOMPILE_EXCLUDES=(
+    pipenv/patched/yaml2 # py2-only syntax
+)
 
 # Tests require shitload of dependencies and internet access
 RESTRICT="test"
