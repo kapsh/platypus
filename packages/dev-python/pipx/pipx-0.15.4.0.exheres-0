@@ -30,6 +30,7 @@ ZSH_COMPLETIONS=( "${FILES}/completion.sh _${PN}" )
 src_install() {
     setup-py_src_install
     bash-completion_src_install
+    # TODO zsh completion works only when explicitly sourced
     zsh-completion_src_install
 }
 

@@ -3,7 +3,7 @@
 
 # Run something, muting output or redirecting it to the debug stream
 # depending on the value of _ARC_DEBUG.
-__pipx_argcomplete_run() {
+__python_argcomplete_run() {
     if [[ -z "$_ARC_DEBUG" ]]; then
         "$@" 8>&1 9>&2 1>/dev/null 2>&1
     else
@@ -11,7 +11,7 @@ __pipx_argcomplete_run() {
     fi
 }
 
-_pipx_argcomplete() {
+_python_argcomplete() {
     local IFS=$'\013'
     local SUPPRESS_SPACE=0
     if compopt +o nospace 2> /dev/null; then
@@ -24,7 +24,7 @@ _pipx_argcomplete() {
                   _ARGCOMPLETE_COMP_WORDBREAKS="$COMP_WORDBREAKS" \
                   _ARGCOMPLETE=1 \
                   _ARGCOMPLETE_SUPPRESS_SPACE=$SUPPRESS_SPACE \
-                  __pipx_argcomplete_run "$1") )
+                  __python_argcomplete_run "$1") )
     if [[ $? != 0 ]]; then
         unset COMPREPLY
     elif [[ $SUPPRESS_SPACE == 1 ]] && [[ "$COMPREPLY" =~ [=/:]$ ]]; then
@@ -37,4 +37,4 @@ if [[ -n ${ZSH_VERSION} ]]; then
     bashcompinit
 fi
 
-complete -o nospace -o default -F _pipx_argcomplete pipx
+complete -o nospace -o default -F _python_argcomplete pipx
