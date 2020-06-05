@@ -1,4 +1,4 @@
-# Copyright 2019 Danilo Spinella <danyspin97@protonmail.com>
+# Copyright 2019-2020 Danilo Spinella <danyspin97@protonmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user='naelstrof' tag=v${PV} ] cmake [ api=2 ]
@@ -16,11 +16,15 @@ DEPENDENCIES="
     build+run:
         dev-libs/icu:=
         media-libs/glew
-        x11-dri/mesa
+        x11-dri/mesa[X]
         x11-libs/libX11
         x11-libs/libXext
         x11-libs/libXrender
 "
 
 BUGS_TO="danyspin97@protonmail.com"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/0001-Fix-linking-of-GLEW-library.patch
+)
 

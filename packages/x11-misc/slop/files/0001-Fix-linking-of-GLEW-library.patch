@@ -1,0 +1,37 @@
+From: Danilo Spinella <danyspin97@protonmail.com>
+Date: Fri, 5 Jun 2020 21:51:05 +0200
+Subject: [PATCH] Fix linking of GLEW library
+Upstream: https://github.com/naelstrof/slop/pull/135
+
+FindGLEW.cmake Module silently tries to include glew-config.cmake.
+If it succeeds, then it stop and return to the caller.
+Howevew, glew-config.cmake only sets GLEW::GLEW, resulting in
+missing glew shared library at link time.
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 28d8b88..4c6e4be 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -87,14 +87,14 @@ target_link_libraries(${LIBRARY_NAME} ${X11_LIBRARIES}
+ 
+ if ( SLOP_OPENGL )
+   include_directories( ${XEXT_INCLUDE_DIR}
+-                       ${GLEW_INCLUDE_DIR}
++                       GLEW::GLEW
+                        ${XRENDER_INCLUDE_DIR}
+                        ${OPENGL_INCLUDE_DIR} )
+   target_link_libraries(${LIBRARY_NAME} ${OPENGL_LIBRARIES}
+                                         ${XRENDER_LIBRARY}
+                                         ${CMAKE_THREAD_LIBS_INIT} 
+                                         ${GLX_LIBRARY}
+-                                        ${GLEW_LIBRARIES})
++                                        GLEW::GLEW)
+ endif()
+ 
+ target_link_libraries(${EXECUTABLE_NAME} ${LIBRARY_NAME} )
+-- 
+2.26.2
+
