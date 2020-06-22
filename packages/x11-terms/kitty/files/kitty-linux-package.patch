@@ -2,11 +2,11 @@ Upstream: no
 Reason: respect Exherbo packaging rules
 
 diff --git a/setup.py b/setup.py
-index 350d5e1f..0bf3bfe6 100755
+index 4961eaff..28621730 100755
 --- a/setup.py
 +++ b/setup.py
-@@ -48,7 +48,7 @@ _plat = sys.platform.lower()
- is_macos = 'darwin' in _plat
+@@ -49,7 +49,7 @@ is_macos = 'darwin' in _plat
+ is_openbsd = 'openbsd' in _plat
  Env = glfw.Env
  env = Env()
 -PKGCONFIG = os.environ.get('PKGCONFIG_EXE', 'pkg-config')
@@ -14,16 +14,16 @@ index 350d5e1f..0bf3bfe6 100755
  
  
  class Options(argparse.Namespace):
-@@ -62,7 +62,7 @@ class Options(argparse.Namespace):
+@@ -63,7 +63,7 @@ class Options(argparse.Namespace):
      for_freeze: bool = False
      libdir_name: str = 'lib'
      extra_logging: List[str] = []
 -    update_check_interval: float = 24
 +    update_check_interval: float = 0
- 
- 
- class CompileKey(NamedTuple):
-@@ -246,7 +246,7 @@ def init_env(
+     egl_library: Optional[str] = None
+     startup_notification_library: Optional[str] = None
+     canberra_library: Optional[str] = None
+@@ -253,7 +253,7 @@ def init_env(
          df += ' -Og'
          float_conversion = '-Wfloat-conversion'
      fortify_source = '-D_FORTIFY_SOURCE=2'
@@ -32,7 +32,7 @@ index 350d5e1f..0bf3bfe6 100755
      sanitize_args = get_sanitize_args(cc, ccver) if sanitize else set()
      cppflags_ = os.environ.get(
          'OVERRIDE_CPPFLAGS', '-D{}DEBUG'.format('' if debug else 'N'),
-@@ -273,7 +273,7 @@ def init_env(
+@@ -280,7 +280,7 @@ def init_env(
      )
      ldflags_ = os.environ.get(
          'OVERRIDE_LDFLAGS',
@@ -41,7 +41,7 @@ index 350d5e1f..0bf3bfe6 100755
      )
      ldflags = shlex.split(ldflags_)
      ldflags.append('-shared')
-@@ -412,10 +412,7 @@ def dependecies_for(src: str, obj: str, all_headers: Iterable[str]) -> Iterable[
+@@ -447,10 +447,7 @@ def dependecies_for(src: str, obj: str, all_headers: Iterable[str]) -> Iterable[
  
  
  def parallel_run(items: List[Command]) -> None:
@@ -53,7 +53,7 @@ index 350d5e1f..0bf3bfe6 100755
      items = list(reversed(items))
      workers: Dict[int, Tuple[Optional[Command], Optional[subprocess.Popen]]] = {}
      failed = None
-@@ -691,8 +688,6 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
+@@ -728,8 +725,6 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
              cflags.append('-g')
          if args.profile:
              libs.append('-lprofiler')
@@ -62,16 +62,16 @@ index 350d5e1f..0bf3bfe6 100755
      if bundle_type.endswith('-freeze'):
          cppflags.append('-DFOR_BUNDLE')
          cppflags.append('-DPYVER="{}"'.format(sysconfig.get_python_version()))
-@@ -702,7 +697,7 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
+@@ -739,7 +734,7 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
      if bundle_type.startswith('macos-'):
-         klp = '../Frameworks/kitty'
+         klp = '../Resources/kitty'
      elif bundle_type.startswith('linux-'):
 -        klp = '../{}/kitty'.format(args.libdir_name.strip('/'))
 +        klp = os.path.join(os.path.relpath(args.libdir_name, args.bindir_name), 'kitty')
      elif bundle_type == 'source':
          klp = os.path.relpath('.', launcher_dir)
      else:
-@@ -743,8 +738,8 @@ make && make docs
+@@ -780,8 +775,8 @@ make && make docs
      shutil.copytree(src, os.path.join(mandir, 'man1'))
  
  
@@ -82,7 +82,7 @@ index 350d5e1f..0bf3bfe6 100755
      safe_makedirs(os.path.dirname(htmldir))
      with suppress(FileNotFoundError):
          shutil.rmtree(htmldir)
-@@ -761,10 +756,7 @@ make && make docs
+@@ -798,10 +793,7 @@ make && make docs
  def compile_python(base_path: str) -> None:
      import compileall
      import py_compile
@@ -94,7 +94,7 @@ index 350d5e1f..0bf3bfe6 100755
      for root, dirs, files in os.walk(base_path):
          for f in files:
              if f.rpartition('.')[-1] in ('pyc', 'pyo'):
-@@ -781,14 +773,14 @@ def compile_python(base_path: str) -> None:
+@@ -818,14 +810,14 @@ def compile_python(base_path: str) -> None:
          c(base_path, ddir='', force=True, optimize=optimize, quiet=1, workers=num_workers)
  
  
@@ -113,7 +113,7 @@ index 350d5e1f..0bf3bfe6 100755
      deskdir = os.path.join(ddir, 'share', 'applications')
      safe_makedirs(deskdir)
      with open(os.path.join(deskdir, 'kitty.desktop'), 'w') as f:
-@@ -809,7 +801,7 @@ Categories=System;TerminalEmulator;
+@@ -846,7 +838,7 @@ Categories=System;TerminalEmulator;
  
      base = Path(ddir)
      in_src_launcher = base / (libdir_name + '/kitty/kitty/launcher/kitty')
@@ -122,7 +122,7 @@ index 350d5e1f..0bf3bfe6 100755
      if os.path.exists(in_src_launcher):
          os.remove(in_src_launcher)
      os.makedirs(os.path.dirname(in_src_launcher), exist_ok=True)
-@@ -922,7 +914,7 @@ def package(args: Options, bundle_type: str) -> None:
+@@ -962,7 +954,7 @@ def package(args: Options, bundle_type: str) -> None:
      libdir = os.path.join(ddir, args.libdir_name.strip('/'), 'kitty')
      if os.path.exists(libdir):
          shutil.rmtree(libdir)
@@ -131,7 +131,7 @@ index 350d5e1f..0bf3bfe6 100755
      safe_makedirs(launcher_dir)
      build_launcher(args, launcher_dir, bundle_type)
      os.makedirs(os.path.join(libdir, 'logo'))
-@@ -947,6 +939,7 @@ def package(args: Options, bundle_type: str) -> None:
+@@ -987,6 +979,7 @@ def package(args: Options, bundle_type: str) -> None:
      shutil.copytree('kitty', os.path.join(libdir, 'kitty'), ignore=src_ignore)
      shutil.copytree('kittens', os.path.join(libdir, 'kittens'), ignore=src_ignore)
      if args.update_check_interval != 24.0:
@@ -139,7 +139,7 @@ index 350d5e1f..0bf3bfe6 100755
          with open(os.path.join(libdir, 'kitty/config_data.py'), 'r+', encoding='utf-8') as f:
              raw = f.read()
              nraw = raw.replace("update_check_interval', 24", "update_check_interval', {}".format(args.update_check_interval), 1)
-@@ -959,7 +952,7 @@ def package(args: Options, bundle_type: str) -> None:
+@@ -999,7 +992,7 @@ def package(args: Options, bundle_type: str) -> None:
              path = os.path.join(root, f_)
              os.chmod(path, 0o755 if f_.endswith('.so') else 0o644)
      if not is_macos:
@@ -148,7 +148,7 @@ index 350d5e1f..0bf3bfe6 100755
  
      if bundle_type.startswith('macos-'):
          create_macos_bundle_gunk(ddir)
-@@ -1051,6 +1044,15 @@ def option_parser() -> argparse.ArgumentParser:  # {{{
+@@ -1091,6 +1084,15 @@ def option_parser() -> argparse.ArgumentParser:  # {{{
          default=Options.libdir_name,
          help='The name of the directory inside --prefix in which to store compiled files. Defaults to "lib"'
      )
