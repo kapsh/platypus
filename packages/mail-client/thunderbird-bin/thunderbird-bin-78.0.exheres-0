@@ -63,7 +63,7 @@ src_install() {
     exeinto "${dest}"
 
     doexe *.so thunderbird thunderbird-bin plugin-container crashreporter
-    doins -r defaults distribution fonts isp *.chk *.ini *.ja *.list *.xml
+    doins -r defaults fonts isp *.ini *.ja *.list
 
     dodir "/usr/$(exhost --target)/bin"
     dosym "${dest}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
