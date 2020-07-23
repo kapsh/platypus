@@ -65,6 +65,9 @@ src_install() {
     doexe *.so thunderbird thunderbird-bin plugin-container crashreporter
     doins -r defaults fonts isp *.ini *.ja *.list
 
+    insinto "${dest}/distribution"
+    doins "${FILES}/policies.json"
+
     dodir "/usr/$(exhost --target)/bin"
     dosym "${dest}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
 
