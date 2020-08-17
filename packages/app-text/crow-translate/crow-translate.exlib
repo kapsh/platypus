@@ -22,7 +22,7 @@ SCM_qtaskbarcontrol_REPOSITORY="https://github.com/Skycoder42/QTaskbarControl.gi
 SCM_singleapplication_REPOSITORY="https://github.com/itay-grudev/SingleApplication.git"
 
 require github [ force_git_clone=true ]
-require qmake [ slot=5 ]
+require cmake
 require gtk-icon-cache
 
 SUMMARY="Crow Translate - online text translator"
@@ -38,6 +38,9 @@ MYOPTIONS="
 "
 
 DEPENDENCIES="
+    build:
+        kde-frameworks/extra-cmake-modules
+        x11-libs/qttools:5
     build+run:
         x11-libs/libX11
         x11-libs/qtbase:5[gui]
@@ -48,11 +51,4 @@ DEPENDENCIES="
             media-plugins/gst-plugins-good:1.0[gstreamer_plugins:mpg123][gstreamer_plugins:soup]
         )
 "
-
-src_prepare() {
-    default
-    edo sed \
-        -e "s|/usr/bin|/usr/$(exhost --target)/bin|" \
-        -i ${PN}.pro
-}
 
