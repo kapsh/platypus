@@ -33,7 +33,7 @@ src_install() {
     doins "${PN}.conf"
 
     insinto "/etc/${PN}"
-    doins "${PN}.zsh" "${PN}.bashrc"
+    doins "${PN}.zsh" "${PN}.bashrc" "${PN}.fish"
 
     insinto "/usr/share/${PN}"
     doins colourfiles/conf.*
