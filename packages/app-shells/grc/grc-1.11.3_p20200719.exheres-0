@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-GITHUB_REVISION="30606591b705454e3c64050ac41b5a1622977994"
+GITHUB_REVISION="8263f4f63bb4b9cf5f07a3423db094ab9c396a5d"
 
 require github [ user=garabik ]
 require python [ blacklist=none multibuild=false has_bin=true ]
