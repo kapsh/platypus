@@ -7,7 +7,7 @@ require 66-service
 require systemd-service [ systemd_files=[ "examples/chronyd.service" ] ]
 require openrc-service [ openrc_confd_files=[ "${FILES}/openrc/confd/chrony" ] ]
 
-export_exlib_phases src_prepare src_install
+export_exlib_phases src_install
 
 SUMMARY="Versatile implementation of the Network Time Protocol"
 HOMEPAGE="https://chrony.tuxfamily.org/"
@@ -39,24 +39,22 @@ DEPENDENCIES="
         seccomp? ( sys-libs/libseccomp )
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/2d9eb5b6fa5225a7300c8eed95712969249900fb.patch"
+    "${FILES}/9a9c0d7b99d7478e1431bd3fa8c225bdc46b3df4.patch"
+)
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var # XXX: to avoid installing /var/lib/lib/chrony
     --sysconfdir=/etc/chrony
     --with-user=ntp
-    --without-nettle # force nss
+    --without-nettle # TODO NSS broken: nsslowhash.h: No such file
     --without-readline # force libedit
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     "seccomp scfilter"
 )
-
-chrony_src_prepare() {
-    default
-    edo sed \
-        -e "s/pkg-config/${PKG_CONFIG}/" \
-        -i configure
-}
 
 chrony_src_install() {
     default
