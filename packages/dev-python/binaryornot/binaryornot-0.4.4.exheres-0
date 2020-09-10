@@ -18,3 +18,7 @@ DEPENDENCIES="
         dev-python/hypothesis
 "
 
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/0001-fix-failing-test.patch
+)
+
