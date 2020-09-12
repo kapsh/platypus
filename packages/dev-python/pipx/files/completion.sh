@@ -3,7 +3,21 @@
 
 # Run something, muting output or redirecting it to the debug stream
 # depending on the value of _ARC_DEBUG.
+# If ARGCOMPLETE_USE_TEMPFILES is set, use tempfiles for IPC.
 __python_argcomplete_run() {
+    if [[ -z "$ARGCOMPLETE_USE_TEMPFILES" ]]; then
+        __python_argcomplete_run_inner "$@"
+        return
+    fi
+    local tmpfile="$(mktemp)"
+    _ARGCOMPLETE_STDOUT_FILENAME="$tmpfile" __python_argcomplete_run_inner "$@"
+    local code=$?
+    cat "$tmpfile"
+    rm "$tmpfile"
+    return $code
+}
+
+__python_argcomplete_run_inner() {
     if [[ -z "$_ARC_DEBUG" ]]; then
         "$@" 8>&1 9>&2 1>/dev/null 2>&1
     else
@@ -36,5 +50,4 @@ if [[ -n ${ZSH_VERSION} ]]; then
     autoload -U bashcompinit
     bashcompinit
 fi
-
-complete -o nospace -o default -F _python_argcomplete pipx
+complete -o nospace -o default -o bashdefault -F _python_argcomplete pipx
