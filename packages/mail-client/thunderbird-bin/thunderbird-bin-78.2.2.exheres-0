@@ -5,7 +5,7 @@ require gtk-icon-cache
 require freedesktop-desktop
 
 SUMMARY="Mozilla Thunderbird mail client (binary version)"
-HOMEPAGE="https://www.thunderbird.net/en-US/"
+HOMEPAGE="https://www.thunderbird.net/"
 MY_PN="thunderbird"
 DOWNLOADS="
     https://archive.mozilla.org/pub/${MY_PN}/releases/${PV}/linux-x86_64/en-US/${MY_PN}-${PV}.tar.bz2
