@@ -14,6 +14,11 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    build+run:
+        python_abis:2.7? ( dev-python/importlib_metadata[>=0.23&<2][python_abis:*(-)?] )
+        python_abis:3.5? ( dev-python/importlib_metadata[>=0.23&<2][python_abis:*(-)?] )
+        python_abis:3.6? ( dev-python/importlib_metadata[>=0.23&<2][python_abis:*(-)?] )
+        python_abis:3.7? ( dev-python/importlib_metadata[>=0.23&<2][python_abis:*(-)?] )
     test:
         dev-python/coverage[python_abis:*(-)?]
         dev-python/flake8[python_abis:*(-)?]
@@ -22,10 +27,15 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/skip-tests-conditional.patch"
+    "${FILES}/skip-tests.patch"
 )
 
 pkg_setup() {
     require_utf8_locale # for tests
+}
+
+test_one_multibuild() {
+    PYTHONPATH="$(ls -d ${PWD}/build/lib*)" \
+        edo ${PYTHON} -B test/test.py -v
 }
 

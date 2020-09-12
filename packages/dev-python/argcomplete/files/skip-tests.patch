@@ -1,0 +1,44 @@
+Upstream: rejected https://github.com/kislyuk/argcomplete/pull/266
+
+diff --git a/test/test.py b/test/test.py
+index 4d804a2..5c8b6bd 100755
+--- a/test/test.py
++++ b/test/test.py
+@@ -28,8 +28,11 @@ COMP_WORDBREAKS = " \t\n\"'><=;|&(:"
+
+ BASH_VERSION = subprocess.check_output(['bash', '-c', 'echo $BASH_VERSION']).decode()
+ BASH_MAJOR_VERSION = int(BASH_VERSION.split('.')[0])
+-FISH_VERSION_STR = subprocess.check_output(['fish', '-c', 'echo -n $FISH_VERSION']).decode()
+-FISH_VERSION_TUPLE = tuple(int(x) for x in FISH_VERSION_STR.split('.'))
++try:
++    FISH_VERSION_STR = subprocess.check_output(['fish', '-c', 'echo -n $FISH_VERSION']).decode()
++    FISH_VERSION_TUPLE = tuple(int(x) for x in FISH_VERSION_STR.split('.'))
++except FileNotFoundError:
++    FISH_VERSION_TUPLE = (0, 0, 0)
+
+
+ class TempDir(object):
+@@ -1267,6 +1270,7 @@ class TestBashGlobal(TestBash):
+             self.sh.run_command('cd ' + os.getcwd())
+             self.assertEqual(self.sh.run_command('python -m package.prog basic f\t'), 'foo\r\n')
+
++    @unittest.skip("cannot run pip in sydbox")
+     def _test_console_script(self, package=False, wheel=False):
+         with TempDir(prefix='test_dir_py', dir='.'):
+             self.sh.run_command('cd ' + os.getcwd())
+@@ -1304,6 +1308,7 @@ class TestBashGlobal(TestBash):
+         self._test_console_script(package=True, wheel=True)
+
+
++@unittest.skipIf(pexpect.which('tcsh') is None, 'tcsh is not installed')
+ class TestTcsh(_TestSh, unittest.TestCase):
+     expected_failures = [
+         'test_unquoted_space',
+@@ -1338,6 +1343,7 @@ class TestTcsh(_TestSh, unittest.TestCase):
+             self.sh.run_command('')
+
+
++@unittest.skipIf(pexpect.which('fish') is None, 'fish is not installed')
+ class TestFish(_TestSh, unittest.TestCase):
+     expected_failures = [
+         'test_parse_special_characters',
