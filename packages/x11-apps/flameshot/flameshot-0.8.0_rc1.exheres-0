@@ -1,20 +1,18 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=lupoDharkael tag=v${PV} ]
-require qmake [ slot=5 ]
+require github [ user=flameshot-org tag="v$(ever replace 3 .)" ]
+require cmake
 require bash-completion
 require zsh-completion
 require gtk-icon-cache
-
-export_exlib_phases src_prepare src_install
 
 SUMMARY="Powerful yet simple to use screenshot software"
 DESCRIPTION="
 Flameshot features: customized appearance and functions, editing screenshots in-app,
 opening created images in other applications and uploading them to imgur.
 "
-
+PLATFORMS="~amd64"
 LICENCES="GPL-3"
 SLOT="0"
 MYOPTIONS=""
@@ -27,29 +25,18 @@ DEPENDENCIES="
         x11-libs/qtsvg:5[>=5.3]
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/shell-completion.patch"
-)
+BASH_COMPLETIONS=( "${CMAKE_SOURCE}/docs/shell-completion/${PN}" )
+ZSH_COMPLETIONS=( "${CMAKE_SOURCE}/docs/shell-completion/${PN} _${PN}" )
 
-BASH_COMPLETIONS=( "docs/shell-completion/${PN}" )
-ZSH_COMPLETIONS=( "docs/shell-completion/${PN} _${PN}" )
-
-EQMAKE_PARAMS=(
-    CONFIG+=packaging
-)
-
-flameshot_src_prepare() {
-    default
-
+src_prepare() {
+    cmake_src_prepare
     edo sed \
-        -e "/target[.]path/ s|bin|$(exhost --target)/bin|" \
-        -e "/\s+completion/ d" \
-        -i "${PN}.pro"
+        -e "/shell-completion/,+1 d" \
+        -i src/CMakeLists.txt
 }
 
-flameshot_src_install() {
-    default
-
+src_install() {
+    cmake_src_install
     bash-completion_src_install
     zsh-completion_src_install
 }
