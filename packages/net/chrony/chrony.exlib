@@ -30,26 +30,24 @@ MYOPTIONS="
 "
 
 DEPENDENCIES="
+    build:
+        virtual/pkg-config
     build+run:
-        dev-libs/libedit [[ description = [ Line editing support in chronyc ] ]]
-        dev-libs/nss [[ description = [ Support NTP authentification with a symmetric key ] ]]
-        sys-libs/libcap [[ description = [ Support dropping root privilegies ] ]]
+        dev-libs/gnutls [[ note = [ Network Time Security ] ]]
+        dev-libs/libedit [[ note = [ Line editing support in chronyc ] ]]
+        dev-libs/nettle:= [[ note = [ Support NTP authentification with a symmetric key ] ]]
+        sys-libs/libcap [[ note = [ Support dropping root privilegies ] ]]
         sys-libs/ncurses
         user/ntp
         seccomp? ( sys-libs/libseccomp )
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/2d9eb5b6fa5225a7300c8eed95712969249900fb.patch"
-    "${FILES}/9a9c0d7b99d7478e1431bd3fa8c225bdc46b3df4.patch"
-)
-
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var # XXX: to avoid installing /var/lib/lib/chrony
     --sysconfdir=/etc/chrony
     --with-user=ntp
-    --without-nettle # TODO NSS broken: nsslowhash.h: No such file
-    --without-readline # force libedit
+    --without-nss
+    --without-readline # force libedit, dropped in 4.0
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
