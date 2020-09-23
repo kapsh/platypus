@@ -20,7 +20,7 @@ RESTRICT="strip"
 MYOPTIONS="
     ( providers: jetbrains-jre system-jre ) [[
         *description = [ Boot JDK provider ]
-        number-selected = at-least-one
+        number-selected = exactly-one
     ]]
 "
 
@@ -28,11 +28,11 @@ DEPENDENCIES="
     run:
         dev-libs/glib:2
         providers:jetbrains-jre? ( dev-java/jetbrains-runtime )
-        providers:system-jre? ( virtual/jre:* )
+        providers:system-jre? ( virtual/jre:*[>=11.0] )
 "
 
 # These files should be executable
-MY_LAUNCHER="bin/${PN%-*}.sh"
+JETBRAINS_LAUNCHER="bin/${PN%-*}.sh"
 JETBRAINS_EXECUTABLES=(
     bin/format.sh
     bin/fsnotifier
@@ -54,14 +54,13 @@ jetbrains-ide_src_prepare() {
 
     # Wrong architecture
     nonfatal edo rm -r \
-        bin/fsnotifier-arm \
         lib/pty4j-native/linux/ppc64le
 
     # Use JBR automatically
     if optionq "providers:jetbrains-jre"; then
         edo sed \
             -e "1a JAVA_HOME=/opt/jetbrains-runtime" \
-            -i "${MY_LAUNCHER}"
+            -i "${JETBRAINS_LAUNCHER}"
     fi
 }
 
@@ -71,12 +70,11 @@ jetbrains-ide_src_install() {
     insinto "${dest}"
     doins -r .
 
-    for exe in "${MY_LAUNCHER}" "${JETBRAINS_EXECUTABLES[@]}"; do
-        edo chmod a+x "${IMAGE}/${dest}/${exe}"
-    done
+    exeinto "${dest}/bin"
+    doexe "${JETBRAINS_LAUNCHER}" "${JETBRAINS_EXECUTABLES[@]}"
 
     dodir "/usr/$(exhost --target)/bin"
-    dosym "${dest}/${MY_LAUNCHER}" "/usr/$(exhost --target)/bin/${PN}"
+    dosym "${dest}/${JETBRAINS_LAUNCHER}" "/usr/$(exhost --target)/bin/${PN}"
 
     insinto /usr/share/icons/hicolor/scalable/apps
     newins "bin/${PN%-*}.svg" "${PN}.svg"
