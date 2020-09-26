@@ -1,0 +1,73 @@
+Upstream: sent https://github.com/medusalix/xow/pull/114
+
+From 69e9337f5247a65057d23f002f0d72833658d498 Mon Sep 17 00:00:00 2001
+From: Alexander Kapshuna <kapsh@kap.sh>
+Date: Tue, 11 Aug 2020 14:13:52 +0300
+Subject: [PATCH] Create basic OpenRC service
+
+Support is optional, therefore init/conf files will be prepared
+for packagers while building but not installed.
+
+Closes #102
+---
+ .gitignore                  |  2 +-
+ Makefile                    |  1 +
+ install/openrc/confd/xow    |  6 ++++++
+ install/openrc/initd/xow.in | 20 ++++++++++++++++++++
+ 4 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 install/openrc/confd/xow
+ create mode 100755 install/openrc/initd/xow.in
+
+diff --git a/Makefile b/Makefile
+index fa5aa64..16e6d0b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -44,6 +44,7 @@ firmware.bin:
+ .PHONY: install
+ install: xow
+ 	sed 's|#BINDIR#|$(BINDIR)|' install/service.in > xow.service
++	sed 's|#BINDIR#|$(BINDIR)|' install/openrc/initd/xow.in > install/openrc/initd/xow
+ 	install -D -m 755 xow $(DESTDIR)$(BINDIR)/xow
+ 	install -D -m 644 install/udev.rules $(DESTDIR)$(UDEVDIR)/50-xow.rules
+ 	install -D -m 644 install/modules.conf $(DESTDIR)$(MODLDIR)/xow-uinput.conf
+diff --git a/install/openrc/confd/xow b/install/openrc/confd/xow
+new file mode 100644
+index 0000000..9798997
+--- /dev/null
++++ b/install/openrc/confd/xow
+@@ -0,0 +1,6 @@
++# Uncomment the following line to enable compatibility mode
++#XOW_COMPATIBILITY=1
++
++# Defaults to nobody if not set
++XOW_USER=
++XOW_GROUP=
+diff --git a/install/openrc/initd/xow.in b/install/openrc/initd/xow.in
+new file mode 100755
+index 0000000..83b8566
+--- /dev/null
++++ b/install/openrc/initd/xow.in
+@@ -0,0 +1,20 @@
++#!/sbin/openrc-run
++
++description="Xbox One Wireless Dongle Driver"
++command="#BINDIR#/xow"
++
++command_user="${XOW_USER:-nobody}:${XOW_GROUP:-nobody}"
++supervisor="supervise-daemon"
++output_log="/var/log/${RC_SVCNAME}.log"
++error_log="${output_log}"
++
++depend() {
++    keyword -lxc -openvz -docker
++}
++
++start_pre() {
++    checkpath -q \
++        -o "${command_user}" \
++        -f "${output_log}"
++}
++
+--
+2.28.0
+

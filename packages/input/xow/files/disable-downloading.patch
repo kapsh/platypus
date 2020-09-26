@@ -1,0 +1,19 @@
+Upstream: no
+Reason: download and unpack in correct stages
+
+diff --git a/Makefile b/Makefile
+index fa5aa64..04065e6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -35,11 +35,8 @@ firmware.o: firmware.bin
+ 	$(LD) -r -b binary -z noexecstack -o $@ $<
+
+ firmware.bin:
+-	curl -o driver.cab $(DRIVER_URL)
+-	cabextract -F FW_ACC_00U.bin driver.cab
+ 	echo $(FIRMWARE_HASH) FW_ACC_00U.bin | sha256sum -c
+ 	mv FW_ACC_00U.bin firmware.bin
+-	$(RM) driver.cab
+
+ .PHONY: install
+ install: xow
