@@ -1,7 +1,7 @@
 # Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=flameshot-org tag="v$(ever replace 3 .)" ]
+require github [ user=flameshot-org tag="v${PV}" ]
 require cmake
 require bash-completion
 require zsh-completion
@@ -30,6 +30,7 @@ ZSH_COMPLETIONS=( "${CMAKE_SOURCE}/docs/shell-completion/${PN} _${PN}" )
 
 src_prepare() {
     cmake_src_prepare
+
     edo sed \
         -e "/shell-completion/,+1 d" \
         -i src/CMakeLists.txt
