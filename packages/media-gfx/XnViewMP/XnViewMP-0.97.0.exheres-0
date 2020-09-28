@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # TODO Add support for using system Qt and stuff instead of bundled.
+# currently troubled: https://newsgroup.xnview.com/viewtopic.php?f=82&t=36255
 
 require freedesktop-desktop
 
@@ -16,29 +17,28 @@ XnView MP is provided as FREEWARE (NO Adware, NO Spyware) for private or educati
 HOMEPAGE="https://www.xnview.com/en/xnviewmp/"
 # Versionated archives are only in old_versions/
 DOWNLOADS="
-    platform:amd64? ( https://download.xnview.com/old_versions/${PN}-${PV//.}-linux-x64.tgz )
+    https://download.xnview.com/old_versions/${PN}-$(ever delete_all)-linux-x64.tgz
 "
 
 LICENCES="XnView"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS="
-    platform:
-        amd64
-"
+MYOPTIONS=""
 
-# Dependencies from bundled Qt (maybe crappy)
+# Dependencies mostly from bundled Qt
 DEPENDENCIES="
     run:
-        app-arch/bzip2
         dev-db/sqlite:3
         dev-libs/glib:2
-        dev-libs/pcre
-        media-libs/openal
+        media-libs/fontconfig
+        media-libs/freetype:2
         media-sound/pulseaudio
+        sys-apps/dbus
         sys-libs/zlib
         x11-libs/libX11
+        x11-libs/libxcb
         x11-libs/libXcomposite
+        x11-libs/libXext
         x11-libs/libXfixes
         x11-libs/libXrender
         x11-libs/libXv
@@ -51,16 +51,21 @@ pkg_setup() {
     exdirectory --allow /opt
 }
 
+src_prepare() {
+    edo sed \
+        -E "/Exec/ s|=\S+|=xnview|" \
+        -i "${MY_PN}.desktop"
+}
+
 src_install() {
     local dest="/opt/${MY_PN}"
     local launcher="xnview.sh"
 
     insinto "${dest}"
-    doins -r ./*
+    doins -r .
 
-    for exe in "${launcher}" "${MY_PN}"; do
-        edo chmod +x "${IMAGE}/${dest}/${exe}"
-    done
+    exeinto "${dest}"
+    doexe "${launcher}" "${MY_PN}"
 
     dodir /usr/$(exhost --target)/bin
     dosym "${dest}/${launcher}" /usr/$(exhost --target)/bin/xnview
