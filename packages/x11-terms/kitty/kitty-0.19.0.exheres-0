@@ -7,12 +7,10 @@
 # TODO makeshift setup.py is just broken, fix this install
 
 require github [ user=kovidgoyal release=v${PV} suffix=tar.xz ]
-require python [ blacklist=2 multibuild=false ]
+require python [ blacklist="2 3.5" multibuild=false ]
 require bash-completion
 require zsh-completion
 require gtk-icon-cache
-
-export_exlib_phases src_compile src_test src_install pkg_postinst
 
 SUMMARY="Terminal emulator with OpenGL rendering"
 DESCRIPTION="Kitty supports unicode, true-color, OpenType ligatures, tiling layouts,
@@ -21,6 +19,7 @@ HOMEPAGE="https://sw.kovidgoyal.net/${PN}/"
 
 LICENCES="GPL-3"
 SLOT="0"
+PLATFORMS="~amd64"
 MYOPTIONS="
     wayland
     ( providers: graphicsmagick imagemagick ) [[
@@ -34,15 +33,16 @@ DEPENDENCIES="
     build:
         sys-libs/ncurses [[ note = [ Calls tic to compile terminfo ] ]]
         virtual/pkg-config
-        wayland? ( sys-libs/wayland-protocols )
+        wayland? ( sys-libs/wayland-protocols[>=1.17] )
     build+run:
         media-libs/fontconfig
         media-libs/freetype:=
+        media-libs/lcms2
         media-libs/libcanberra
         media-libs/libpng:=
         sys-apps/dbus
         sys-libs/zlib
-        x11-libs/harfbuzz
+        x11-libs/harfbuzz[>=1.5.0]
         x11-libs/libX11
         x11-libs/libXcursor
         x11-libs/libXinerama
@@ -55,14 +55,15 @@ DEPENDENCIES="
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 
-ZSH_COMPLETIONS=( "${FILES}/${PN}.zsh _${PN}" )
-BASH_COMPLETIONS=( "${FILES}/${PN}.bash" )
+ZSH_COMPLETIONS=( "${FILES}/completions/${PN}.zsh _${PN}" )
+BASH_COMPLETIONS=( "${FILES}/completions/${PN}.bash" )
 
 DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/kitty-linux-package.patch"
+    "${FILES}"/kitty-linux-package.patch
+    "${FILES}"/skip-spawn-test.patch
 )
 
-kitty_src_compile() {
+src_compile() {
     edo ${PYTHON} -B setup.py -v \
         --docdir-name share/doc/${PNVR} \
         --bindir-name $(exhost --target)/bin \
@@ -70,12 +71,12 @@ kitty_src_compile() {
         linux-package
 }
 
-kitty_src_test() {
+src_test() {
     KITTY_CONFIG_DIRECTORY="${TEMP}" \
         edo ${PYTHON} -B test.py
 }
 
-kitty_src_install() {
+src_install() {
     local docs="linux-package/share/doc/${PNVR}/html"
     edo rm -r "${docs}/_sources" # TODO why is this installed at all?
 
@@ -83,13 +84,5 @@ kitty_src_install() {
 
     bash-completion_src_install
     zsh-completion_src_install
-}
-
-kitty_pkg_postinst() {
-    # config from docs messes with update_check_interval=0
-    local old_config=/etc/xdg/kitty
-    if [[ -d "${old_config}" ]]; then
-        nonfatal edo rm "${old_config}" || ewarn "Failed to remove old config"
-    fi
 }
 
