@@ -4,14 +4,14 @@
 require pypi
 require setup-py [ import=setuptools test=pytest ]
 
-SUMMARY="Provides an uniform layer to support PyQt5, PySide2 and PySide with a single codebase"
+SUMMARY="Provides an uniform layer to support PyQt5/PySide2 with a single codebase"
 
 LICENCES="MIT"
 SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="
     providers: ( pyqt5 pyside2 ) [[
-        *number-selected = at-least-one
+        number-selected = at-least-one
     ]]
 "
 
@@ -26,7 +26,7 @@ DEPENDENCIES="
 RESTRICT="test"
 
 pkg_postinst() {
-    einfo "${PN} will use first found provider in order of preference: pyqt5, pyside2"
+    einfo "${PN} uses first found provider in order of preference: pyqt5, pyside2"
     einfo "To override this, environment variable QT_API can be set to one of these names"
 }
 
