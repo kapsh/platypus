@@ -27,6 +27,6 @@ CMAKE_SRC_CONFIGURE_PARAMS=(
     -DCMAKE_BUILD_TYPE=RelWithDebInfo
     -DDATA_INSTALL_PREFIX=/usr/share
     -DMANPAGE_INSTALL_PREFIX=/usr/share/man/man1
-    -DWITH_WEBKIT=OFF
+    -DWITH_WEBKIT=OFF # ON: more advanced HTML rendering
 )
 
