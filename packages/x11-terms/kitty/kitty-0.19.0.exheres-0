@@ -7,7 +7,7 @@
 # TODO makeshift setup.py is just broken, fix this install
 
 require github [ user=kovidgoyal release=v${PV} suffix=tar.xz ]
-require python [ blacklist="2 3.5" multibuild=false ]
+require python [ blacklist=2 multibuild=false ]
 require bash-completion
 require zsh-completion
 require gtk-icon-cache

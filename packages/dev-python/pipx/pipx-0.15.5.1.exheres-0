@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require pypi
-require setup-py [ blacklist="2 3.5" import=setuptools ]
+require setup-py [ blacklist=2 import=setuptools ]
 require bash-completion
 require zsh-completion
 
