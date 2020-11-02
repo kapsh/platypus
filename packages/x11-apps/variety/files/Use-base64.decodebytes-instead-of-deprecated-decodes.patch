@@ -1,0 +1,27 @@
+Upstream: sent https://github.com/varietywalls/variety/pull/385
+
+From 38420524052a30fe84f1727877b501d3bbec8b2f Mon Sep 17 00:00:00 2001
+From: Alexander Kapshuna <kapsh@kap.sh>
+Date: Tue, 3 Nov 2020 02:22:28 +0300
+Subject: [PATCH] Use base64.decodebytes instead of deprecated decodestring
+
+---
+ variety/Util.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/variety/Util.py b/variety/Util.py
+index a151d96..6182425 100644
+--- a/variety/Util.py
++++ b/variety/Util.py
+@@ -653,7 +653,7 @@ class Util:
+
+     @staticmethod
+     def unxor(text, key):
+-        ciphertext = base64.decodestring(text)
++        ciphertext = base64.decodebytes(text)
+         return "".join(chr(x ^ ord(y)) for (x, y) in zip(ciphertext, cycle(key)))
+
+     @staticmethod
+--
+2.29.2
+

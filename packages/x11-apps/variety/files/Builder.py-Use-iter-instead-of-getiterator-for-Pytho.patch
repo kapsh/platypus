@@ -1,0 +1,37 @@
+Upstream: master
+
+From 4ad856d2dc3c9a421dc934b24237c647a4ed36b5 Mon Sep 17 00:00:00 2001
+From: Karthikeyan Singaravelan <tir.karthi@gmail.com>
+Date: Tue, 27 Oct 2020 00:30:47 +0530
+Subject: [PATCH] Builder.py: Use iter instead of getiterator for Python 3
+ compatibility (#379)
+
+---
+ variety_lib/Builder.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/variety_lib/Builder.py b/variety_lib/Builder.py
+index 9fbb4e2..d30b577 100644
+--- a/variety_lib/Builder.py
++++ b/variety_lib/Builder.py
+@@ -91,7 +91,7 @@ class Builder(Gtk.Builder):
+         tree = ElementTree()
+         tree.parse(filename)
+
+-        ele_widgets = tree.getiterator("object")
++        ele_widgets = tree.iter("object")
+         for ele_widget in ele_widgets:
+             name = ele_widget.attrib.get("id")
+             if not name:
+@@ -116,7 +116,7 @@ class Builder(Gtk.Builder):
+             if connections:
+                 self.connections.extend(connections)
+
+-        ele_signals = tree.getiterator("signal")
++        ele_signals = tree.iter("signal")
+         for ele_signal in ele_signals:
+             self.glade_handler_dict.update({ele_signal.attrib["handler"]: None})
+
+--
+2.29.2
+
