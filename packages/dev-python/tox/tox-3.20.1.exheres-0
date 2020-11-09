@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require pypi
-require setup-py [ blacklist=2 import=setuptools test=pytest ]
+require setup-py [ blacklist=2 import=setuptools has_bin=true test=pytest ]
 
 SUMMARY="virtualenv-based automation of test activities"
 DESCRIPTION="tox is a generic virtualenv management and test command line tool you can use for:
@@ -29,7 +29,8 @@ DEPENDENCIES="
         dev-python/six[>=1.14.0][python_abis:*(-)?]
         dev-python/toml[>=0.9.4][python_abis:*(-)?]
         dev-python/virtualenv[>=1.16.0][python_abis:*(-)?]
-        dev-python/importlib_metadata[>=0.12][python_abis:*(-)?]
+        python_abis:3.6? ( dev-python/importlib_metadata[>=0.12&<3][python_abis:3.6] )
+        python_abis:3.7? ( dev-python/importlib_metadata[>=0.12&<3][python_abis:3.7] )
 "
 
 # Requires unpackaged pytest-randomly which requires another load of unpackaged.
