@@ -1,6 +1,6 @@
 Source: https://gitweb.gentoo.org/repo/gentoo.git/plain/app-editors/wxhexeditor/files/wxhexeditor-0.24-syslibs.patch
 Upstream: no
-Reason: upstream makefile hides dependencies
+Reason: upstream makefile bundles dependencies
 
 Use system copies of mhash and udis86.
 Also pass -fopenmp when linking to avoid build errors.

@@ -19,7 +19,7 @@ DEPENDENCIES="
     build+run:
         app-crypt/mhash
         dev-libs/udis86
-        sys-libs/libgomp:8
+        sys-libs/libgomp:=
         x11-libs/wxGTK:=
 "
 
