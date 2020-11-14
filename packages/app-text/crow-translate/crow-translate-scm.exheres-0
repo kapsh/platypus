@@ -1,8 +1,0 @@
-# Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
-# Distributed under the terms of the GNU General Public License v2
-
-# Last: 79640e026d4cdc6133af07eba25309cfa13fb452 (2020-08-14)
-require crow-translate
-
-PLATFORMS="~amd64"
-

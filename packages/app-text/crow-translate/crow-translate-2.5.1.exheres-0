@@ -1,7 +1,59 @@
 # Copyright 2019 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-require crow-translate
+# TODO for new release 2.6+
+# work with cmake FetchContent
+# optional tesseract support?
 
+SCM_SECONDARY_REPOSITORIES="
+    qgittag
+    qhotkey
+    qonlinetranslator
+    qtaskbarcontrol
+    singleapplication
+"
+SCM_EXTERNAL_REFS="
+    src/qgittag:qgittag
+    src/qonlinetranslator:qonlinetranslator
+    src/third-party/qhotkey:qhotkey
+    src/third-party/qtaskbarcontrol:qtaskbarcontrol
+    src/third-party/singleapplication:singleapplication
+"
+SCM_qgittag_REPOSITORY="https://github.com/Shatur95/QGitTag.git"
+SCM_qhotkey_REPOSITORY="https://github.com/Skycoder42/QHotkey.git"
+SCM_qonlinetranslator_REPOSITORY="https://github.com/crow-translate/QOnlineTranslator.git"
+SCM_qtaskbarcontrol_REPOSITORY="https://github.com/Skycoder42/QTaskbarControl.git"
+SCM_singleapplication_REPOSITORY="https://github.com/itay-grudev/SingleApplication.git"
+
+require github [ force_git_clone=true ]
+require cmake
+require gtk-icon-cache
+
+SUMMARY="Crow Translate - online text translator"
+DESCRIPTION="
+A simple and lightweight translator that allows to translate and speak text using Google, Yandex and Bing.
+"
+HOMEPAGE="https://crow-translate.github.io/"
+
+LICENCES="GPL-3"
 PLATFORMS="~amd64"
+SLOT="0"
+MYOPTIONS="
+    gstreamer [[ description = [ Speak original and translated text ] ]]
+"
+
+DEPENDENCIES="
+    build:
+        kde-frameworks/extra-cmake-modules
+        x11-libs/qttools:5
+    build+run:
+        x11-libs/libX11
+        x11-libs/qtbase:5[gui]
+        x11-libs/qtmultimedia:5[gstreamer?]
+        x11-libs/qtx11extras:5
+    run:
+        gstreamer? (
+            media-plugins/gst-plugins-good:1.0[gstreamer_plugins:mpg123][gstreamer_plugins:soup]
+        )
+"
 
