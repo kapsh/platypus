@@ -1,0 +1,26 @@
+From 4f8a4da6c80d94785d57084da0e864941b3dbe64 Mon Sep 17 00:00:00 2001
+From: Brodie Davis <davisb@ainfosec.com>
+Date: Tue, 17 Jan 2017 13:59:03 -0500
+Subject: [PATCH] update compatibility with python 3.5
+
+---
+ scripts/ud_opcode.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/ud_opcode.py b/scripts/ud_opcode.py
+index fe1833d..30c9f43 100644
+--- a/scripts/ud_opcode.py
++++ b/scripts/ud_opcode.py
+@@ -550,10 +550,10 @@ def printWalk(tbl, indent=""):
+             entries = tbl.entries()
+             for k, e in entries:
+                 if isinstance(e, UdOpcodeTable):
+-                    self.log("%s    |-<%02x> %s" % (indent, k, e))
++                    self.log("%s    |-<%02x> %s" % (indent, int(k), e))
+                     printWalk(e, indent + "    |")
+                 elif isinstance(e, UdInsnDef):
+-                    self.log("%s    |-<%02x> %s" % (indent, k, e))
++                    self.log("%s    |-<%02x> %s" % (indent, int(k), e))
+         printWalk(self.root)
+ 
+ 
