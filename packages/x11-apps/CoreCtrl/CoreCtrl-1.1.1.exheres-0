@@ -1,0 +1,66 @@
+# Copyright 2020 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+# TODO install polkit rule per https://gitlab.com/corectrl/corectrl/-/wikis/Setup#dont-ask-for-user-password
+
+MY_PN=${PN,,}
+MY_PV=v${PV}
+
+require gitlab [ new_download_scheme=true ]
+require cmake
+
+SUMMARY="Core control application"
+DESCRIPTION="
+Allows you to control with ease your computer hardware using application profiles.
+It aims to be flexible, comfortable and accessible to regular users.
+The actual version of CoreCtrl automatically apply profiles for native and Windows applications,
+has basic CPU controls and full AMD GPUs controls (for both old and new models).
+The goal is to support as much hardware as possible, even from other vendors.
+"
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        kde-frameworks/extra-cmake-modules
+        x11-libs/qttools:5
+    build+run:
+        dev-libs/botan:=
+        kde-frameworks/karchive:5
+        kde-frameworks/kauth:5[polkit]
+        x11-libs/qtbase:5[gui]
+        x11-libs/qtcharts:5
+        x11-libs/qtdeclarative:5
+        x11-libs/qtquickcontrols2:5
+        x11-libs/qtsvg:5
+    run:
+        sys-apps/pciutils-data [[ note = [ pci.ids file ] ]]
+        sys-process/procps [[ note = [ uses pidof ] ]]
+    suggestion:
+        (
+            sys-apps/vulkan-tools
+            x11-dri/mesa-demos
+        ) [[ *description = [ Display more information about system ] ]]
+"
+
+CMAKE_SOURCE="${WORKBASE}/${MY_PN}-${MY_PV}"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/Make-path-to-pci.ids-configurable-at-build-time.patch
+    "${FILES}"/Use-KDEInstallDirs-to-install-resources.patch
+)
+
+CMAKE_SRC_CONFIGURE_TESTS=(
+    "-DBUILD_TESTING:BOOL=ON -DBUILD_TESTING:BOOL=OFF"
+)
+
+CMAKE_SRC_CONFIGURE_PARAMS=(
+    -DWITH_PCI_IDS_PATH=/usr/share/misc/pci.ids
+)
+
+src_test() {
+    emake test_all
+}
+

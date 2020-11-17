@@ -1,0 +1,49 @@
+Upstream: sent https://gitlab.com/corectrl/corectrl/-/merge_requests/26
+
+From c73808648e77d023665efb29bb87b48802b0d122 Mon Sep 17 00:00:00 2001
+From: Alexander Kapshuna <kapsh@kap.sh>
+Date: Sat, 21 Nov 2020 14:17:24 +0300
+Subject: [PATCH] Make path to pci.ids configurable at build time
+
+Allows using it on distros with different filesystem layouts.
+---
+ CMakeLists.txt         | 5 ++++-
+ src/app/appfactory.cpp | 2 +-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 603e3fa..e942fdb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.3)
++cmake_minimum_required(VERSION 3.12)
+
+ project(CoreCtrl LANGUAGES CXX)
+ set(PROJECT_VERSION 1.2.0-dev)
+@@ -43,6 +43,9 @@ find_package(KF5Auth REQUIRED)
+ find_package(KF5Archive REQUIRED)
+ find_package(Botan REQUIRED)
+
++set(WITH_PCI_IDS_PATH "/usr/share/hwdata/pci.ids" CACHE FILEPATH "Path to pci.ids file")
++add_compile_definitions(PCI_IDS_PATH="${WITH_PCI_IDS_PATH}")
++
+ add_subdirectory(src)
+
+ # Tests
+diff --git a/src/app/appfactory.cpp b/src/app/appfactory.cpp
+index 03edb7c..6abfa64 100644
+--- a/src/app/appfactory.cpp
++++ b/src/app/appfactory.cpp
+@@ -87,7 +87,7 @@ std::unique_ptr<App> AppFactory::build() const
+         std::move(swInfo), std::make_unique<SysExplorer>(gpuVendors_),
+         std::make_unique<HWIDTranslator>(
+             gpuVendors_,
+-            std::make_unique<HWIDDataSource>("/usr/share/hwdata/pci.ids")),
++            std::make_unique<HWIDDataSource>(PCI_IDS_PATH)),
+         std::make_unique<CPUControlProvider>(),
+         std::make_unique<CPUSensorProvider>(),
+         std::make_unique<GPUControlProvider>(),
+--
+2.29.2
+
