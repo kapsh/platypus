@@ -75,7 +75,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
 )
 
 BASH_COMPLETIONS=(
-    "bash/${PN}.bash"
+    "bash/${PN}"
 )
 
 src_prepare() {
