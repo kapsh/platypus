@@ -1,0 +1,29 @@
+# Copyright 2020 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+require github [ user=gyunaev tag=v${PV} ]
+require cmake
+
+SUMMARY="System tray new mail notification for Thunderbird (without extensions)"
+DESCRIPTION="
+Features
+- Shows the unread email counter in the Thunderbird system tray icon;
+- Can launch, monitor and restart Thunderbird;
+- Does not depend on extensions API;
+"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        x11-libs/qttools:5
+    build+run:
+        x11-libs/libX11
+        x11-libs/qtbase:5
+        x11-libs/qtsvg:5
+        x11-libs/qtx11extras:5
+"
+
