@@ -12,7 +12,3 @@ MYOPTIONS=""
 PLATFORMS="~amd64"
 SLOT="0"
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/purepath_fspath.patch"
-)
-
