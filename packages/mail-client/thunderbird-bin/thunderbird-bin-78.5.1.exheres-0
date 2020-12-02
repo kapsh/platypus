@@ -39,6 +39,8 @@ DEPENDENCIES="
         x11-libs/libXrender
         x11-libs/libXt
         x11-libs/pango
+    suggestion:
+        mail-client/birdtray [[ description = [ Tray notification ] ]]
 "
 
 WORK="${WORKBASE}/${MY_PN}"
