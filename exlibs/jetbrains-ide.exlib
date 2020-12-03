@@ -5,7 +5,7 @@
 
 # Required artifacts
 #
-# Distribution parts (as for for product-edition)
+# Distribution parts (when name is "product-edition")
 #   bin/product.sh - installed as /usr/bin/product-edition
 #   bin/product.png - icon for desktop file
 # Files:
@@ -38,6 +38,7 @@ JETBRAINS_EXECUTABLES=(
     bin/fsnotifier
     bin/fsnotifier64
     bin/inspect.sh
+    bin/ltedit.sh
     bin/printenv.py
     bin/restart.py
 )
@@ -49,12 +50,8 @@ jetbrains-ide_pkg_setup() {
 jetbrains-ide_src_prepare() {
     default
 
-    # provided by jetbrains-runtime
+    # provided by jetbrains-runtime or missing
     nonfatal edo rm -r jbr
-
-    # Wrong architecture
-    nonfatal edo rm -r \
-        lib/pty4j-native/linux/ppc64le
 
     # Use JBR automatically
     if optionq "providers:jetbrains-jre"; then
@@ -73,8 +70,9 @@ jetbrains-ide_src_install() {
     exeinto "${dest}/bin"
     doexe "${JETBRAINS_LAUNCHER}" "${JETBRAINS_EXECUTABLES[@]}"
 
-    dodir "/usr/$(exhost --target)/bin"
-    dosym "${dest}/${JETBRAINS_LAUNCHER}" "/usr/$(exhost --target)/bin/${PN}"
+    local bindir="/usr/$(exhost --target)/bin"
+    dodir "${bindir}"
+    dosym "${dest}/${JETBRAINS_LAUNCHER}" "${bindir}/${PN}"
 
     insinto /usr/share/icons/hicolor/scalable/apps
     newins "bin/${PN%-*}.svg" "${PN}.svg"
