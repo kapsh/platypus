@@ -1,18 +1,14 @@
 # Copyright 2012 William Orr <will@worrbase.com>
 # Distributed under the terms of the GNU General Public License v2
 
-require github [ user=nicolargo ] setup-py [ import=setuptools ]
+require github [ user=nicolargo tag=v${PV} ]
+require setup-py [ import=setuptools ]
 
-export_exlib_phases src_install
-
-SUMMARY="A curses monitoring tool for linux"
-DESCRIPTION="
-Glances is a CLI curses based monitoring tool for GNU/Linux and BSD OS.
-
-Glances uses the PsUtil library to get information from your system.
-"
+SUMMARY="System monitoring tool with CLI and Web interfaces"
+HOMEPAGE="https://nicolargo.github.io/glances/"
 
 LICENCES="LGPL-3"
+SLOT="0"
 MYOPTIONS=""
 
 DEPENDENCIES="
