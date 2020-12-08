@@ -2,9 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 MY_PN="shellcheck"
-MY_PNV="${MY_PN}-v${PV}"
+MY_PV="v${PV}"
+MY_PNV="${MY_PN}-${MY_PV}"
 
-SUMMARY="A shell script static analysis tool (statically linked version)"
+SUMMARY="A shell script static analysis tool (binary version)"
 DESCRIPTION="
 The goals of ShellCheck are
 
@@ -16,7 +17,7 @@ strangely and counter-intuitively.
 working script to fail under future circumstances.
 "
 HOMEPAGE="https://www.shellcheck.net/"
-DOWNLOADS="https://storage.googleapis.com/${MY_PN}/${MY_PNV}.linux.x86_64.tar.xz"
+DOWNLOADS="https://github.com/koalaman/${MY_PN}/releases/download/${MY_PV}/${MY_PNV}.linux.x86_64.tar.xz"
 
 LICENCES="GPL-3"
 SLOT="0"
