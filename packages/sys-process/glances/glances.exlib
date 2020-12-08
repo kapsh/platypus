@@ -56,18 +56,16 @@ PYTHON_BYTECOMPILE_EXCLUDES=(
     glances/exports/glances_mqtt.py
 )
 
-test_one_multibuild() {
-    esandbox allow_net --connect "inet:127.0.0.1/0@7634"
-    PYTHONPATH="$(ls -d ${PWD}/build/lib*)" edo ${PYTHON} unitest.py
-    esandbox disallow_net --connect "inet:127.0.0.1/0@7634"
+prepare_one_multibuild() {
+    edo sed \
+        -e "s|share/doc/glances|share/doc/${PNVR}|" \
+        -i setup.py
 }
 
-glances_src_install() {
-    setup-py_src_install
-
-    # XXX: Remove duplicate doc installed by emagicdocs (distutils)
-    edo rm -r ${IMAGE}/usr/share/doc/${PNVR}
-    # And move the original doc
-    edo mv ${IMAGE}/usr/share/doc/{${PN},${PNVR}}
+test_one_multibuild() {
+    esandbox allow_net --connect "inet:127.0.0.1/0@7634"
+    PYTHONPATH="$(ls -d ${PWD}/build/lib*)" \
+        edo ${PYTHON} -B unitest.py
+    esandbox disallow_net --connect "inet:127.0.0.1/0@7634"
 }
 
