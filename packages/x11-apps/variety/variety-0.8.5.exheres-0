@@ -46,11 +46,6 @@ DEPENDENCIES="
 # Wants X and Internet access for tests.
 RESTRICT="test"
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}"/Builder.py-Use-iter-instead-of-getiterator-for-Pytho.patch
-    "${FILES}"/Use-base64.decodebytes-instead-of-deprecated-decodes.patch
-)
-
 pkg_setup() {
     # Tries to access X on config.
     unset DISPLAY
@@ -58,9 +53,8 @@ pkg_setup() {
 
 src_prepare() {
     default
-    # Searching data paths fucked up as usual.
-    edo sed \
-        -e "/data_path/ s|self.prefix|'/usr'|" \
+    edo sed -E \
+        -e "/data_path =/ s|=.+$|= '/usr/share/variety'|" \
         -i setup.py
 }
 
