@@ -20,7 +20,7 @@ DEPENDENCIES="
         virtual/pkg-config
     build+run:
         dev-libs/libaio
-        dev-python/six[python_abis:*(-)?]
+        dev-python/six[python_abis:*(-)?] [[ note = [ For fio_jsonplus_clat2csv ] ]]
         net-misc/curl
         providers:libressl? ( dev-libs/libressl:= )
         providers:openssl? ( dev-libs/openssl )
@@ -34,7 +34,7 @@ DEPENDENCIES="
         (
             dev-python/numpy[python_abis:*(-)?]
             dev-python/pandas[python_abis:*(-)?]
-        ) [[ *description = [ For using fiologparser_hist.py ] ]]
+        ) [[ *description = [ For fiologparser_hist.py ] ]]
 "
 
 DEFAULT_SRC_INSTALL_PARAMS=(
@@ -82,7 +82,6 @@ src_configure() {
 
 src_install() {
     default
-
     dodoc -r examples
 }
 
