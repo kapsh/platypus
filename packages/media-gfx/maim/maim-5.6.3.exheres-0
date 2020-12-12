@@ -4,7 +4,7 @@
 require cmake
 require github [ user=naelstrof tag=v${PV} ]
 
-SUMMARY="maim (make image) takes screenshots of your desktop"
+SUMMARY="maim (Make Image) takes screenshots of your desktop"
 DESCRIPTION="
 maim is meant to overcome shortcomings of scrot and performs better in several ways.
 "
