@@ -1,10 +1,3 @@
 # platypus
-Exherbo playground
+Just bunch of random packages for Exherbo Linux
 
-
-`/etc/paludis/repositories/platypus.conf`
-```
-format = e
-location = /var/db/paludis/repositories/platypus
-sync = git+https://gitlab.exherbo.org/kapsh/platypus.git
-```
