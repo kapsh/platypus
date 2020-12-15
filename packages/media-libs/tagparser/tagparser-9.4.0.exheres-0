@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=martchus tag=v${PV} ]
-require cmake [ cmake_minimum_version=3.3.0 ]
+require cmake
 
 SUMMARY="C++ library for reading and writing MP4 (iTunes), ID3, Vorbis, Opus, FLAC and Matroska tags"
 
@@ -13,13 +13,18 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        dev-libs/cpp-utilities[>=4.9.0]
+        dev-libs/cpp-utilities[>=5.0.0]
 "
 
 # Tests depend on multiple sample files from various sources.
 RESTRICT="test"
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
+    -DBUILD_SHARED_LIBS=ON
     -DNO_DOXYGEN:BOOL=ON
+)
+
+CMAKE_SRC_CONFIGURE_TESTS=(
+    -DEXCLUDE_TESTS_FROM_ALL:BOOL=OFF
 )
 
