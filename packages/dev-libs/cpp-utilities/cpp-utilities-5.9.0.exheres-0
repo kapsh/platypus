@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ user=martchus tag=v${PV} ]
-require cmake [ cmake_minimum_version=3.3.0 ]
+require cmake
 
 SUMMARY="Useful C++ classes and routines such as argument parser, IO and conversion utilities"
 
@@ -12,13 +12,12 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
+    test:
+        dev-cpp/cppunit
 "
 
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/6273b42643933ff0ea526136f3c4b059930c7d7a.patch"
-)
-
 CMAKE_SRC_CONFIGURE_PARAMS=(
+    -DBUILD_SHARED_LIBS=ON
     -DNO_DOXYGEN:BOOL=ON
 )
 
