@@ -1,0 +1,32 @@
+# Copyright 2020 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+MY_PN=ansible-base
+MY_PNV=${MY_PN}-${PV}
+require pypi
+require setup-py [ import=setuptools work=${MY_PNV} ]
+
+SUMMARY="The core Ansible programs"
+HOMEPAGE="https://www.ansible.com/"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~x86 ~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/cryptography[python_abis:*(-)?]
+        dev-python/Jinja2[python_abis:*(-)?]
+        dev-python/packaging[python_abis:*(-)?]
+        dev-python/PyYAML[python_abis:*(-)?]
+"
+
+# TODO one does not simply run ansible's tests
+RESTRICT="test"
+
+pkg_setup() {
+    # check for pip-upgrading from 2.9 makes no sense when pip is not being used
+    export ANSIBLE_SKIP_CONFLICT_CHECK=1
+}
+
