@@ -29,6 +29,7 @@ DEPENDENCIES="
         net-print/cups
         sys-apps/dbus
         sys-sound/alsa-lib
+        x11-apps/xdg-utils
         x11-libs/cairo
         x11-libs/gdk-pixbuf:2.0
         x11-libs/gtk+:3
@@ -47,8 +48,6 @@ DEPENDENCIES="
         x11-libs/pango
 "
 
-UPSTREAM_RELEASE_NOTES="https://browser.yandex.ru/blog/"
-
 WORK="${WORKBASE}"
 
 pkg_setup() {
@@ -64,24 +63,36 @@ src_prepare() {
     default
     edo rm -r usr/share/menu  # Debian specific thing
     edo sed \
-        -e "/Exec/ s|/usr/bin/||" \
+        -e "/^Exec/ s|/usr/bin/||" \
         -i "usr/share/applications/${PN}.desktop"
 }
 
 src_install() {
-    local yab_home="opt/${PN/-//}"  # opt/yandex/PN
+    local dest="/opt/${PN}"
 
-    for s in 16 22 24 32 48 64 128 256 512; do
+    insinto /usr/share
+    doins -r usr/share/*
+
+    edo cd opt/yandex/browser-beta
+    insinto ${dest}
+    exeinto ${dest}
+
+    doins -r \
+        *.so *.pak *.dat *.bin *.nexe *_config trusted.json \
+        Extensions MEIPreload lib locales ntp resources swiftshader ui_config
+    doexe \
+        yandex_browser yandex_browser-sandbox yandex-browser-beta \
+        nacl_helper nacl_helper_bootstrap
+    edo chmod 4755 "${IMAGE}"${dest}/yandex_browser-sandbox
+
+    for s in 16 24 32 48 64 128 256 512; do
         insinto /usr/share/icons/hicolor/${s}x${s}/apps
-        newins "${yab_home}/product_logo_${s}.png" "${PN}.png"
+        newins "product_logo_${s}.png" "${PN}.png"
     done
 
-    # TODO easier to do, but breaks $WORK
-    edo mv opt "${IMAGE}"
-    edo mv usr/share/* "${IMAGE}/usr/share"
-
-    dodir /usr/$(exhost --target)/bin
-    dosym "/${yab_home}/${PN}" "/usr/$(exhost --target)/bin/${PN}"
+    local bindir="/usr/$(exhost --target)/bin"
+    dodir "${bindir}"
+    dosym "${dest}/${PN}" "${bindir}/${PN}"
 }
 
 pkg_postinst() {
