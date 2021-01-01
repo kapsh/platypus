@@ -1,0 +1,16 @@
+Upstream: no
+Reason: respect user's cflags without breaking build
+
+diff --git a/Makefile b/Makefile
+index 2c0277f..2a57c74 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ CC ?= gcc
+ LOLCAT_SRC ?= lolcat.c
+ CENSOR_SRC ?= censor.c
+-CFLAGS ?= -std=c11 -Wall -Wextra -O3 -Wno-sign-compare -lm
++CFLAGS := -std=c11 -Wall -Wextra -Wno-sign-compare -lm $(CFLAGS)
+
+ DESTDIR ?= /usr/local/bin
+
