@@ -4,7 +4,7 @@
 require gem
 
 SUMMARY="Formatted and highlighted view of Markdown files in Terminal."
-HOMEPAGE="http://brettterpstra.com/projects/mdless/"
+HOMEPAGE="https://brettterpstra.com/projects/mdless/"
 
 LICENCES="MIT"
 SLOT="0"
