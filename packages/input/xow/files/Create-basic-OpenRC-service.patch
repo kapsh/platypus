@@ -1,6 +1,6 @@
 Upstream: sent https://github.com/medusalix/xow/pull/114
 
-From 69e9337f5247a65057d23f002f0d72833658d498 Mon Sep 17 00:00:00 2001
+From aaf975a97bd19732bcaf1219f5c5c4b12d3fd35c Mon Sep 17 00:00:00 2001
 From: Alexander Kapshuna <kapsh@kap.sh>
 Date: Tue, 11 Aug 2020 14:13:52 +0300
 Subject: [PATCH] Create basic OpenRC service
@@ -9,15 +9,29 @@ Support is optional, therefore init/conf files will be prepared
 for packagers while building but not installed.
 
 Closes #102
+
+Signed-off-by: Alexander Kapshuna <kapsh@kap.sh>
 ---
  .gitignore                  |  2 +-
  Makefile                    |  1 +
  install/openrc/confd/xow    |  6 ++++++
- install/openrc/initd/xow.in | 20 ++++++++++++++++++++
- 4 files changed, 28 insertions(+), 1 deletion(-)
+ install/openrc/initd/xow.in | 27 +++++++++++++++++++++++++++
+ 4 files changed, 35 insertions(+), 1 deletion(-)
  create mode 100644 install/openrc/confd/xow
  create mode 100755 install/openrc/initd/xow.in
 
+diff --git a/.gitignore b/.gitignore
+index 1c3ffdf..034905a 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,6 +1,6 @@
+ internal/*
+ firmware.bin
+-xow
++/xow
+ *.d
+ *.o
+ .vscode/*
 diff --git a/Makefile b/Makefile
 index fa5aa64..16e6d0b 100644
 --- a/Makefile
@@ -32,11 +46,11 @@ index fa5aa64..16e6d0b 100644
  	install -D -m 644 install/modules.conf $(DESTDIR)$(MODLDIR)/xow-uinput.conf
 diff --git a/install/openrc/confd/xow b/install/openrc/confd/xow
 new file mode 100644
-index 0000000..9798997
+index 0000000..b94f5bd
 --- /dev/null
 +++ b/install/openrc/confd/xow
 @@ -0,0 +1,6 @@
-+# Uncomment the following line to enable compatibility mode
++# Enable compatibility mode (Xbox 360 emulation)
 +#XOW_COMPATIBILITY=1
 +
 +# Defaults to nobody if not set
@@ -44,10 +58,10 @@ index 0000000..9798997
 +XOW_GROUP=
 diff --git a/install/openrc/initd/xow.in b/install/openrc/initd/xow.in
 new file mode 100755
-index 0000000..83b8566
+index 0000000..6ab79b3
 --- /dev/null
 +++ b/install/openrc/initd/xow.in
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,27 @@
 +#!/sbin/openrc-run
 +
 +description="Xbox One Wireless Dongle Driver"
@@ -58,16 +72,23 @@ index 0000000..83b8566
 +output_log="/var/log/${RC_SVCNAME}.log"
 +error_log="${output_log}"
 +
++extra_started_commands="pair"
++description_pair="Enable dongle pairing mode"
++
 +depend() {
 +    keyword -lxc -openvz -docker
 +}
 +
 +start_pre() {
 +    checkpath -q \
-+        -o "${command_user}" \
-+        -f "${output_log}"
++        --owner "${command_user}" \
++        --file "${output_log}"
 +}
 +
---
-2.28.0
++pair() {
++    "${supervisor}" "${RC_SVCNAME}" \
++        --signal USR1
++}
+-- 
+2.30.0
 
