@@ -14,7 +14,7 @@ SUMMARY="Xbox One Wireless Dongle Driver"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
+MYOPTIONS="debug"
 DOWNLOADS+="
     listed-only:
         http://download.windowsupdate.com/c/msdownload/update/driver/drvs/2017/07/1cd6a87c-623f-4407-a52d-c31be49e925c_e19f60808bdcbfbd3c3df6be3e71ffc52e43261e.cab -> ${PNVR}_driver.cab
@@ -32,10 +32,6 @@ DEFAULT_SRC_PREPARE_PATCHES=(
     "${FILES}"/disable-downloading.patch
 )
 
-DEFAULT_SRC_COMPILE_PARAMS=(
-    BUILD=RELEASE
-)
-
 DEFAULT_SRC_INSTALL_PARAMS=(
     PREFIX=/usr/$(exhost --target)
     SYSDDIR=${SYSTEMDSYSTEMUNITDIR}
@@ -51,6 +47,12 @@ src_unpack() {
     edo cabextract \
         -d "${WORK}" \
         "${FETCHEDDIR}/${PNVR}_driver.cab"
+}
+
+src_compile() {
+    # TODO respect user CFLAGS
+    emake \
+        "BUILD=$(option debug DEBUG RELEASE)"
 }
 
 src_install() {
