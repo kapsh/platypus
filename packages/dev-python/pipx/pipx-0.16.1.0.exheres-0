@@ -17,8 +17,11 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         dev-python/argcomplete[>=1.9.4&<2.0][python_abis:*(-)?]
+        dev-python/colorama[>=0.4.4][python_abis:*(-)?]
         dev-python/packaging[>=20.0][python_abis:*(-)?]
         dev-python/userpath[>=1.4.1][python_abis:*(-)?]
+        python_abis:3.6? ( dev-python/importlib_metadata[>=3.3.0][python_abis:3.6] )
+        python_abis:3.7? ( dev-python/importlib_metadata[>=3.3.0][python_abis:3.7] )
 "
 
 # no tests in pypi distribution
@@ -30,7 +33,6 @@ ZSH_COMPLETIONS=( "${FILES}/completion.sh _${PN}" )
 src_install() {
     setup-py_src_install
     bash-completion_src_install
-    # TODO zsh completion works only when explicitly sourced
     zsh-completion_src_install
 }
 
