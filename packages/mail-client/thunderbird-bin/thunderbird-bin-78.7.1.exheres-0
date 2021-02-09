@@ -43,6 +43,7 @@ DEPENDENCIES="
         mail-client/birdtray [[ description = [ Tray notification ] ]]
 "
 
+RESTRICT="strip"
 WORK="${WORKBASE}/${MY_PN}"
 
 pkg_setup() {
