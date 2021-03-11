@@ -46,6 +46,7 @@ DEPENDENCIES="
 
 MY_PN="XnView"
 WORK="${WORKBASE}/${MY_PN}"
+RESTRICT="strip"
 
 pkg_setup() {
     exdirectory --allow /opt
