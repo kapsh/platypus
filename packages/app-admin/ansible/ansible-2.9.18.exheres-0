@@ -1,0 +1,32 @@
+# Copyright 2018 Alexander Kapshuna <kapsh@kap.sh>
+# Distributed under the terms of the GNU General Public License v2
+
+# TODO one does not simply run ansible's tests
+
+require setup-py [ import=setuptools ]
+
+SUMMARY="Configuration management and orchestration software"
+DESCRIPTION="Ansible is software that automates software provisioning,
+configuration management, and application deployment."
+
+HOMEPAGE="https://www.ansible.com/"
+DOWNLOADS="https://releases.ansible.com/ansible/${PNV}.tar.gz"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~x86 ~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        dev-python/cryptography[python_abis:*(-)?]
+        dev-python/Jinja2[python_abis:*(-)?]
+        dev-python/PyYAML[python_abis:*(-)?]
+    suggestion:
+        app-admin/ansible-toolbox [[ description = [ Additional command line tools ] ]]
+        dev-python/pywinrm[python_abis:*(-)?] [[ description = [ Manage Windows hosts ] ]]
+        net-misc/sshpass [[ description = [ To use ssh connections with passwords ] ]]
+"
+
+RESTRICT="test"
+
