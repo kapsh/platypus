@@ -1,10 +1,8 @@
 # Copyright 2020 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-MY_PN=ansible-base
-MY_PNV=${MY_PN}-${PV}
 require pypi
-require setup-py [ import=setuptools work=${MY_PNV} ]
+require setup-py [ import=setuptools ]
 
 SUMMARY="The core Ansible programs"
 HOMEPAGE="https://www.ansible.com/"
@@ -20,6 +18,7 @@ DEPENDENCIES="
         dev-python/Jinja2[python_abis:*(-)?]
         dev-python/packaging[python_abis:*(-)?]
         dev-python/PyYAML[python_abis:*(-)?]
+        dev-python/resolvelib[~>0.5.3][python_abis:*(-)?]
 "
 
 # TODO one does not simply run ansible's tests
