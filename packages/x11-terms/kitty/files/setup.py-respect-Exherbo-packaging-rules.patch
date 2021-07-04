@@ -1,38 +1,37 @@
 Upstream: no
-Reason: respect Exherbo packaging rules
+
+From 18b150c3e439a43eb9880da20d6632340df505e8 Mon Sep 17 00:00:00 2001
+From: Alexander Kapshuna <kapsh@kap.sh>
+Date: Sun, 4 Jul 2021 21:21:00 +0300
+Subject: [PATCH] setup.py: respect Exherbo packaging rules
+
+---
+ setup.py | 47 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 24 insertions(+), 23 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index fe4eed68..f768325d 100755
+index d757f740..15f7ccb0 100755
 --- a/setup.py
 +++ b/setup.py
-@@ -49,7 +49,7 @@ is_macos = 'darwin' in _plat
- is_openbsd = 'openbsd' in _plat
+@@ -55,7 +55,7 @@
+ is_arm = platform.processor() == 'arm' or platform.machine() == 'arm64'
  Env = glfw.Env
  env = Env()
 -PKGCONFIG = os.environ.get('PKGCONFIG_EXE', 'pkg-config')
 +PKGCONFIG = os.environ.get('PKG_CONFIG', 'pkg-config')
- 
- 
+
+
  class Options(argparse.Namespace):
-@@ -64,7 +64,7 @@ class Options(argparse.Namespace):
-     libdir_name: str = 'lib'
-     extra_logging: List[str] = []
-     link_time_optimization: bool = True
--    update_check_interval: float = 24
-+    update_check_interval: float = 0
-     egl_library: Optional[str] = None
-     startup_notification_library: Optional[str] = None
-     canberra_library: Optional[str] = None
-@@ -258,7 +258,7 @@ def init_env(
+@@ -293,7 +293,7 @@ def init_env(
          df += ' -Og'
          float_conversion = '-Wfloat-conversion'
-     fortify_source = '-D_FORTIFY_SOURCE=2'
+     fortify_source = '' if sanitize and is_macos else '-D_FORTIFY_SOURCE=2'
 -    optimize = df if debug or sanitize else '-O3'
-+    optimize = df if debug or sanitize else ''
++    optimize = ''
      sanitize_args = get_sanitize_args(cc, ccver) if sanitize else set()
      cppflags_ = os.environ.get(
          'OVERRIDE_CPPFLAGS', '-D{}DEBUG'.format('' if debug else 'N'),
-@@ -286,7 +286,7 @@ def init_env(
+@@ -317,7 +317,7 @@ def init_env(
      )
      ldflags_ = os.environ.get(
          'OVERRIDE_LDFLAGS',
@@ -41,9 +40,9 @@ index fe4eed68..f768325d 100755
      )
      ldflags = shlex.split(ldflags_)
      ldflags.append('-shared')
-@@ -462,10 +462,7 @@ def dependecies_for(src: str, obj: str, all_headers: Iterable[str]) -> Iterable[
- 
- 
+@@ -507,10 +507,7 @@ def dependecies_for(src: str, obj: str, all_headers: Iterable[str]) -> Iterable[
+
+
  def parallel_run(items: List[Command]) -> None:
 -    try:
 -        num_workers = max(2, os.cpu_count() or 1)
@@ -53,7 +52,7 @@ index fe4eed68..f768325d 100755
      items = list(reversed(items))
      workers: Dict[int, Tuple[Optional[Command], Optional[subprocess.Popen]]] = {}
      failed = None
-@@ -750,8 +747,6 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
+@@ -805,8 +802,6 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
              cflags.append('-g')
          if args.profile:
              libs.append('-lprofiler')
@@ -62,7 +61,7 @@ index fe4eed68..f768325d 100755
      if bundle_type.endswith('-freeze'):
          cppflags.append('-DFOR_BUNDLE')
          cppflags.append('-DPYVER="{}"'.format(sysconfig.get_python_version()))
-@@ -761,7 +756,7 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
+@@ -816,7 +811,7 @@ def build_launcher(args: Options, launcher_dir: str = '.', bundle_type: str = 's
      if bundle_type.startswith('macos-'):
          klp = '../Resources/kitty'
      elif bundle_type.startswith('linux-'):
@@ -71,10 +70,10 @@ index fe4eed68..f768325d 100755
      elif bundle_type == 'source':
          klp = os.path.relpath('.', launcher_dir)
      else:
-@@ -802,8 +797,8 @@ make && make docs
-     shutil.copytree(src, os.path.join(mandir, 'man1'))
- 
- 
+@@ -864,8 +859,8 @@ def copy_man_pages(ddir: str) -> None:
+             shutil.copy2(y, os.path.join(mandir, f'man{x}'))
+
+
 -def copy_html_docs(ddir: str) -> None:
 -    htmldir = os.path.join(ddir, 'share', 'doc', appname, 'html')
 +def copy_html_docs(ddir: str, docdir) -> None:
@@ -82,7 +81,7 @@ index fe4eed68..f768325d 100755
      safe_makedirs(os.path.dirname(htmldir))
      with suppress(FileNotFoundError):
          shutil.rmtree(htmldir)
-@@ -820,10 +815,7 @@ make && make docs
+@@ -882,10 +877,7 @@ def copy_html_docs(ddir: str) -> None:
  def compile_python(base_path: str) -> None:
      import compileall
      import py_compile
@@ -94,14 +93,15 @@ index fe4eed68..f768325d 100755
      for root, dirs, files in os.walk(base_path):
          for f in files:
              if f.rpartition('.')[-1] in ('pyc', 'pyo'):
-@@ -840,14 +832,14 @@ def compile_python(base_path: str) -> None:
+@@ -902,15 +894,15 @@ def c(base_path: str, **kw: object) -> None:
          c(base_path, ddir='', force=True, optimize=optimize, quiet=1, workers=num_workers)
- 
- 
+
+
 -def create_linux_bundle_gunk(ddir: str, libdir_name: str) -> None:
 +def create_linux_bundle_gunk(ddir: str, bindir_name: str, libdir_name: str, docdir_name: str) -> None:
      if not os.path.exists('docs/_build/html'):
-         run_tool(['make', 'docs'])
+         make = "gmake" if is_freebsd else "make"
+         run_tool([make, 'docs'])
      copy_man_pages(ddir)
 -    copy_html_docs(ddir)
 -    icdir = os.path.join(ddir, 'share', 'icons', 'hicolor', '256x256', 'apps')
@@ -113,8 +113,8 @@ index fe4eed68..f768325d 100755
      deskdir = os.path.join(ddir, 'share', 'applications')
      safe_makedirs(deskdir)
      with open(os.path.join(deskdir, 'kitty.desktop'), 'w') as f:
-@@ -868,7 +860,7 @@ Categories=System;TerminalEmulator;
- 
+@@ -931,7 +923,7 @@ def create_linux_bundle_gunk(ddir: str, libdir_name: str) -> None:
+
      base = Path(ddir)
      in_src_launcher = base / (libdir_name + '/kitty/kitty/launcher/kitty')
 -    launcher = base / 'bin/kitty'
@@ -122,33 +122,25 @@ index fe4eed68..f768325d 100755
      if os.path.exists(in_src_launcher):
          os.remove(in_src_launcher)
      os.makedirs(os.path.dirname(in_src_launcher), exist_ok=True)
-@@ -998,7 +990,7 @@ def package(args: Options, bundle_type: str) -> None:
+@@ -1081,7 +1073,7 @@ def package(args: Options, bundle_type: str) -> None:
      libdir = os.path.join(ddir, args.libdir_name.strip('/'), 'kitty')
      if os.path.exists(libdir):
          shutil.rmtree(libdir)
 -    launcher_dir = os.path.join(ddir, 'bin')
 +    launcher_dir = os.path.join(ddir, args.bindir_name)
      safe_makedirs(launcher_dir)
-     build_launcher(args, launcher_dir, bundle_type)
-     os.makedirs(os.path.join(libdir, 'logo'))
-@@ -1023,6 +1015,7 @@ def package(args: Options, bundle_type: str) -> None:
-     shutil.copytree('kitty', os.path.join(libdir, 'kitty'), ignore=src_ignore)
-     shutil.copytree('kittens', os.path.join(libdir, 'kittens'), ignore=src_ignore)
-     if args.update_check_interval != 24.0:
-+        print(f"replacing update_check_interval to {args.update_check_interval}")
-         with open(os.path.join(libdir, 'kitty/config_data.py'), 'r+', encoding='utf-8') as f:
-             raw = f.read()
-             nraw = raw.replace("update_check_interval', 24", "update_check_interval', {}".format(args.update_check_interval), 1)
-@@ -1035,7 +1028,7 @@ def package(args: Options, bundle_type: str) -> None:
+     if for_freeze:  # freeze launcher is built separately
+         args.compilation_database.build_all()
+@@ -1124,7 +1116,7 @@ def src_ignore(parent: str, entries: Iterable[str]) -> List[str]:
              path = os.path.join(root, f_)
              os.chmod(path, 0o755 if f_.endswith('.so') else 0o644)
      if not is_macos:
 -        create_linux_bundle_gunk(ddir, args.libdir_name)
 +        create_linux_bundle_gunk(ddir, args.bindir_name, args.libdir_name, args.docdir_name)
- 
+
      if bundle_type.startswith('macos-'):
          create_macos_bundle_gunk(ddir)
-@@ -1127,6 +1120,15 @@ def option_parser() -> argparse.ArgumentParser:  # {{{
+@@ -1214,6 +1206,15 @@ def option_parser() -> argparse.ArgumentParser:  # {{{
          default=Options.libdir_name,
          help='The name of the directory inside --prefix in which to store compiled files. Defaults to "lib"'
      )
@@ -164,3 +156,6 @@ index fe4eed68..f768325d 100755
      p.add_argument(
          '--extra-logging',
          action='append',
+--
+2.32.0
+

@@ -3,9 +3,6 @@
 #   Copyright 2018 Danilo Spinella <danyspin97@protonmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
-# TODO also could use wayland.
-# TODO makeshift setup.py is just broken, fix this install
-
 require github [ user=kovidgoyal release=v${PV} suffix=tar.xz ]
 require python [ blacklist=2 multibuild=false ]
 require bash-completion
@@ -20,6 +17,7 @@ HOMEPAGE="https://sw.kovidgoyal.net/${PN}/"
 LICENCES="GPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
+# TODO imagemagick could be suggestion, but paludis refuses to resolve conflicting pkgs
 MYOPTIONS="
     wayland
     ( providers: graphicsmagick imagemagick ) [[
@@ -28,7 +26,7 @@ MYOPTIONS="
     ]]
 "
 
-# TODO automagic wayland when option disabled but packages are present
+# TODO automagic wayland when option disabled but protocols are present
 DEPENDENCIES="
     build:
         sys-libs/ncurses [[ note = [ Calls tic to compile terminfo ] ]]
@@ -59,8 +57,8 @@ ZSH_COMPLETIONS=( "${FILES}/completions/${PN}.zsh _${PN}" )
 BASH_COMPLETIONS=( "${FILES}/completions/${PN}.bash" )
 
 DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}"/kitty-linux-package.patch
-    "${FILES}"/skip-spawn-test.patch
+    "${FILES}"/setup.py-respect-Exherbo-packaging-rules.patch
+    "${FILES}"/Skip-failing-tests.patch
 )
 
 src_compile() {
@@ -68,6 +66,7 @@ src_compile() {
         --docdir-name share/doc/${PNVR} \
         --bindir-name $(exhost --target)/bin \
         --libdir-name $(exhost --target)/lib \
+        --update-check-interval 0 \
         linux-package
 }
 
