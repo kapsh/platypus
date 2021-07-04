@@ -1,10 +1,10 @@
 [Unit]
-Description=Tinyproxy is a light-weight HTTP proxy daemon for POSIX operating systems.
-After=network.target
+Description = Startup script for the tinyproxy server
+After = network.target
 
 [Service]
-PIDFile=/run/tinyproxy/tinyproxy.pid
-ExecStart=/usr/sbin/tinyproxy -c /etc/tinyproxy/tinyproxy.conf -d
-
-[Install]
-WantedBy=multi-user.target
+Type = forking
+PIDFile = /run/tinyproxy.pid
+ExecStart = /usr/sbin/tinyproxy -c /etc/tinyproxy/tinyproxy.conf
+ExecReload = /bin/kill -HUP $MAINPID
+KillMode = process

@@ -1,0 +1,36 @@
+Upstream: no
+Reason: configure options to play better with packaged version.
+
+diff --git a/etc/tinyproxy.conf.in b/etc/tinyproxy.conf.in
+index 06f5480..9d5e2d2 100644
+--- a/etc/tinyproxy.conf.in
++++ b/etc/tinyproxy.conf.in
+@@ -12,8 +12,8 @@
+ # as the root user. Either the user or group name or the UID or GID
+ # number may be used.
+ #
+-User nobody
+-Group nobody
++User tinyproxy
++Group tinyproxy
+
+ #
+ # Port: Specify the port which tinyproxy will listen on.  Please note
+@@ -93,7 +93,7 @@ StatFile "@pkgdatadir@/stats.html"
+ # exclusive. If neither Syslog nor LogFile are specified, output goes
+ # to stdout.
+ #
+-#LogFile "@localstatedir@/log/tinyproxy/tinyproxy.log"
++LogFile "/var/log/tinyproxy/tinyproxy.log"
+
+ #
+ # Syslog: Tell tinyproxy to use syslog instead of a logfile.  This
+@@ -124,7 +124,7 @@ LogLevel Info
+ # can be used for signalling purposes.
+ # If not specified, no pidfile will be written.
+ #
+-#PidFile "@localstatedir@/run/tinyproxy/tinyproxy.pid"
++PidFile "/run/tinyproxy.pid"
+
+ #
+ # XTinyproxy: Tell Tinyproxy to include the X-Tinyproxy header, which

@@ -2,7 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require github [ release=${PV} suffix=tar.xz ]
-require systemd-service
+require systemd-service [ \
+    systemd_files=[ "${FILES}/systemd/${PN}.service" ] \
+    systemd_tmpfiles=[ "${FILES}/systemd/${PN}.conf" ] \
+]
 require openrc-service
 
 SUMMARY="Tinyproxy is a light-weight HTTP proxy daemon for POSIX operating systems."
@@ -18,32 +21,21 @@ DEPENDENCIES="
         group/tinyproxy
         user/tinyproxy
 "
-MYOPTIONS="systemd"
-
-# PID-file will be created in /var/run, but /var/run is a link to /run.
-# in future, tinyproxy needs an other config, that it uses /run.
-# localstatedir can't be changed to / because /var/log.
-DEFAULT_SRC_CONFIGURE_PARAMS="--localstatedir=/var"
+MYOPTIONS=""
 
 DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}/user.patch"
-    "${FILES}/pid.patch"
+    "${FILES}/settings.patch"
 )
 
 src_install() {
     default
 
     keepdir /var/log/tinyproxy
+
     insinto /etc/logrotate.d
     newins "${FILES}/${PN}.logrotate" "${PN}"
 
-    if option systemd; then
-        install_systemd_files
-        insinto /usr/$(exhost --target)/lib/tmpfiles.d
-        hereins tinyproxy.conf <<EOF
-d /run/tinyproxy 0770 tinyproxy tinyproxy
-EOF
-    fi
+    install_systemd_files
     install_openrc_files
 }
 
