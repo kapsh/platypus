@@ -16,7 +16,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        app-admin/ansible-core[~>2.10.5][python_abis:*(-)?]
+        app-admin/ansible-core[~>2.11.2][python_abis:*(-)?]
     suggestion:
         app-admin/ansible-toolbox [[ description = [ Additional command line tools ] ]]
         dev-python/netaddr[python_abis:*(-)?] [[ description = [ For ipaddr filter ] ]]
