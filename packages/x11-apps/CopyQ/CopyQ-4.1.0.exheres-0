@@ -13,20 +13,31 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
+# TODO wayland support is hardcoded in build
 DEPENDENCIES="
+    build:
+        kde-frameworks/extra-cmake-modules
+        x11-libs/qttools:5
     build+run:
+        sys-libs/wayland[>=1.15.0]
         x11-libs/libX11
+        x11-libs/libXfixes
         x11-libs/libXtst
-        x11-libs/qtbase:5[gui][>=5.5.0]
-        x11-libs/qtscript:5[>=5.5.0]
+        x11-libs/qtbase:5[gui][>=5.8.0]
+        x11-libs/qtdeclarative:5
         x11-libs/qtsvg:5[>=5.5.0]
+        x11-libs/qtwayland:5
         x11-libs/qtx11extras:5[>=5.5.0]
 "
 
+RESTRICT="test" # requires X
+
 CMAKE_SRC_CONFIGURE_PARAMS=(
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
     -DDATA_INSTALL_PREFIX=/usr/share
-    -DMANPAGE_INSTALL_PREFIX=/usr/share/man/man1
-    -DWITH_WEBKIT=OFF # ON: more advanced HTML rendering
+    -DWITH_NATIVE_NOTIFICATIONS:BOOL=OFF # requires knotifications
+)
+
+CMAKE_SRC_CONFIGURE_TESTS=(
+    "-DWITH_TESTS:BOOL=ON -DWITH_TESTS:BOOL=OFF"
 )
 
