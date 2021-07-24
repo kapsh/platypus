@@ -47,7 +47,6 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --sysconfdir=/etc/chrony
     --with-user=ntp
     --without-nss
-    --without-readline # force libedit, dropped in 4.0
 )
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
