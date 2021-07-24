@@ -26,6 +26,7 @@ DEPENDENCIES="
     build:
         kde-frameworks/extra-cmake-modules
         x11-libs/qttools:5
+        virtual/pkg-config
     build+run:
         dev-libs/botan:=
         kde-frameworks/karchive:5
@@ -46,11 +47,6 @@ DEPENDENCIES="
 "
 
 CMAKE_SOURCE="${WORKBASE}/${MY_PN}-${MY_PV}"
-
-DEFAULT_SRC_PREPARE_PATCHES=(
-    "${FILES}"/Make-path-to-pci.ids-configurable-at-build-time.patch
-    "${FILES}"/Use-KDEInstallDirs-to-install-resources.patch
-)
 
 CMAKE_SRC_CONFIGURE_TESTS=(
     "-DBUILD_TESTING:BOOL=ON -DBUILD_TESTING:BOOL=OFF"
