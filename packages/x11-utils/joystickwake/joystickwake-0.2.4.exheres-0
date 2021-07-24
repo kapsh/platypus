@@ -14,5 +14,7 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         dev-python/pyudev[python_abis:*(-)?]
+    run:
+        dev-python/python-xlib[python_abis:*(-)?]
 "
 
