@@ -1,7 +1,7 @@
 # Copyright 2020 Alexander Kapshuna <kapsh@kap.sh>
 # Distributed under the terms of the GNU General Public License v2
 
-GITHUB_REVISION=a3d2b01295a017dd9dfd44c92b703d9eacd426bc
+GITHUB_REVISION=700529b2517df7d17ad5a2fa0bd679143ac48666
 require github [ user=medusalix tag="v${PV}" ]
 require udev-rules
 require openrc-service [ \
