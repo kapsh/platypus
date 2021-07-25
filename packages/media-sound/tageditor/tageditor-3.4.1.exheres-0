@@ -17,8 +17,8 @@ DEPENDENCIES="
         x11-libs/qttools:5
     build+run:
         dev-libs/cpp-utilities[>=5.5.0]
-        dev-libs/qtutilities[>=6.3.0]
-        media-libs/tagparser[>=9.3.0]
+        dev-libs/qtutilities[>=6.4.2]
+        media-libs/tagparser[>=10.0.0]
         x11-libs/qtbase:5[gui]
         x11-libs/qtdeclarative:5
         x11-libs/qtscript:5
