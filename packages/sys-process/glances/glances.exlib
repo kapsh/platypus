@@ -13,6 +13,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
+        dev-python/defusedxml[python_abis:*(-)?]
         dev-python/future[python_abis:*(-)?]
         dev-python/psutil[>=5.3.0][python_abis:*(-)?]
     suggestion:
@@ -46,7 +47,7 @@ DEPENDENCIES="
 # batinfo - batinfo
 # snmp - pysnmp
 # raid - pymdstat
-# export - influxdb, potsdb, statsd, pika
+# export - influxdb, potsdb, statsd, pika, graphitesender, pyzmq
 # action - pystache
 # cpuinfo - py-cpuinfo
 # folders - scandir
