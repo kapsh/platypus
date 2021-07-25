@@ -37,6 +37,7 @@ src_prepare() {
         -i doc/doc.pro
     edo sed -E \
         -e "/^man.files/ s|TARGET|SRC|" \
+        -e "/^man.extra/,/^$/ d" \
         -i man/man.pro
 }
 
