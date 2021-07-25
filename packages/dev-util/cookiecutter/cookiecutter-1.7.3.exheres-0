@@ -18,7 +18,7 @@ DEPENDENCIES="
         dev-python/binaryornot[>=0.4.4][python_abis:*(-)?]
         dev-python/click[>=7.0][python_abis:*(-)?]
         dev-python/future[>=0.15.2][python_abis:*(-)?]
-        dev-python/Jinja2[<3.0][python_abis:*(-)?]
+        dev-python/Jinja2[>=2.7][<4.0][python_abis:*(-)?]
         dev-python/jinja2-time[>=0.2.0][python_abis:*(-)?]
         dev-python/MarkupSafe[<2.0.0][python_abis:*(-)?]
         dev-python/poyo[>=0.5.0][python_abis:*(-)?]
