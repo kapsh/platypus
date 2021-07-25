@@ -11,6 +11,7 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS=""
 
+# TODO wl-clipboard for wayland sessions
 DEPENDENCIES="
     run:
         x11-utils/xclip
