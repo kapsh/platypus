@@ -13,7 +13,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        dev-libs/cpp-utilities[>=5.0.0]
+        dev-libs/cpp-utilities[>=5.10.0]
 "
 
 # Tests depend on multiple sample files from various sources.
