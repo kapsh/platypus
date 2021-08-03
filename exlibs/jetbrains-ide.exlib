@@ -36,7 +36,6 @@ JETBRAINS_LAUNCHER="bin/${PN%-*}.sh"
 JETBRAINS_EXECUTABLES=(
     bin/format.sh
     bin/fsnotifier
-    bin/fsnotifier64
     bin/inspect.sh
     bin/ltedit.sh
     bin/printenv.py
