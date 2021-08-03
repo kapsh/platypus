@@ -29,7 +29,6 @@ DEPENDENCIES="
         dev-libs/atk
         dev-libs/expat
         dev-libs/glib:2
-        dev-libs/libglvnd
         dev-libs/nspr
         dev-libs/nss
         media-libs/freetype:2
@@ -38,9 +37,6 @@ DEPENDENCIES="
         sys-sound/alsa-lib
         x11-dri/libdrm
         x11-dri/mesa
-        x11-libs/cairo
-        x11-libs/gdk-pixbuf:2.0
-        x11-libs/gtk+:3
         x11-libs/libX11
         x11-libs/libxcb
         x11-libs/libXcomposite
@@ -49,12 +45,12 @@ DEPENDENCIES="
         x11-libs/libXext
         x11-libs/libXfixes
         x11-libs/libXi
+        x11-libs/libxkbcommon
         x11-libs/libXrandr
         x11-libs/libXrender
-        x11-libs/libXScrnSaver
+        x11-libs/libxshmfence
         x11-libs/libXtst
         x11-libs/libXxf86vm
-        x11-libs/pango
 "
 
 UPSTREAM_DOCUMENTATION="https://confluence.jetbrains.com/display/JRE/JetBrains+Runtime"
