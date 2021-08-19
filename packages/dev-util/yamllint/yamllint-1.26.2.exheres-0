@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 require pypi
-require setup-py [ import=setuptools ]
+require setup-py [ import=setuptools blacklist=2 ]
 
 SUMMARY="A linter for YAML files"
 DESCRIPTION="yamllint does not only check for syntax validity, but for weirdnesses
