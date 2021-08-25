@@ -1,16 +1,16 @@
 Upstream: no
 
-From 18b150c3e439a43eb9880da20d6632340df505e8 Mon Sep 17 00:00:00 2001
+From 0a4074c3e2e84fc52d8bd9fd95ccfefe62ef5b6c Mon Sep 17 00:00:00 2001
 From: Alexander Kapshuna <kapsh@kap.sh>
-Date: Sun, 4 Jul 2021 21:21:00 +0300
-Subject: [PATCH] setup.py: respect Exherbo packaging rules
+Date: Wed, 25 Aug 2021 16:40:29 +0300
+Subject: [PATCH 1/2] setup.py: respect Exherbo packaging rules
 
 ---
- setup.py | 47 ++++++++++++++++++++++++-----------------------
- 1 file changed, 24 insertions(+), 23 deletions(-)
+ setup.py | 43 ++++++++++++++++++++++---------------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
 diff --git a/setup.py b/setup.py
-index d757f740..15f7ccb0 100755
+index a9138efe..6a8ea9f6 100755
 --- a/setup.py
 +++ b/setup.py
 @@ -55,7 +55,7 @@
@@ -93,7 +93,7 @@ index d757f740..15f7ccb0 100755
      for root, dirs, files in os.walk(base_path):
          for f in files:
              if f.rpartition('.')[-1] in ('pyc', 'pyo'):
-@@ -902,15 +894,15 @@ def c(base_path: str, **kw: object) -> None:
+@@ -902,12 +894,12 @@ def c(base_path: str, **kw: object) -> None:
          c(base_path, ddir='', force=True, optimize=optimize, quiet=1, workers=num_workers)
 
 
@@ -104,16 +104,11 @@ index d757f740..15f7ccb0 100755
          run_tool([make, 'docs'])
      copy_man_pages(ddir)
 -    copy_html_docs(ddir)
--    icdir = os.path.join(ddir, 'share', 'icons', 'hicolor', '256x256', 'apps')
 +    copy_html_docs(ddir, docdir_name)
-+    icdir = os.path.join(ddir, 'share', 'icons', 'hicolor', 'scalable', 'apps')
-     safe_makedirs(icdir)
--    shutil.copy2('logo/kitty.png', icdir)
-+    shutil.copy2('logo/kitty.svg', icdir)
-     deskdir = os.path.join(ddir, 'share', 'applications')
-     safe_makedirs(deskdir)
-     with open(os.path.join(deskdir, 'kitty.desktop'), 'w') as f:
-@@ -931,7 +923,7 @@ def create_linux_bundle_gunk(ddir: str, libdir_name: str) -> None:
+     for (icdir, ext) in {'256x256': 'png', 'scalable': 'svg'}.items():
+         icdir = os.path.join(ddir, 'share', 'icons', 'hicolor', icdir, 'apps')
+         safe_makedirs(icdir)
+@@ -932,7 +924,7 @@ def create_linux_bundle_gunk(ddir: str, libdir_name: str) -> None:
 
      base = Path(ddir)
      in_src_launcher = base / (libdir_name + '/kitty/kitty/launcher/kitty')
@@ -122,7 +117,7 @@ index d757f740..15f7ccb0 100755
      if os.path.exists(in_src_launcher):
          os.remove(in_src_launcher)
      os.makedirs(os.path.dirname(in_src_launcher), exist_ok=True)
-@@ -1081,7 +1073,7 @@ def package(args: Options, bundle_type: str) -> None:
+@@ -1082,7 +1074,7 @@ def package(args: Options, bundle_type: str) -> None:
      libdir = os.path.join(ddir, args.libdir_name.strip('/'), 'kitty')
      if os.path.exists(libdir):
          shutil.rmtree(libdir)
@@ -131,7 +126,7 @@ index d757f740..15f7ccb0 100755
      safe_makedirs(launcher_dir)
      if for_freeze:  # freeze launcher is built separately
          args.compilation_database.build_all()
-@@ -1124,7 +1116,7 @@ def src_ignore(parent: str, entries: Iterable[str]) -> List[str]:
+@@ -1125,7 +1117,7 @@ def src_ignore(parent: str, entries: Iterable[str]) -> List[str]:
              path = os.path.join(root, f_)
              os.chmod(path, 0o755 if f_.endswith('.so') else 0o644)
      if not is_macos:
@@ -140,7 +135,7 @@ index d757f740..15f7ccb0 100755
 
      if bundle_type.startswith('macos-'):
          create_macos_bundle_gunk(ddir)
-@@ -1214,6 +1206,15 @@ def option_parser() -> argparse.ArgumentParser:  # {{{
+@@ -1215,6 +1207,15 @@ def option_parser() -> argparse.ArgumentParser:  # {{{
          default=Options.libdir_name,
          help='The name of the directory inside --prefix in which to store compiled files. Defaults to "lib"'
      )
@@ -157,5 +152,5 @@ index d757f740..15f7ccb0 100755
          '--extra-logging',
          action='append',
 --
-2.32.0
+2.33.0
 
