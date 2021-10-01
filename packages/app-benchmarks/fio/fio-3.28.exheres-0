@@ -23,7 +23,7 @@ DEPENDENCIES="
         dev-python/six[python_abis:*(-)?] [[ note = [ For fio_jsonplus_clat2csv ] ]]
         net-misc/curl
         providers:libressl? ( dev-libs/libressl:= )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
         gui? (
             dev-libs/glib:2
             x11-libs/cairo
@@ -32,7 +32,7 @@ DEPENDENCIES="
     suggestion:
         sci-apps/gnuplot [[ description = [ Render output files to plots ] ]]
         (
-            dev-python/numpy[python_abis:*(-)?]
+            dev-python/numpy:=[python_abis:*(-)?]
             dev-python/pandas[python_abis:*(-)?]
         ) [[ *description = [ For fiologparser_hist.py ] ]]
 "
@@ -71,8 +71,10 @@ src_configure() {
     # makeshift configure full of automagic
     edo ./configure \
         --prefix=/usr/$(exhost --target) \
+        --disable-dfs \
         --disable-gfapi \
         --disable-libzbc \
+        --disable-nfs \
         --disable-numa \
         --disable-rados \
         --disable-rbd \
