@@ -4,6 +4,7 @@
 require github [ user=axboe tag=${PNV} ]
 require python [ blacklist=2 multibuild=false ]
 require option-renames [ renames=[ "gtk gui" ] ]
+require systemd-service [ systemd_files=[ "${WORK}/tools/${PN}.service" ] ]
 
 SUMMARY="Flexible I/O Tester"
 
@@ -39,7 +40,7 @@ DEPENDENCIES="
 
 DEFAULT_SRC_INSTALL_PARAMS=(
     mandir=/usr/share/man
-    sharedir=/usr/share/fio
+    sharedir=/usr/share/${PN}
 )
 
 DEFAULT_SRC_INSTALL_EXTRA_DOCS=( HOWTO )
@@ -50,9 +51,14 @@ src_prepare() {
         -e "s|pkg-config|${PKG_CONFIG}|g" \
         -i configure
 
+    edo sed \
+        -e "s:/usr/bin:/usr/$(exhost --target)/bin:" \
+        -i "${WORK}"/tools/${PN}.service
+
     local -a python_scripts=(
         tools/fio_jsonplus_clat2csv
         tools/fiologparser.py
+        tools/fiograph/fiograph.py
         tools/hist/fio-histo-log-pctiles.py
         tools/hist/fiologparser_hist.py
         tools/hist/half-bins.py
@@ -76,6 +82,7 @@ src_configure() {
         --disable-libzbc \
         --disable-nfs \
         --disable-numa \
+        --disable-pmem \
         --disable-rados \
         --disable-rbd \
         --disable-rdma \
@@ -85,5 +92,6 @@ src_configure() {
 src_install() {
     default
     dodoc -r examples
+    install_systemd_files
 }
 
