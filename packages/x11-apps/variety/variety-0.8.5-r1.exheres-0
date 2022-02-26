@@ -24,7 +24,7 @@ DEPENDENCIES="
     build:
         dev-python/distutils-extra[>=2.18][python_abis:*(-)?]
     build+run:
-        dev-libs/gexiv2[gobject-introspection]
+        dev-libs/gexiv2
         dev-python/beautifulsoup4[python_abis:*(-)?]
         dev-python/configobj[python_abis:*(-)?]
         dev-python/lxml[python_abis:*(-)?]
