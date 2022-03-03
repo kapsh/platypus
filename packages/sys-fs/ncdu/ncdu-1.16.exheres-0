@@ -7,7 +7,7 @@ DOWNLOADS="http://dev.yorhel.nl/download/${PNV}.tar.gz"
 
 LICENCES="MIT"
 SLOT="0"
-PLATFORMS="~amd64 ~arm"
+PLATFORMS="~amd64 ~arm ~armv8"
 
 DEPENDENCIES="
     build+run:
