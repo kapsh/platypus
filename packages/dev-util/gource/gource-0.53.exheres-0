@@ -17,7 +17,7 @@ DEPENDENCIES="
     build+run:
         dev-libs/boost
         dev-libs/glm
-        dev-libs/pcre
+        dev-libs/pcre2
         dev-libs/tinyxml
         fonts/freefont-ttf
         media-libs/freetype:2
