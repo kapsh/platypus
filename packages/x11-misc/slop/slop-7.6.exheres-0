@@ -22,8 +22,6 @@ DEPENDENCIES="
         x11-libs/libXrender
 "
 
-BUGS_TO="danyspin97@protonmail.com"
-
 DEFAULT_SRC_PREPARE_PATCHES=(
     "${FILES}"/0001-Fix-linking-of-GLEW-library.patch
 )
