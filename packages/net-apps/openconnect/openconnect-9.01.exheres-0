@@ -50,7 +50,7 @@ DEPENDENCIES="
         providers:gnutls? ( dev-libs/gnutls[>=3.6.13] )
         providers:heimdal? ( app-crypt/heimdal )
         providers:krb5? ( app-crypt/krb5 )
-        providers:openssl? ( dev-libs/openssl )
+        providers:openssl? ( dev-libs/openssl:= )
     run:
         sys-apps/iproute2
     test:
@@ -59,7 +59,9 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --enable-docs
     --htmldir=/usr/share/doc/${PNVR}/html
+    --with-builtin-json
     --with-vpnc-script=/etc/${PN}/vpnc-script
     # Disable auto dependencies
     --without-libpcsclite
