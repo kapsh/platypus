@@ -53,6 +53,7 @@ DEPENDENCIES="
 
 UPSTREAM_CHANGELOG="${HOMEPAGE}/changelog.html"
 
+# TODO replaced by shell integration kitten?
 ZSH_COMPLETIONS=( "${FILES}/completions/${PN}.zsh _${PN}" )
 BASH_COMPLETIONS=( "${FILES}/completions/${PN}.bash" )
 

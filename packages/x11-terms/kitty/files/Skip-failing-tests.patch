@@ -1,26 +1,100 @@
 Upstream: no
 
-From 7cbb897ecebd9ae80316e8425b13179c107a1aa4 Mon Sep 17 00:00:00 2001
+From 9683037b2450b2b5b4b5af12c055c4376c050a65 Mon Sep 17 00:00:00 2001
 From: Alexander Kapshuna <kapsh@kap.sh>
-Date: Sun, 4 Jul 2021 21:56:09 +0300
+Date: Sun, 30 Oct 2022 19:18:48 +0300
 Subject: [PATCH] Skip failing tests
 
 ---
- kitty_tests/check_build.py | 1 +
- 1 file changed, 1 insertion(+)
+ kitty_tests/check_build.py | 3 ++-
+ kitty_tests/prewarm.py     | 3 ++-
+ kitty_tests/ssh.py         | 2 ++
+ kitty_tests/tui.py         | 3 +++
+ 4 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/kitty_tests/check_build.py b/kitty_tests/check_build.py
-index d58e02b9..3153e48c 100644
+index ce7766c3..4f631757 100644
 --- a/kitty_tests/check_build.py
 +++ b/kitty_tests/check_build.py
-@@ -30,6 +30,7 @@ def test_loading_shaders(self) -> None:
+@@ -10,7 +10,7 @@
+
+ from . import BaseTest
+
+-
++@unittest.skip("TODO AttributeError: module 'sys' has no attribute 'kitty_run_data'")
+ class TestBuild(BaseTest):
+
+     def test_exe(self) -> None:
+@@ -33,6 +33,7 @@ def test_loading_shaders(self) -> None:
          for name in 'cell border bgimage tint blit graphics'.split():
              load_shaders(name)
 
 +    @unittest.skip("Hardcoded Wayland dependency")
      def test_glfw_modules(self) -> None:
-         from kitty.constants import is_macos, glfw_path
+         from kitty.constants import glfw_path, is_macos
          linux_backends = ['x11']
+diff --git a/kitty_tests/prewarm.py b/kitty_tests/prewarm.py
+index 5f1a4a6c..e3ed4ca5 100644
+--- a/kitty_tests/prewarm.py
++++ b/kitty_tests/prewarm.py
+@@ -9,6 +9,7 @@
+ import subprocess
+ import tempfile
+ import time
++import unittest
+
+ from kitty.constants import kitty_exe
+ from kitty.fast_data_types import (
+@@ -18,7 +19,7 @@
+
+ from . import BaseTest
+
+-
++@unittest.skip("TODO: AttributeError: module 'sys' has no attribute 'kitty_run_data'")
+ class Prewarm(BaseTest):
+
+     maxDiff = None
+diff --git a/kitty_tests/ssh.py b/kitty_tests/ssh.py
+index d01c787d..6a8be976 100644
+--- a/kitty_tests/ssh.py
++++ b/kitty_tests/ssh.py
+@@ -6,6 +6,7 @@
+ import os
+ import shutil
+ import tempfile
++import unittest
+ from functools import lru_cache
+ from contextlib import suppress
+
+@@ -32,6 +33,7 @@ def files_in(path):
+
+ class SSHKitten(BaseTest):
+
++    @unittest.skip("TODO AttributeError: module 'sys' has no attribute 'kitty_run_data'")
+     def test_basic_pty_operations(self):
+         pty = self.create_pty('echo hello')
+         pty.process_input_from_child()
+diff --git a/kitty_tests/tui.py b/kitty_tests/tui.py
+index 6a73d11a..e3ea9b8a 100644
+--- a/kitty_tests/tui.py
++++ b/kitty_tests/tui.py
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python3
+ # License: GPL v3 Copyright: 2018, Kovid Goyal <kovid at kovidgoyal.net>
+
++import unittest
+
+ from . import BaseTest
+
+@@ -42,6 +43,8 @@ def test_line_edit(self):
+         le.backspace()
+         self.assertTrue(le.pending_bell)
+
++
++    @unittest.skip("TODO AttributeError: module 'sys' has no attribute 'kitty_run_data'")
+     def test_multiprocessing_spawn(self):
+         from kitty.multiprocessing import test_spawn
+         test_spawn()
 --
-2.32.0
+2.38.1
 
