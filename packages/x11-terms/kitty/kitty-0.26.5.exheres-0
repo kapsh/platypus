@@ -38,6 +38,7 @@ DEPENDENCIES="
         media-libs/lcms2
         media-libs/libcanberra
         media-libs/libpng:=
+        net-libs/librsync
         sys-apps/dbus
         sys-libs/zlib
         x11-libs/harfbuzz[>=1.5.0]
