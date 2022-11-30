@@ -20,7 +20,6 @@ DEPENDENCIES="
         dev-python/colorama[>=0.4.4][python_abis:*(-)?]
         dev-python/packaging[>=20.0][python_abis:*(-)?]
         dev-python/userpath[>=1.4.1][python_abis:*(-)?]
-        python_abis:3.7? ( dev-python/importlib_metadata[>=3.3.0][python_abis:3.7] )
 "
 
 # no tests in pypi distribution
