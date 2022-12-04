@@ -35,6 +35,10 @@ pkg_setup() {
     exdirectory --allow /opt
 }
 
+src_prepare() {
+    edo rm -r p2/org.eclipse.equinox.p2.repository # empty dir
+}
+
 src_install() {
     local dest=/opt/${PN%-bin}
 
