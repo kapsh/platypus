@@ -28,9 +28,11 @@ DEPENDENCIES="
         x11-libs/qttools:5
         virtual/pkg-config
     build+run:
+        app-arch/quazip
         dev-libs/botan:=
         kde-frameworks/karchive:5
         kde-frameworks/kauth:5[polkit]
+        sys-auth/polkit:=[gobject-introspection]
         x11-libs/qtbase:5[gui]
         x11-libs/qtcharts:5
         x11-libs/qtdeclarative:5
@@ -48,13 +50,23 @@ DEPENDENCIES="
 
 CMAKE_SOURCE="${WORKBASE}/${MY_PN}-${MY_PV}"
 
+CMAKE_SRC_CONFIGURE_PARAMS=(
+    -DWITH_PCI_IDS_PATH=/usr/share/misc/pci.ids
+    -DINSTALL_DBUS_FILES_IN_PREFIX:BOOL=ON
+)
+
 CMAKE_SRC_CONFIGURE_TESTS=(
     "-DBUILD_TESTING:BOOL=ON -DBUILD_TESTING:BOOL=OFF"
 )
 
-CMAKE_SRC_CONFIGURE_PARAMS=(
-    -DWITH_PCI_IDS_PATH=/usr/share/misc/pci.ids
-)
+src_prepare() {
+    cmake_src_prepare
+
+    # TODO check&patch cmake var for it
+    edo sed \
+        -e "s/pkg-config/${PKG_CONFIG}/" \
+        -i src/helper/CMakeLists.txt
+}
 
 src_test() {
     emake test_all
