@@ -14,6 +14,8 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 # TODO wayland support is hardcoded in build
+# TODO qt 5/6 providers
+# TODO installs bash comp unconditionally
 DEPENDENCIES="
     build:
         kde-frameworks/extra-cmake-modules
