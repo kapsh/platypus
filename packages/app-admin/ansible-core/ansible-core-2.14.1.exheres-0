@@ -15,17 +15,12 @@ MYOPTIONS=""
 DEPENDENCIES="
     build+run:
         dev-python/cryptography[python_abis:*(-)?]
-        dev-python/Jinja2[python_abis:*(-)?]
+        dev-python/Jinja2[>=3.0.0][python_abis:*(-)?]
         dev-python/packaging[python_abis:*(-)?]
-        dev-python/PyYAML[python_abis:*(-)?]
-        dev-python/resolvelib[~>0.5.3][python_abis:*(-)?]
+        dev-python/PyYAML[>=5.1][python_abis:*(-)?]
+        dev-python/resolvelib[>=0.5.3&<0.9.0][python_abis:*(-)?]
 "
 
 # TODO one does not simply run ansible's tests
 RESTRICT="test"
-
-pkg_setup() {
-    # check for pip-upgrading from 2.9 makes no sense when pip is not being used
-    export ANSIBLE_SKIP_CONFLICT_CHECK=1
-}
 
