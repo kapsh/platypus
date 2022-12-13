@@ -16,7 +16,7 @@ MYOPTIONS=""
 
 DEPENDENCIES="
     build+run:
-        app-admin/ansible-core[~>2.11.2][python_abis:*(-)?]
+        app-admin/ansible-core[~>2.14.1][python_abis:*(-)?]
     suggestion:
         app-admin/ansible-toolbox [[ description = [ Additional command line tools ] ]]
         dev-python/netaddr[python_abis:*(-)?] [[ description = [ For ipaddr filter ] ]]
@@ -26,9 +26,4 @@ DEPENDENCIES="
 
 # TODO one does not simply run ansible's tests
 RESTRICT="test"
-
-pkg_setup() {
-    # check for pip-upgrading from 2.9 makes no sense when pip is not being used
-    export ANSIBLE_SKIP_CONFLICT_CHECK=1
-}
 
