@@ -38,7 +38,7 @@ JETBRAINS_EXECUTABLES=(
     bin/fsnotifier
     bin/inspect.sh
     bin/ltedit.sh
-    bin/printenv.py
+    bin/repair
     bin/restart.py
 )
 
@@ -49,10 +49,10 @@ jetbrains-ide_pkg_setup() {
 jetbrains-ide_src_prepare() {
     default
 
-    # provided by jetbrains-runtime or missing
+    # provided by jetbrains-runtime
     nonfatal edo rm -r jbr
 
-    # Use JBR automatically
+    # Setup JBR as default
     if optionq "providers:jetbrains-jre"; then
         edo sed \
             -e "1a JAVA_HOME=/opt/jetbrains-runtime" \
