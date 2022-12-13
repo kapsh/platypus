@@ -5,7 +5,7 @@ require jetbrains-ide
 
 SUMMARY="Java IDE for Professional Developers"
 HOMEPAGE="https://www.jetbrains.com/idea/"
-DOWNLOADS="https://download-cf.jetbrains.com/idea/ideaIC-${PV}-no-jbr.tar.gz"
+DOWNLOADS="https://download.jetbrains.com/idea/ideaIC-${PV}.tar.gz"
 
 LICENCES="Apache-2.0"
 SLOT="0"
