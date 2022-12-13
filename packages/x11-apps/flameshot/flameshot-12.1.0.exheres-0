@@ -22,7 +22,6 @@ DEPENDENCIES="
     build:
         x11-libs/qttools:5[>=5.3]
     build+run:
-        dev-libs/spdlog
         x11-libs/qtbase:5[>=5.3][gui]
         x11-libs/qtsvg:5[>=5.3]
         (
@@ -31,12 +30,12 @@ DEPENDENCIES="
         ) [[ *note = [ for qhotkey ] ]]
 "
 
-BASH_COMPLETIONS=( "${CMAKE_SOURCE}/data/shell-completion/${PN}" )
-ZSH_COMPLETIONS=( "${CMAKE_SOURCE}/data/shell-completion/${PN} _${PN}" )
+BASH_COMPLETIONS=( "${CMAKE_SOURCE}/data/shell-completion/${PN}.bash" )
+ZSH_COMPLETIONS=( "${CMAKE_SOURCE}/data/shell-completion/${PN}.zsh _${PN}" )
 
 CMAKE_SRC_CONFIGURE_PARAMS=(
     -DENABLE_CACHE:BOOL=FALSE # ccache
-    -DUSE_EXTERNAL_SPDLOG:BOOL=TRUE
+    -DUSE_LAUNCHER_ABSOLUTE_PATH:BOOL=OFF
 )
 
 src_prepare() {
