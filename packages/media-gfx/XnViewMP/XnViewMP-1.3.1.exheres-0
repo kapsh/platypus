@@ -15,10 +15,9 @@ XnView MP is provided as FREEWARE (NO Adware, NO Spyware) for private or educati
 (including non-profit organizations).
 "
 HOMEPAGE="https://www.xnview.com/en/xnviewmp/"
-# Versionated archives are only in old_versions/
-DOWNLOADS="
-    https://download.xnview.com/old_versions/${PN}-$(ever delete_all)-linux-x64.tgz
-"
+
+MY_PN="XnView"
+DOWNLOADS="https://download.xnview.com/old_versions/XnView_MP/XnView_MP-${PV}-linux-x64.tgz"
 
 LICENCES="XnView"
 SLOT="0"
@@ -44,8 +43,8 @@ DEPENDENCIES="
         x11-libs/libXv
 "
 
-MY_PN="XnView"
 WORK="${WORKBASE}/${MY_PN}"
+
 RESTRICT="strip"
 
 pkg_setup() {
